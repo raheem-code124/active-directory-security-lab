@@ -1,0 +1,38 @@
+# Virtual machine images and installation media
+*.iso
+*.vdi
+*.vmdk
+*.vhd
+*.vhdx
+*.ova
+*.ovf
+*.vbox
+*.vbox-prev
+Snapshots/
+**/Snapshots/
+**/VirtualBox VMs/
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*passwords*.txt
+*credentials*.txt
+*.pfx
+*.p12
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Raw event logs and OS files; use sanitized evidence
+*.evtx
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Local downloads and temporary files
+isos/
+downloads/
+*.tmp
+*.bak
