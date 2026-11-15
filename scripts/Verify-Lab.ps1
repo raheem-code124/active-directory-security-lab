@@ -2,8 +2,9 @@
 .SYNOPSIS
   Read-only inventory and validation of the fictional CORP lab on DC01.
 .DESCRIPTION
-  Written AFTER the hands-on lab for reproducibility. This script has not been
-  claimed as the original deployment script or as executed in screenshot evidence.
+  Written AFTER the initial lab for reproducibility, not the original
+  deployment script. A subsequent read-only execution on DC01 is documented
+  in screenshot 0101 (21 passed checks) and 0102 (saved output).
   Performs no modifications to Active Directory, DHCP, DNS, SMB, or GPO settings.
 .NOTES
   Expected environment: Windows Server 2025 DC01, corp.example.test.

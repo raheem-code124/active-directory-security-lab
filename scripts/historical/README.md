@@ -6,10 +6,11 @@
 
 - **File:** [`Create-Employees-v3.ps1`](Create-Employees-v3.ps1), 2,599 bytes, Windows CRLF line endings.
 - **Received:** The lab author uploaded `Create-Employees-v3.ps1.txt`, containing PowerShell source. Its **exact uploaded bytes** were committed under the original `.ps1` extension, without changing the commands or line endings.
-- **Evidence comparison:** The file contents are consistent with the Notepad captures of the original and the length matches the **2,599-byte** file listed on DC01. An independent hash was **not** generated on DC01, so this is not cryptographic proof that the source matches the VM byte-for-byte.
+- **Verified SHA-256 provenance:** DC01 screenshot [0097](../../screenshots/0097-original-files-sha256-verification.png) displays SHA-256 hashes of the 2,599-byte script and 778-byte CSV. An independent hash computation of the exact GitHub file bytes matched **both** values. This establishes identity to the files recorded at the VM check, not authorship or successful original execution.
+- **Archived CSV SHA-256:** `88e3c2c2ddf135bf67d38eaec27b7048d5975e68d3d191c911f1621e39799fad`.
 - **SHA-256 of uploaded file:** `645e351d5ace73f0ffd6ec938777f15be75d8ccdd6e757df80c70d1d1e8c2726`.
 - **Inputs:** The script reads the local `C:\ADLab\Scripts\employees.csv` with **28** expected records. That [28-record CSV](employees.csv) is now archived alongside the script, preserving its 778-byte CRLF contents.
-- **Outcome distinction:** The lab ultimately contained **30** employee accounts; earlier screenshots show separate IT (`amorgan`) and Finance (`sjohnson`) accounts consistent with the remaining two; a live 30-username comparison is still pending.
+- **Outcome distinction:** The lab ultimately contained **30** employee accounts; earlier screenshots show separate IT (`amorgan`) and Finance (`sjohnson`) accounts consistent with the remaining two; a later [live read-only account reconciliation](../../documentation/11-live-roster-and-integrity-verification.md) confirmed the 30-user match.
 
 ## Safety and technical caveats
 
