@@ -25,7 +25,7 @@ New-Item -ItemType Directory -Path "C:\CompanyShares" -Force
 }
 ```
 
-Evidence: [51 folder structure](../screenshots/51-department-file-folders-created.png).
+Evidence: [51 folder structure](../screenshots/0051-department-file-folders-created.png).
 
 ## NTFS security design
 
@@ -38,7 +38,7 @@ For each department, broad inherited `CORP\Users` access was removed, and the ma
 | IT | `CORP\SG_IT_Users` | Modify |
 | Operations | `CORP\SG_Operations_Users` | Modify |
 
-Evidence: [52a Finance](../screenshots/52a-finance-ntfs-permissions.png) · [52b HR](../screenshots/52b-hr-ntfs-permissions.png) · [52c IT](../screenshots/52c-it-ntfs-permissions.png) · [52d Operations](../screenshots/52d-operations-ntfs-permissions.png) · [53 PowerShell ACL checks](../screenshots/53-department-ntfs-permissions-verified.png).
+Evidence: [52a Finance](../screenshots/0052a-finance-ntfs-permissions.png) · [52b HR](../screenshots/0052b-hr-ntfs-permissions.png) · [52c IT](../screenshots/0052c-it-ntfs-permissions.png) · [52d Operations](../screenshots/0052d-operations-ntfs-permissions.png) · [53 PowerShell ACL checks](../screenshots/0053-department-ntfs-permissions-verified.png).
 
 Example of the check run for each folder:
 
@@ -76,7 +76,7 @@ Equivalent commands were used for HR, IT, and Operations.
 | IT | `SG_IT_Users` — Change | Full |
 | Operations | `SG_Operations_Users` — Change | Full |
 
-Evidence: [54 Finance](../screenshots/54-finance-network-share-created.png) · [55a remaining shares](../screenshots/55a-department-network-shares-created.png) · [55b access matrix](../screenshots/55b-department-network-shares-verified.png).
+Evidence: [54 Finance](../screenshots/0054-finance-network-share-created.png) · [55a remaining shares](../screenshots/0055a-department-network-shares-created.png) · [55b access matrix](../screenshots/0055b-department-network-shares-verified.png).
 
 ### NTFS vs. share permissions
 
@@ -93,7 +93,7 @@ dir \\DC01\IT
 dir \\DC01\Finance
 ```
 
-**Observed:** IT share directory listing succeeded. Finance share listing returned `Access is denied.` Evidence: [56](../screenshots/56-department-access-control-test.png).
+**Observed:** IT share directory listing succeeded. Finance share listing returned `Access is denied.` Evidence: [56](../screenshots/0056-department-access-control-test.png).
 
 ### Sarah Johnson — Finance user
 
@@ -109,7 +109,7 @@ echo Unauthorized write test > \\DC01\IT\unauthorized-write-test.txt
 
 **Observed:** Finance listing worked; IT listing was denied. The Finance file was created and read back successfully; attempted writing to the IT share returned `Access is denied.`
 
-Evidence: [57 Finance access](../screenshots/57-finance-employee-access-verification.png) · [58 write/deny tests](../screenshots/58-department-file-write-access-test.png).
+Evidence: [57 Finance access](../screenshots/0057-finance-employee-access-verification.png) · [58 write/deny tests](../screenshots/0058-department-file-write-access-test.png).
 
 ## Troubleshooting approach
 

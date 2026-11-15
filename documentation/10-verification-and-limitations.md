@@ -38,28 +38,28 @@ auditpol /get /subcategory:"Kerberos Authentication Service"
 | Temporary `lockout.test` | Deleted |
 | Temporary `PSO-Lockout-Test` | Deleted |
 
-**Primary proof:** [Screenshot 88 — final AD/security verification](../screenshots/88-final-active-directory-security-verification.png). Test-object removals are documented separately in [75](../screenshots/75-ad-user-deletion-audit-event.png), [77](../screenshots/77-security-group-deletion-audit-event.png), and [87](../screenshots/87-lockout-test-environment-cleanup.png).
+**Primary proof:** [Screenshot 88 — final AD/security verification](../screenshots/0088-final-active-directory-security-verification.png). Test-object removals are documented separately in [75](../screenshots/0075-ad-user-deletion-audit-event.png), [77](../screenshots/0077-security-group-deletion-audit-event.png), and [87](../screenshots/0087-lockout-test-environment-cleanup.png).
 
 ## Control test matrix
 
 | Test | Outcome | Evidence |
 |---|---|---|
-| AD DS and DNS services running | Pass | [10b](../screenshots/10b-active-directory-services.png) |
-| Domain join and employee sign-in | Pass | [34](../screenshots/34-client01-domain-join-success.png), [35](../screenshots/35-domain-employee-login-verification.png) |
-| 600-sec lock setting and observed lock screen (elapsed time not measured independently) | Configured + observed | [43](../screenshots/43-workstation-gpo-application-verification.png), [44](../screenshots/44-workstation-auto-lock-test.png) |
-| Firewall profiles enabled/default rules | Pass | [47b](../screenshots/47b-workstation-firewall-verification.png) |
-| Removable disk deny-write *policy applied* | Pass | [50b](../screenshots/50b-usb-write-restriction-registry-verified.png) |
+| AD DS and DNS services running | Pass | [10b](../screenshots/0010b-active-directory-services.png) |
+| Domain join and employee sign-in | Pass | [34](../screenshots/0034-client01-domain-join-success.png), [35](../screenshots/0035-domain-employee-login-verification.png) |
+| 600-sec lock setting and observed lock screen (elapsed time not measured independently) | Configured + observed | [43](../screenshots/0043-workstation-gpo-application-verification.png), [44](../screenshots/0044-workstation-auto-lock-test.png) |
+| Firewall profiles enabled/default rules | Pass | [47b](../screenshots/0047b-workstation-firewall-verification.png) |
+| Removable disk deny-write *policy applied* | Pass | [50b](../screenshots/0050b-usb-write-restriction-registry-verified.png) |
 | Physical USB write attempt blocked | Not tested | — |
-| IT allowed, Finance denied (as Alex) | Pass | [56](../screenshots/56-department-access-control-test.png) |
-| Finance file write allowed, IT write denied (as Sarah) | Pass | [58](../screenshots/58-department-file-write-access-test.png) |
-| DHCP lease/DNS option delivered | Pass | [63](../screenshots/63-client-dhcp-address-assignment.png) |
-| Reverse PTR for DC01 fixed | Pass | [68](../screenshots/68-dns-repair-verification.png) |
+| IT allowed, Finance denied (as Alex) | Pass | [56](../screenshots/0056-department-access-control-test.png) |
+| Finance file write allowed, IT write denied (as Sarah) | Pass | [58](../screenshots/0058-department-file-write-access-test.png) |
+| DHCP lease/DNS option delivered | Pass | [63](../screenshots/0063-client-dhcp-address-assignment.png) |
+| Reverse PTR for DC01 fixed | Pass | [68](../screenshots/0068-dns-repair-verification.png) |
 | Unqualified ordinary `nslookup` fully timeout-free | **Not established** | [68–70](07-dhcp-and-dns-troubleshooting.md#re-test-after-the-change) |
-| Account lifecycle events recorded | Pass | [74](../screenshots/74b-security-event-4720-details.png), [75](../screenshots/75-ad-user-deletion-audit-event.png) |
-| Group membership/deletion events recorded | Pass | [76](../screenshots/76-security-group-membership-audit-event.png), [77](../screenshots/77-security-group-deletion-audit-event.png) |
-| Failed Kerberos preauthentication 4771 | Pass | [80a](../screenshots/80a-kerberos-failed-authentication-event.png) |
-| Account lockout 4740, unlock 4767 | Pass | [85](../screenshots/85-account-lockout-event-4740-investigation.png), [86](../screenshots/86-account-unlock-and-security-event-verification.png) |
-| User/group/audit final state | Pass | [88](../screenshots/88-final-active-directory-security-verification.png) |
+| Account lifecycle events recorded | Pass | [74](../screenshots/0074b-security-event-4720-details.png), [75](../screenshots/0075-ad-user-deletion-audit-event.png) |
+| Group membership/deletion events recorded | Pass | [76](../screenshots/0076-security-group-membership-audit-event.png), [77](../screenshots/0077-security-group-deletion-audit-event.png) |
+| Failed Kerberos preauthentication 4771 | Pass | [80a](../screenshots/0080a-kerberos-failed-authentication-event.png) |
+| Account lockout 4740, unlock 4767 | Pass | [85](../screenshots/0085-account-lockout-event-4740-investigation.png), [86](../screenshots/0086-account-unlock-and-security-event-verification.png) |
+| User/group/audit final state | Pass | [88](../screenshots/0088-final-active-directory-security-verification.png) |
 
 ## Confirmed project limitations
 

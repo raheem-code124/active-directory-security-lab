@@ -18,7 +18,7 @@ Get-DhcpServerInDC
 
 Actual result: role installation succeeded; domain authorization returned the expected server IP and FQDN.
 
-Evidence: [59 role](../screenshots/59-dhcp-server-role-installed.png) · [60 authorization](../screenshots/60-dhcp-server-active-directory-authorization.png).
+Evidence: [59 role](../screenshots/0059-dhcp-server-role-installed.png) · [60 authorization](../screenshots/0060-dhcp-server-active-directory-authorization.png).
 
 ### Scope and options
 
@@ -49,7 +49,7 @@ Get-DhcpServerv4OptionValue -ScopeId 192.168.50.0
 | Scope lease time | Eight days observed |
 | Default router | Not configured in captured options |
 
-Evidence: [61 scope](../screenshots/61-dhcp-address-scope-created.png) · [62 options](../screenshots/62-dhcp-dns-options-configured.png).
+Evidence: [61 scope](../screenshots/0061-dhcp-address-scope-created.png) · [62 options](../screenshots/0062-dhcp-dns-options-configured.png).
 
 **Why DHCP?** Each computer needs a **unique** address on the subnet. DHCP supplies those addresses automatically and consistently, together with correct DNS settings. It doesn't give every employee the same IP address.
 
@@ -64,7 +64,7 @@ CLIENT01 was switched to automatic addressing; `ipconfig /all` showed:
 
 The client successfully pinged `192.168.50.10` (4 sent, 4 replies, 0% lost). Domain share access was rechecked. One earlier attempt returned **“The user name or password is incorrect”**; an explicit `CORP\sjohnson` session subsequently accessed the Finance share successfully. Network connectivity and a user's authentication credentials are separate failure domains.
 
-Evidence: [63 lease](../screenshots/63-client-dhcp-address-assignment.png) · [64a connectivity/authentication error](../screenshots/64a-dhcp-connectivity-and-authentication-error.png) · [64b working domain share](../screenshots/64b-domain-share-access-after-dhcp.png).
+Evidence: [63 lease](../screenshots/0063-client-dhcp-address-assignment.png) · [64a connectivity/authentication error](../screenshots/0064a-dhcp-connectivity-and-authentication-error.png) · [64b working domain share](../screenshots/0064b-domain-share-access-after-dhcp.png).
 
 ## DNS troubleshooting timeline
 
@@ -97,7 +97,7 @@ Add-DnsServerResourceRecordPtr -Name "10" `
 Get-DnsServerResourceRecord -ZoneName "50.168.192.in-addr.arpa" -RRType PTR
 ```
 
-The query returned PTR `10 → DC01.corp.example.test.`. Evidence: [65 diagnostics](../screenshots/65-dns-forward-and-reverse-lookup-diagnostics.png) · [66 zone inventory](../screenshots/66-dns-reverse-zone-diagnostic.png) · [67 zone + PTR](../screenshots/67-dns-reverse-zone-and-ptr-created.png).
+The query returned PTR `10 → DC01.corp.example.test.`. Evidence: [65 diagnostics](../screenshots/0065-dns-forward-and-reverse-lookup-diagnostics.png) · [66 zone inventory](../screenshots/0066-dns-reverse-zone-diagnostic.png) · [67 zone + PTR](../screenshots/0067-dns-reverse-zone-and-ptr-created.png).
 
 ### Re-test after the change
 
@@ -121,7 +121,7 @@ nslookup DC01.corp.example.test. 192.168.50.10
 | Fully qualified `nslookup` with final dot | Correct A response, no timeout |
 | Unqualified ordinary `nslookup DC01.corp.example.test` | Correct final A response **but intermittent timeouts persisted** |
 
-Evidence: [68 reverse test](../screenshots/68-dns-repair-verification.png) · [69 A/AAAA isolation](../screenshots/69-dns-query-timeout-isolation.png) · [70 FQDN test](../screenshots/70-dns-final-query-verification.png).
+Evidence: [68 reverse test](../screenshots/0068-dns-repair-verification.png) · [69 A/AAAA isolation](../screenshots/0069-dns-query-timeout-isolation.png) · [70 FQDN test](../screenshots/0070-dns-final-query-verification.png).
 
 ### Root cause and unresolved condition
 
