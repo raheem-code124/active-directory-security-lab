@@ -1,8 +1,8 @@
-# Complete screenshot evidence index — 107 captures
+# Complete screenshot evidence index — 108 captures
 
 [← Documentation hub](README.md) · [Main README](../README.md)
 
-This index links to **every original screenshot uploaded by the lab author**, in numbered order. Milestones 01–88 include lettered supplementary captures, bringing the total to **107 images**. No screenshot was generated to fill a gap; all image links point to existing files in `screenshots/`.
+This index links to **every original screenshot uploaded by the lab author**, in numbered order. Milestones 01–89 include lettered supplementary captures, bringing the total to **108 images**. No screenshot was generated to fill a gap; all image links point to existing files in `screenshots/`.
 
 Use the corresponding phase report for the exact technical interpretation, commands, results and limitations. A filename describes the intended capture but the screenshot itself is the primary visual evidence.
 
@@ -178,7 +178,7 @@ Use the corresponding phase report for the exact technical interpretation, comma
 
 ## Completeness and limitations
 
-- 01 through 88 are represented; 15 milestones contain multiple lettered captures.
+- 01 through 89 are represented; 15 milestones contain multiple lettered captures.
 - All filenames were validated against the repository's screenshot directory.
 - Earlier duplicate `.png.png` suffixes were corrected for 84a, 84b and 88 without changing image contents.
 - Screenshots demonstrate the fictional lab's steps. They are **not** production security records.
