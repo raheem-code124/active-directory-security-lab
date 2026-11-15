@@ -25,7 +25,7 @@ dir \\DC01\IT
 dir \\DC01\Finance
 ```
 
-**Observed:** `corp\amorgan`; IT directory accessible; Finance directory denied. [Screenshot 56](../../screenshots/56-department-access-control-test.png).
+**Observed:** `corp\amorgan`; IT directory accessible; Finance directory denied. [Screenshot 56](../../screenshots/0056-department-access-control-test.png).
 
 ## Test 2 — Sarah Johnson (Finance)
 
@@ -38,7 +38,7 @@ type \\DC01\Finance\finance-write-test.txt
 echo Unauthorized write test > \\DC01\IT\unauthorized-write-test.txt
 ```
 
-**Observed:** `corp\sjohnson`; Finance listing and file write/read succeeded; IT listing and unauthorized file write were denied. [Screenshot 57](../../screenshots/57-finance-employee-access-verification.png) · [Screenshot 58](../../screenshots/58-department-file-write-access-test.png).
+**Observed:** `corp\sjohnson`; Finance listing and file write/read succeeded; IT listing and unauthorized file write were denied. [Screenshot 57](../../screenshots/0057-finance-employee-access-verification.png) · [Screenshot 58](../../screenshots/0058-department-file-write-access-test.png).
 
 ## How an administrator should investigate a permissions ticket
 
