@@ -48,7 +48,7 @@ Designed and tested an isolated Windows domain with Active Directory, DNS/DHCP, 
 | Kerberos error 0x18 | [Failed Kerberos preauthentication](documentation/security-incident-reports/01-kerberos-failed-logon.md) |
 | Lockout, event correlation and recovery | [Account lockout case](documentation/security-incident-reports/02-account-lockout-and-recovery.md) |
 
-[All nine phases](documentation/README.md) · [107 screenshots indexed by milestone](documentation/evidence-index.md) · [Final verification matrix](documentation/10-verification-and-limitations.md) · [Reviewer reproduction checklist](documentation/reviewer-verification-checklist.md)
+[All nine phases](documentation/README.md) · [108 screenshots indexed by milestone](documentation/evidence-index.md) · [Final verification matrix](documentation/10-verification-and-limitations.md) · [Reviewer reproduction checklist](documentation/reviewer-verification-checklist.md)
 
 ## Source code and repeatability
 
@@ -63,7 +63,7 @@ The [original onboarding script supplied from DC01](scripts/historical/Create-Em
 | [Export-SecurityEvents.ps1](scripts/Export-SecurityEvents.ps1) | Read-only local event query; optional on-disk CSV | **New; not runtime-verified** |
 | [Offline tests and synthetic fixtures](tests/) | CSV validation and example authentication correlation without AD access | **Passed on GitHub Actions, [see run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297)** |
 
-**Automated offline verification:** A [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297) parsed the PowerShell source/test files available at that commit and passed synthetic CSV validation, positive/negative authentication scenarios, and checks for 455 local links, 107 screenshots, and the architecture SVG. These results do **not** establish that AD-writing code or Windows Security-log queries run successfully against DC01.
+**Automated offline verification:** A [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297) parsed the PowerShell source/test files available at that commit and passed synthetic CSV validation, positive/negative authentication scenarios, and checks for 455 local links, 108 screenshots, and the architecture SVG. These results do **not** establish that AD-writing code or Windows Security-log queries run successfully against DC01.
 
 Start with [script usage and safety instructions](scripts/README.md). The separate new onboarding example is **plan-only by default** and, even with -Apply, creates disabled accounts without passwords. Do not confuse these reference files with tested production automation.
 
