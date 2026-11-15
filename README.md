@@ -2,6 +2,10 @@
 
 **Hands-on Windows Server, identity, endpoint security, access control, networking, and security event investigation**
 
+Designed and tested an isolated Windows enterprise environment with AD DS, DNS/DHCP, automated user provisioning, Group Policy endpoint controls, role-based SMB/NTFS permissions, and security-event investigations. Validated both expected and denied access, traced failed Kerberos attempts to CLIENT01, reproduced an account lockout, and recovered the account with supporting event-log evidence.
+
+> **Controlled lab simulation — not a production environment.** This project was built in Oracle VirtualBox using a dedicated isolated network, a Windows Server domain controller, a Windows client, and **30 fictional employee accounts**. Authentication failures, account changes, and account lockouts were **intentionally generated and investigated** for training. No real employer systems or employee accounts were used. The [architecture](diagrams/architecture.md), [107 numbered screenshots](documentation/evidence-index.md), and [incident reports](documentation/security-incident-reports/) document the lab setup and tests.
+
 > **Project type:** Self-directed, isolated enterprise simulation | **Completed:** November 2026 | **Evidence:** 107 screenshots spanning steps 01–88  
 > **Purpose:** Practice the tasks expected of IT support, systems/network administrators, and early-career security engineers. All users and incidents are fictional; this is **not a production deployment**.
 
@@ -130,8 +134,6 @@ notes/                       # Assumptions, known issues, review notes
 screenshots/                 # Original numbered lab evidence
 scripts/                     # Clearly labeled new verification/export helpers
 ```
-
-**Recruiter/hiring manager summary:** Designed and tested an isolated Windows enterprise environment with AD DS, DNS/DHCP, automated user provisioning, Group Policy endpoint controls, role-based SMB/NTFS permissions, and security-event investigations. Validated both expected and denied access, traced failed Kerberos attempts to CLIENT01, reproduced an account lockout, and recovered the account with supporting event-log evidence.
 
 ---
 *Built for practical learning. Technical claims can be checked against the linked output and numbered screenshots.*
