@@ -1,6 +1,6 @@
 # PowerShell source, safety and reproducibility
 
-The [historical `Create-Employees-v3.ps1`](historical/Create-Employees-v3.ps1) has now been uploaded from a user-supplied file matching the **2,599-byte size** shown in DC01. It is archived unchanged, with a [source provenance and safety note](historical/README.md) and [line-by-line technical review](../documentation/code-review-original-onboarding.md). This source was reported as run during the original lab; **the separately authored new tools below were not used for the historical screenshots**. The original 28-row CSV has not been uploaded. No fixed account passwords or tokens are committed.
+The [historical `Create-Employees-v3.ps1`](historical/Create-Employees-v3.ps1) has now been uploaded from a user-supplied file matching the **2,599-byte size** shown in DC01. It is archived unchanged, with a [source provenance and safety note](historical/README.md) and [line-by-line technical review](../documentation/code-review-original-onboarding.md). This source was reported as run during the original lab; **the separately authored new tools below were not used for the historical screenshots**. The original [28-row CSV](historical/employees.csv) is archived alongside the historical script. No fixed account passwords or tokens are committed.
 
 | File | Does it modify AD? | Purpose |
 |---|---|---|
