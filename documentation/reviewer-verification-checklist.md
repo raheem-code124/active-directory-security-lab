@@ -29,10 +29,11 @@ This document separates **historical evidence (observed)** from **new tools (unv
 - [ ] Validate the reconstructed onboarding script's rerun behavior after a controlled partial state.
 - [ ] Run the analyzer on the DC01 Security log with enough HoursBack for events to exist.
 - [x] Review and archive supplied 2,599-byte original script; confirmed size and visible content against DC01 screenshots (not VM hash).
-- [ ] Export and sanitize the original 28-row CSV; compare source file hash against DC01 and explain the two additional AD users.
+- [x] Archive the original fictional 28-row CSV alongside the historical PowerShell source.
+- [ ] Compare both archived file hashes against DC01; export the complete 30-user roster and confirm the two separately created accounts (`sjohnson`, `amorgan`) are the only records outside the CSV.
 - [ ] Publish a dated file containing **actual** test commands, input, output, exceptions, and fixes. Never generate fictitious terminal results.
 
-**Current status (2026-11-15 UTC):** GitHub Actions parsed eight PowerShell files and passed the synthetic CSV/authentication tests and repository integrity check (27 Markdown documents, 455 links, 107 screenshots). [Review full run logs](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297). **All DC01/CLIENT01 live checks above remain pending.**
+**Current status (2026-11-15 UTC):** The latest successful [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43676055263) includes the archived script and CSV in the checkout and passes the synthetic tests and integrity check. These are offline checks only. **All DC01/CLIENT01 live execution checks above remain pending.**
 
 ## C. Planned hands-on tests (not yet completed)
 
