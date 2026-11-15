@@ -6,7 +6,7 @@
 
 The supplied archived `Create-Employees-v3.ps1` contains **79 lines**, **2,599 bytes**, and CRLF line endings. Its size agrees with the DC01 screenshot of `C:\ADLab\Scripts`, and its visible commands agree with Notepad captures of the original script. The original user-upload filename had the extra `.txt` extension, which was removed **without changing file bytes** for this repository. The original on-VM file hash has not been captured, so source identity is strongly supported by size/visible content but not cryptographically established.
 
-**No live execution was performed for this code review.** The observed 30-account final state is supported by [screenshot 88](../screenshots/88-final-active-directory-security-verification.png), while the submitted source's CSV validation expects **28** records. No assumption is made about which process created the other two accounts.
+**No live execution was performed for this code review.** The observed 30-account final state is supported by [screenshot 88](../screenshots/0088-final-active-directory-security-verification.png), while the submitted source's CSV validation expects **28** records. No assumption is made about which process created the other two accounts.
 
 ## Logic actually present in the archived source
 
@@ -46,7 +46,7 @@ The GUID-based password string is not a hardcoded secret. `ConvertTo-SecureStrin
 
 ## Historical evidence versus future work
 
-**Observed:** The [archived CSV](../scripts/historical/employees.csv) contains 28 fictional employee records; the source contains the checks shown; the initial automation had errors, later group counts were verified; the final directory had 30 users. See [screenshots 19a–22](evidence-index.md) and [88](../screenshots/88-final-active-directory-security-verification.png).
+**Observed:** The [archived CSV](../scripts/historical/employees.csv) contains 28 fictional employee records; the source contains the checks shown; the initial automation had errors, later group counts were verified; the final directory had 30 users. See [screenshots 19a–22](evidence-index.md) and [88](../screenshots/0088-final-active-directory-security-verification.png).
 
 **Not established:** That the additional two employees came from a particular script; that the original run handled every account without errors; that the generated passwords reached users; or that the new reference provisioning code ran against the original VM.
 

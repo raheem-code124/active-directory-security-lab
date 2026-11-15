@@ -22,7 +22,7 @@
 
 ## Background
 
-DC01 was already configured with `GPO-DC-Security-Auditing` to audit Kerberos Authentication Service success and failure, confirmed with `auditpol` ([78](../../screenshots/78-kerberos-authentication-auditing-enabled.png)). The client could reach DC01, obtain DHCP/DNS settings, and authenticate domain users.
+DC01 was already configured with `GPO-DC-Security-Auditing` to audit Kerberos Authentication Service success and failure, confirmed with `auditpol` ([78](../../screenshots/0078-kerberos-authentication-auditing-enabled.png)). The client could reach DC01, obtain DHCP/DNS settings, and authenticate domain users.
 
 ## Detection and investigation timeline
 
@@ -39,7 +39,7 @@ RUNAS ERROR: Unable to run - cmd
 1326: The user name or password is incorrect.
 ```
 
-See [Screenshot 79](../../screenshots/79-failed-domain-authentication-simulation.png).
+See [Screenshot 79](../../screenshots/0079-failed-domain-authentication-simulation.png).
 
 **2 — Search on DC01**
 
@@ -50,7 +50,7 @@ Get-WinEvent -FilterHashtable @{
   Select-Object -First 3 TimeCreated,Id,Message | Format-List
 ```
 
-The output contained events at approximately 8:29:43, 8:30:17, and 8:30:55 PM. Their content identified the account `amorgan`, client `192.168.50.100`, service `krbtgt/CORP`, and error `0x18`. Evidence: [80a](../../screenshots/80a-kerberos-failed-authentication-event.png), [80b](../../screenshots/80b-kerberos-failure-event-details.png), [80c](../../screenshots/80c-kerberos-additional-failure-records.png).
+The output contained events at approximately 8:29:43, 8:30:17, and 8:30:55 PM. Their content identified the account `amorgan`, client `192.168.50.100`, service `krbtgt/CORP`, and error `0x18`. Evidence: [80a](../../screenshots/0080a-kerberos-failed-authentication-event.png), [80b](../../screenshots/0080b-kerberos-failure-event-details.png), [80c](../../screenshots/0080c-kerberos-additional-failure-records.png).
 
 **3 — Triage interpretation**
 

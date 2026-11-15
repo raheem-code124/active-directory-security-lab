@@ -47,7 +47,7 @@ corp.example.test
 | `SG_Operations_Users` | Operations | 7 |
 | **Total** | **Fictional employees** | **30** |
 
-The 30 users were checked with `Get-ADUser` scoped to `OU=Company`; membership counts were checked using `Get-ADGroupMember`. Group-count totals are consistent with final screenshot [88](../screenshots/88-final-active-directory-security-verification.png).
+The 30 users were checked with `Get-ADUser` scoped to `OU=Company`; membership counts were checked using `Get-ADGroupMember`. Group-count totals are consistent with final screenshot [88](../screenshots/0088-final-active-directory-security-verification.png).
 
 ## Group Policy
 
