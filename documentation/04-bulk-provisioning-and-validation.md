@@ -8,7 +8,7 @@ Bring the fictional employee directory to a known correct state after the initia
 
 ## CSV updates and automation
 
-The surviving CSV at `C:\ADLab\Scripts\employees.csv` has columns `FirstName`, `LastName`, `Username`, and `Department` and **28 records**, as verified in the later file check. The archived `Create-Employees-v3.ps1` also explicitly expects 28 records. Final AD verification found **30 accounts** inside the `Company` OU. The evidence does **not** establish whether the additional two accounts came from manual creation, an earlier script, or another step.
+The surviving CSV at `C:\ADLab\Scripts\employees.csv` has columns `FirstName`, `LastName`, `Username`, and `Department` and **28 records**, as verified in the later file check. The archived `Create-Employees-v3.ps1` also explicitly expects 28 records. Final AD verification found **30 accounts** inside the `Company` OU. Earlier screenshots [15a–15b](../screenshots/15a-finance-employee-created.png) and [16a–16b](../screenshots/16a-powershell-user-created.png) show the separate Finance account Sarah Johnson (`sjohnson`) and IT account Alex Morgan (`amorgan`) before the bulk CSV import. Both names are absent from the 28-row CSV. Their departmental assignments account for the one-member difference in Finance and IT; a complete username-by-username export of all 30 accounts is still needed for final reconciliation.
 
 This distinction matters: **28 is the number of entries in the inspected CSV; 30 is the final AD account count.** These are different measurements, not proof that the CSV was expanded to 30 rows. See [historical source and code review](code-review-original-onboarding.md).
 
@@ -53,4 +53,4 @@ The Workstations OU also establishes clean Group Policy targeting. A GPO linked 
 
 ## Reusability and limitations
 
-The original 2,599-byte [onboarding script is now archived](../scripts/historical/Create-Employees-v3.ps1), along with a [code review](code-review-original-onboarding.md); the historical CSV itself remains unexported. The separately documented [PowerShell helpers](../scripts/README.md) are **new** reference/verification tools. All employee identities in this lab are fictional.
+The original 2,599-byte [onboarding script is now archived](../scripts/historical/Create-Employees-v3.ps1), along with a [code review](code-review-original-onboarding.md); the historical [28-row CSV is also archived](../scripts/historical/employees.csv). The separately documented [PowerShell helpers](../scripts/README.md) are **new** reference/verification tools. All employee identities in this lab are fictional.
