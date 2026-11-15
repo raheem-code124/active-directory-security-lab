@@ -25,7 +25,7 @@ $ErrorActionPreference = 'Stop'
 function Get-EventDataValue {
     param([xml]$Xml, [string]$Field)
     foreach ($node in @($Xml.Event.EventData.Data)) {
-        if ([string]$node.Name -eq $Field) { return [string]$node.'#text' }
+        if ($node.GetAttribute('Name') -eq $Field) { return [string]$node.InnerText }
     }
     return ''
 }
@@ -71,10 +71,10 @@ else {
         $records += [pscustomobject]@{
             TimeCreated = [datetime]$event.TimeCreated
             Id = [int]$event.Id
-            User = Get-EventDataValue -Xml $xml -Field 'TargetUserName'
-            SourceIp = Get-EventDataValue -Xml $xml -Field 'IpAddress'
-            Status = Get-EventDataValue -Xml $xml -Field 'Status'
-            CallerComputer = Get-EventDataValue -Xml $xml -Field 'CallerComputerName'
+            User = (Get-EventDataValue -Xml $xml -Field 'TargetUserName')
+            SourceIp = (Get-EventDataValue -Xml $xml -Field 'IpAddress')
+            Status = (Get-EventDataValue -Xml $xml -Field 'Status')
+            CallerComputer = (Get-EventDataValue -Xml $xml -Field 'CallerComputerName')
         }
     }
 }
