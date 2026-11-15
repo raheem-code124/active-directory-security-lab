@@ -23,6 +23,8 @@ This document separates **historical evidence (observed)** from **new tools (unv
 
 - [x] Offline synthetic CSV validator tests passed in [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); includes group mapping and duplicate rejection.
 - [x] Offline authentication analyzer scenarios passed in [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); includes positive correlation and negative split-source/status cases.
+- [x] Added and passed ten mocked AD provisioning safety scenarios (plan-only, WhatIf, wrong domain, missing OU/group, unexpected OU, disabled creation, group-add failure, and rerun repair) in [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43677960000). Mock only; not a DC01 execution.
+- [x] Added and passed synthetic complete 30-user reconciliation and negative discrepancy tests in the same CI run; the actual DC01 roster is still unverified.
 - [ ] On a VM snapshot of DC01, run scripts/Verify-Lab.ps1; inspect **all** failed/skipped sections.
 - [ ] Run scripts/Invoke-LabEmployeeProvisioning.ps1 with **no -Apply**, capture planned actions.
 - [ ] Run with -Apply -WhatIf, confirm no directory changes; only then consider an authorized write-mode test.
@@ -35,7 +37,7 @@ This document separates **historical evidence (observed)** from **new tools (unv
 - [ ] Run [Test-LabRoster.ps1](../scripts/Test-LabRoster.ps1) in `-Live` read-only mode on DC01 and retain actual output; offline synthetic test coverage alone cannot complete this item.
 - [ ] Publish a dated file containing **actual** test commands, input, output, exceptions, and fixes. Never generate fictitious terminal results.
 
-**Current status (2026-11-15 UTC):** The latest successful [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43676055263) includes the archived script and CSV in the checkout and passes the synthetic tests and integrity check. These are offline checks only. **All DC01/CLIENT01 live execution checks above remain pending.**
+**Current status (2026-11-15 UTC):** The expanded successful [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43677960000) includes the archived files, synthetic roster reconciliation, mock AD provisioning negative/error handling, and repository integrity tests. These are offline checks only. **All DC01/CLIENT01 live execution checks above remain pending.**
 
 ## C. Planned hands-on tests (not yet completed)
 
@@ -49,7 +51,22 @@ This document separates **historical evidence (observed)** from **new tools (unv
 
 **Authentication detection:** Test at least one positive synthetic sequence, an isolated wrong password, failures from two distinct sources, and an account lockout with no nearby 4771 sequence. Report expected false positives and missing-data limits. Run on live Security logs only with appropriate permission.
 
-## D. Architecture and publication
+## D. Roadmap status (evidence-based)
+
+| Priority | Improvement | Status as of November 15, 2026 |
+|---|---|---|
+| 1 | Verify new read-only scripts on DC01 | **Pending live evidence** |
+| 1 | Reconcile the full roster and compare original DC01 file hashes | **Offline tests passed; live roster/hash comparison pending** |
+| 1 | Public visibility after privacy review | **Private; privacy review and publication pending** |
+| 2 | Investigate DNS timeout traffic | **Pending live packet capture** |
+| 2 | Test SMB allow/deny across all four departments | **Pending live permission tests** |
+| 2 | Prove removable-storage write denial | **Pending live USB test** |
+| 3 | Execute new provisioning tool on disposable VM clone | **Pending isolated AD runtime test** |
+| 3 | Add stronger automated negative/error-handling tests | **Completed for the mock/CSV suite and passing CI; additional live failure-path verification pending** |
+
+No score increase is claimed solely from passing offline CI. A VM test is considered complete only with real command output, a date, and retained evidence.
+
+## E. Architecture and publication
 
 - [ ] Explain DC01 SMB/DHCP service consolidation as a lab simplification. A production-style version should use a separate domain member file server and multiple DCs where justified.
 - [ ] Inspect every image for live passwords, personal data, tokens, or internal production addresses before public visibility.

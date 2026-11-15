@@ -24,11 +24,11 @@ Run in Windows PowerShell 5.1+ or PowerShell 7 from the repository root (PowerSh
 .\tests\Test-RepoStructure.ps1
 ~~~
 
-**Previously verified offline checks:** all local Markdown links resolve, all 108 historical images exist, one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. New simulated AD provisioning safety tests have been added to CI; they do **not** confirm live deployment. Earlier offline scenarios **passed on GitHub-hosted PowerShell** in [this CI run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); they do not verify any live Windows Server or AD operation. If a test fails, correct the source and record the failure.
+**Previously verified offline checks:** all local Markdown links resolve, all 108 historical images exist, one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. The expanded offline suite, including mocked provisioning error cases, **passed on [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43677960000)**. These scenarios do not verify any live Windows Server or AD operation. If a test fails, correct the source and record the failure.
 
 ### Mock provisioning safety suite
 
-The new [Test-ProvisioningSafety.ps1](../tests/Test-ProvisioningSafety.ps1) checks plan-only and WhatIf mode, wrong-domain/OU/group safety stops, disabled creation, partial group-assignment failures, and missing-group reruns. It imports a temporary fake ActiveDirectory module and checks the module path before execution. No DC01 connection or real user changes are made. **A passing CI run is required before these new cases can be called verified.**
+The new [Test-ProvisioningSafety.ps1](../tests/Test-ProvisioningSafety.ps1) checks plan-only and WhatIf mode, wrong-domain/OU/group safety stops, disabled creation, partial group-assignment failures, and missing-group reruns. It imports a temporary fake ActiveDirectory module and checks the module path before execution. No DC01 connection or real user changes are made. **These ten mock scenarios passed in [CI](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43677960000); testing the actual DC01 write path is still pending.**
 
 ## Safe onboarding workflow on DC01
 
@@ -58,7 +58,7 @@ Safety properties: checks DNS root is exactly corp.example.test; checks the corr
 .\scripts\Export-SecurityEvents.ps1 -HoursBack 24 -OutputPath 'C:\Temp\CORP-EventExport.csv'
 ~~~
 
-For full username-by-username reconciliation, run ` .\\scripts\\Test-LabRoster.ps1 -Live ` (without spaces around the command) on DC01. This only reads CORP Active Directory and the archived CSV. Offline mode accepts a fictional `Username,Department` CSV with `-RosterPath`; the CI test builds a synthetic roster and verifies that missing, extra, duplicate, wrong-department, and wrong-header inputs fail. **No live roster results have been captured yet.**
+For full username-by-username reconciliation, run ` .\scripts\Test-LabRoster.ps1 -Live ` on DC01 (omit the spaces just inside the backticks when copying). This only reads CORP Active Directory and the archived CSV. Offline mode accepts a fictional `Username,Department` CSV with `-RosterPath`; the CI test builds a synthetic roster and verifies that missing, extra, duplicate, wrong-department, and wrong-header inputs fail. **No live roster results have been captured yet.**
 
 The verification helper returns a failure if a section errors or results disagree with the expected baseline. It does not test a client user's real SMB access, USB writes, DNS timeout packet traces or GPO event delivery.
 
