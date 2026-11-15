@@ -35,7 +35,7 @@
 3. **USB.** Group Policy/registry configuration was verified, not an actual failed write to removable media.
 4. **Access-testing sample.** Four representative domain users exercised all 16 share directory combinations. No full 30-account effective-entitlement test was completed. Cross-department write denial tested one other share per user.
 5. **GPO idle behavior.** The configured 600-second inactivity value and captured locked workstation are not a measured 600-second timing test.
-6. **Original source hashes.** On-VM historical script and CSV hashes were captured, but the exact source-to-archived-blob digest comparison was not independently demonstrated.
+6. **Historical source integrity.** The archived 2,599-byte PowerShell script and 778-byte CSV have SHA-256 hashes matching the values captured in DC01 screenshot 0097. This establishes file identity at capture time, not proof of authorship or successful historical execution.
 7. **Provisioning safety paths.** The real AD clone test covers plan, WhatIf, successful disabled creates, group placement and plan-only rerun; negative error/failure paths were mocked offline but **not reproduced end-to-end on a real DC**.
 8. **Monitoring limitations.** Security event interpretation was manual. The new authentication analyzer has synthetic CI tests; no deployed SIEM, EDR, alerting pipeline or real-log analyzer output is claimed.
 9. **Privacy.** The repository remains **private** until every screenshot and archived artifact receives a manual content review for credentials or identifying data. Link integrity alone is insufficient.

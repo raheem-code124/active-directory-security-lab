@@ -42,7 +42,7 @@ The previous [successful CI run](https://github.com/raheem-code124/active-direct
 - [ ] End-to-end effective SMB testing for all 30 original accounts.
 - [ ] Live AD negative/error-path and partial-failure reruns on the clone (the mock suite is not equivalent).
 - [ ] Run the authentication analyzer on the actual retained Security log and review false positives.
-- [ ] Independently compare on-VM archived source hashes to GitHub blob hashes.
+- [x] Independently verified the exact two SHA-256 values from screenshot 0097 against archived script and CSV bytes; both match. CI now checks them.
 - [ ] Manual privacy review of **every** screenshot (passwords, tokens, personal info, unrelated windows).
 
 ## Before making public

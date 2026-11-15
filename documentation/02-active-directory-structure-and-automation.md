@@ -88,7 +88,7 @@ The workflow was improved to check conditions before making changes and to confi
 - CSV-based bulk onboarding: exercised, debugged, and revised.
 - Final 30-user outcome: confirmed later, not claimed as complete at this intermediate step.
 
-**Historical source now available:** The user-supplied [original `Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) is archived unchanged (2,599 bytes, matching the size shown on DC01). The file is consistent with the screenshots, and on-VM SHA-256 digests were later captured on DC01. A byte-for-byte comparison to the GitHub archived blobs was not independently established. The archived [original CSV](../scripts/historical/employees.csv) contains **28 records**, whereas the final directory had **30** users. **How the other two were created is not established by this script alone.** See [source/code review](code-review-original-onboarding.md).
+**Historical source now available:** The user-supplied [original `Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) is archived unchanged (2,599 bytes, matching the size shown on DC01). The file is consistent with the screenshots, and on-VM SHA-256 digests were later captured on DC01. A later independent SHA-256 comparison confirmed that **both GitHub archive files match the on-VM digests in screenshot 0097**. The archived [original CSV](../scripts/historical/employees.csv) contains **28 records**, whereas the final directory had **30** users. **How the other two were created is not established by this script alone.** See [source/code review](code-review-original-onboarding.md).
 
 
 ## New inspectable provisioning example (post-lab, not the historical script)
@@ -99,7 +99,7 @@ The new example validates four required columns, rejects duplicate/invalid usern
 
 [Sample fictional CSV](../tests/sample-employees.csv) · [Offline validation test](../tests/Test-EmployeeCsv.ps1) · [How to run safely](../scripts/README.md).
 
-**Later verification:** A read-only live reconciliation matched the archived 28-record CSV plus the separately created `amorgan` and `sjohnson` against all 30 original users. DC01 source digests were captured, but independent archived-blob comparison remains unverified. See [follow-up 11](11-live-roster-and-integrity-verification.md). The archived script's implementation can now be reviewed, but it has not been re-executed for this audit. Its password handling and partial-failure limitations are documented in the [historical code review](code-review-original-onboarding.md).
+**Later verification:** A read-only live reconciliation matched the archived 28-record CSV plus the separately created `amorgan` and `sjohnson` against all 30 original users. DC01 source hashes were captured and independently matched to both archived files; see [source provenance](11-live-roster-and-integrity-verification.md). See [follow-up 11](11-live-roster-and-integrity-verification.md). The archived script's implementation can now be reviewed, but it has not been re-executed for this audit. Its password handling and partial-failure limitations are documented in the [historical code review](code-review-original-onboarding.md).
 
 
 ## Later live results
