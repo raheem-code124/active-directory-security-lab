@@ -1,139 +1,80 @@
 # Enterprise Active Directory Security & Administration Lab
 
-**Hands-on Windows Server, identity, endpoint security, access control, networking, and security event investigation**
+**Windows Server 2025 · AD DS · DNS/DHCP · PowerShell · Group Policy · SMB/NTFS · Kerberos event investigation**
 
-Designed and tested an isolated Windows enterprise environment with AD DS, DNS/DHCP, automated user provisioning, Group Policy endpoint controls, role-based SMB/NTFS permissions, and security-event investigations. Validated both expected and denied access, traced failed Kerberos attempts to CLIENT01, reproduced an account lockout, and recovered the account with supporting event-log evidence.
+Designed and tested an isolated Windows domain with Active Directory, DNS/DHCP, CSV-backed user onboarding, domain-managed endpoint controls, departmental file permissions, and security-event investigations. Validated both allowed and denied access, investigated failed Kerberos preauthentication from CLIENT01, triggered a scoped test-account lockout, and verified administrator recovery using Windows Security events.
 
-> **Controlled lab simulation — not a production environment.** This project was built in Oracle VirtualBox using a dedicated isolated network, a Windows Server domain controller, a Windows client, and **30 fictional employee accounts**. Authentication failures, account changes, and account lockouts were **intentionally generated and investigated** for training. No real employer systems or employee accounts were used. The [architecture](diagrams/architecture.md), [107 numbered screenshots](documentation/evidence-index.md), and [incident reports](documentation/security-incident-reports/) document the lab setup and tests.
+> **Controlled training environment.** Built in Oracle VirtualBox with one Windows Server domain controller (DC01), one Windows 11 client (CLIENT01), and 30 fictional employee accounts on an isolated virtual network. Failed sign-ins, account/group changes, and account lockouts were intentionally simulated. No real organization, customers, credentials, or production infrastructure were involved. **This is not a production security deployment.**
 
-> **Project type:** Self-directed, isolated enterprise simulation | **Completed:** November 2026 | **Evidence:** 107 screenshots spanning steps 01–88  
-> **Purpose:** Practice the tasks expected of IT support, systems/network administrators, and early-career security engineers. All users and incidents are fictional; this is **not a production deployment**.
+![Architecture: two VMs on an isolated CORP-LAB network](diagrams/architecture.svg)
 
-![Architecture diagram](diagrams/architecture.svg)
+## Start here: five evidence-backed results
 
-## At a glance
-
-| Area | Implemented and verified |
-|---|---|
-| Identity | Active Directory domain `corp.example.test` (`CORP`), one domain controller, 30 fictional employee accounts |
-| Organization | Departmental OUs and four role-based security groups: IT (8), HR (7), Finance (8), Operations (7) |
-| Endpoint | Domain-joined Windows 11 Enterprise client (`CLIENT01`); domain-user sign-in and applied computer policies |
-| Endpoint controls | 600-second inactivity lock, Windows Defender Firewall rules, removable-disk write restriction |
-| File access | Four SMB shares with department-specific share permissions and NTFS Modify permissions |
-| Networking | Authorized DHCP server, `192.168.50.100–192.168.50.200` address pool, DNS option `192.168.50.10` |
-| DNS | Forward A and reverse PTR lookups for `DC01`; investigated residual unqualified `nslookup` timeouts |
-| Security monitoring | Account/group change auditing and Kerberos authentication auditing |
-| Investigation | Verified Windows event IDs **4720, 4726, 4728, 4730, 4771, 4740, 4767** |
-| Validation | Final check: 30 accounts, group counts 8/7/8/7, relevant audit settings still enabled |
-
-The most valuable outcome is the **repeatable evidence**: configuration screenshots, PowerShell commands, both permitted and denied access tests, and event-log records showing what happened, when, to which account, and from which computer.
-
-## Architecture
-
-- **Hypervisor:** Oracle VirtualBox on a personal Windows computer.
-- **Isolated lab network:** `CORP-LAB`, `192.168.50.0/24`. The lab DHCP service is intended only for this virtual network, not a home or office LAN.
-- **DC01:** Windows Server 2025 evaluation, static `192.168.50.10`; AD DS, domain DNS, authorized DHCP, Group Policy management, and SMB file hosting.
-- **CLIENT01:** Windows 11 Enterprise evaluation, initially configured statically for the domain join and later assigned `192.168.50.100/24` by DHCP. Uses `192.168.50.10` for DNS.
-- **Domain:** `corp.example.test` / NetBIOS `CORP`.
-
-See [the architecture diagram and network notes](diagrams/architecture.md) and the [full configuration reference](documentation/configuration-reference.md).
-
-## What I built and tested
-
-### 1. Domain services and identity
-
-Installed AD DS and DNS, promoted DC01 to a domain controller, verified service and domain health, created departmental organizational units and security groups, and provisioned a 30-account fictional workforce from a CSV-backed PowerShell workflow. Membership checks produced **8 IT / 7 HR / 8 Finance / 7 Operations**. The user and group operations were tested against the actual lab directory.
-
-[Read the identity and automation walkthrough](documentation/02-active-directory-structure-and-automation.md).
-
-### 2. Domain-managed endpoint protection
-
-Joined CLIENT01 to the domain, moved its computer object into the Workstations OU, and applied three workstation-focused Group Policy Objects. Verified policy application using `gpupdate` and `gpresult`, the 600-second inactivity setting through registry inspection and an actual lock-screen test, firewall profile enforcement, and removable-disk write restriction policy state.
-
-[Read the endpoint policy report](documentation/05-workstation-group-policy-security.md).
-
-### 3. Department access control
-
-Created `C:\CompanyShares\{IT,HR,Finance,Operations}`, restricted each folder to the matching `SG_*_Users` group plus administrative/system principals, and exposed four SMB shares. Tested access as **`CORP\amorgan` (IT)** and **`CORP\sjohnson` (Finance)**. Authorized folder access and file creation succeeded; attempts to access or write to a different department's share were denied.
-
-[Read the access-control report](documentation/06-department-file-shares-and-access-control.md).
-
-### 4. DHCP/DNS services and troubleshooting
-
-Installed and AD-authorized DHCP on DC01 and activated `192.168.50.100–200` within `192.168.50.0/24`. CLIENT01 received `192.168.50.100` and confirmed connectivity to DC01. Investigated DNS timeout behavior, created an AD-integrated reverse lookup zone `50.168.192.in-addr.arpa`, and added the PTR record for `192.168.50.10`.
-
-**Known limitation:** Simple `nslookup DC01.corp.example.test` intermittently timed out before returning the correct address; explicit A/AAAA queries and the fully qualified query with a trailing dot answered without timeouts. The precise cause of the original timeouts was **not proven**.
-
-[Read the DHCP/DNS troubleshooting case](documentation/07-dhcp-and-dns-troubleshooting.md).
-
-### 5. Auditing and security investigations
-
-Linked `GPO-DC-Security-Auditing` to the **Domain Controllers OU**. Verified Success and Failure auditing for User Account Management, Security Group Management, and Kerberos Authentication Service. Generated and inspected test events on DC01.
-
-| Event ID | Controlled lab action | Evidence |
+| Question a reviewer should ask | Observed result | Primary evidence and explanation |
 |---|---|---|
-| 4720 | Created disabled `audit.test` account | [Creation event](screenshots/74b-security-event-4720-details.png) |
-| 4726 | Deleted `audit.test` | [Deletion event](screenshots/75-ad-user-deletion-audit-event.png) |
-| 4728 | Added Alex Morgan to temporary global security group | [Membership event](screenshots/76-security-group-membership-audit-event.png) |
-| 4730 | Deleted the temporary group | [Group deletion event](screenshots/77-security-group-deletion-audit-event.png) |
-| 4771 | Deliberately failed Kerberos preauthentication for `amorgan`; result code `0x18` | [Kerberos investigation](screenshots/80a-kerberos-failed-authentication-event.png) |
-| 4740 | Locked `lockout.test` via three qualifying failures; source `CLIENT01` | [Lockout event](screenshots/85-account-lockout-event-4740-investigation.png) |
-| 4767 | Unlocked `lockout.test` as `CORP\Administrator` | [Unlock event](screenshots/86-account-unlock-and-security-event-verification.png) |
+| Does the domain actually work? | CLIENT01 joined corp.example.test; employee domain sign-in demonstrated | [Domain join screenshot 34](screenshots/34-client01-domain-join-success.png) · [Phase 3](documentation/03-client-domain-join.md) |
+| Was user provisioning completed? | 30 fictional users; security-group counts **IT 8 / HR 7 / Finance 8 / Operations 7** | [User/group verification 40](screenshots/40-bulk-employee-verification.png) · [Provisioning errors 19a](screenshots/19a-bulk-onboarding-errors.png) · [Phase 2](documentation/02-active-directory-structure-and-automation.md) |
+| Did central endpoint settings apply? | Three workstation GPOs applied; firewall profiles Block inbound/Allow outbound; USB deny-write registry value 1 | [Firewall 47b](screenshots/47b-workstation-firewall-verification.png) · [USB 50b](screenshots/50b-usb-write-restriction-registry-verified.png) · [Phase 5](documentation/05-workstation-group-policy-security.md) |
+| Did group-based access work? | IT user accessed IT share and was denied Finance; Finance user accessed/wrote Finance and was denied IT | [Share/NTFS setup 53](screenshots/53-department-ntfs-permissions-verified.png) · [Client tests 56–58](documentation/06-department-file-shares-and-access-control.md#positive-and-negative-access-tests) |
+| Was an authentication incident investigated end to end? | Event **4771** code **0x18** for amorgan from 192.168.50.100; test user lockout **4740** from CLIENT01; admin unlock **4767** | [4771 event 80a](screenshots/80a-kerberos-failed-authentication-event.png) · [4740 event 85](screenshots/85-account-lockout-event-4740-investigation.png) · [4767 event 86](screenshots/86-account-unlock-and-security-event-verification.png) · [Incident report](documentation/security-incident-reports/02-account-lockout-and-recovery.md) |
 
-A **fine-grained password policy** was used for the lockout experiment so the real lab employee accounts' default domain lockout threshold stayed unchanged. The test user and policy were deleted afterward.
+**Interpretation:** These links document observed configurations, commands, and test outcomes. The screenshots are evidence of a lab session; they are not proof of the author's independence, production readiness, or a successful run of every reference script now published.
 
-[Read the account-lockout incident report](documentation/security-incident-reports/02-account-lockout-and-recovery.md).
+## Environment and design
 
-## Technical documentation
-
-| Section | Contents |
+| Component | Lab implementation |
 |---|---|
-| [Documentation hub](documentation/README.md) | Ordered walkthrough, reports, and quick navigation |
-| [Environment and domain controller](documentation/01-environment-and-domain-controller.md) | VM setup, static network, AD DS, DNS, initial validation |
-| [Directory design and onboarding](documentation/02-active-directory-structure-and-automation.md) | OUs, security groups, CSV automation and correction steps |
-| [Client domain join](documentation/03-client-domain-join.md) | Windows 11 build, DNS discovery, time sync, domain login |
-| [Bulk provisioning and OU validation](documentation/04-bulk-provisioning-and-validation.md) | 30-user workforce, verification, workstation OU |
-| [Workstation security GPOs](documentation/05-workstation-group-policy-security.md) | Auto-lock, firewall, USB write restriction |
-| [NTFS and SMB access control](documentation/06-department-file-shares-and-access-control.md) | Share + NTFS permissions, positive/negative tests |
-| [DHCP and DNS investigation](documentation/07-dhcp-and-dns-troubleshooting.md) | Scope/options, client lease, reverse zone, timeout caveat |
-| [Domain controller security auditing](documentation/08-security-auditing-and-event-validation.md) | Audit policies and 4720/4726/4728/4730 |
-| [Authentication/lockout investigation](documentation/09-authentication-and-account-lockout-incident.md) | 4771, 4740, 4767, scoped lockout policy |
-| [Final checks and limitations](documentation/10-verification-and-limitations.md) | Outcome matrix, limitations, cleanup, next improvements |
-| [Evidence index](documentation/evidence-index.md) | All 107 numbered images with direct links |
-| [Operational runbook](documentation/operational-runbook.md) | Read-only health checks and investigation commands |
-| [Security incident reports](documentation/security-incident-reports/) | Evidence-led incident summaries |
-| [Troubleshooting case studies](documentation/troubleshooting-case-studies/) | Diagnostic reasoning and access-control tests |
-| [Architecture](diagrams/architecture.md) | Editable Mermaid diagram and SVG |
+| Virtualization | Oracle VirtualBox; isolated network named CORP-LAB |
+| Domain controller | DC01, Windows Server 2025 Evaluation, static 192.168.50.10/24 |
+| Domain | corp.example.test (CORP) |
+| Workstation | CLIENT01, Windows 11 Enterprise Evaluation, DHCP-assigned 192.168.50.100/24 |
+| Directory | Company OU, IT/HR/Finance/Operations sub-OUs, four global security groups, Workstations OU |
+| Workstation GPOs | 600-second inactivity setting; enabled firewall profiles with default inbound Block; removable-disk deny-write policy |
+| Department shares | Four SMB shares; matching group receives SMB Change and NTFS Modify; admins retain Full |
+| Network services | Authorized DHCP range 192.168.50.100–200; DNS 192.168.50.10; reverse PTR for DC01 |
+| Audit trail | Windows Security events 4720, 4726, 4728, 4730, 4771, 4740, 4767 |
 
-## Skills practiced
+**Design tradeoff:** DC01 also hosts DHCP and the four departmental SMB shares because this is a two-VM lab. In a production-style design, I would separate the file-server workload from the domain controller's privileged identity boundary. No redundant DC, backup recovery, SIEM, EDR, centralized log collection, or internet routing was built. See [architecture decisions and trust-boundary limitations](diagrams/architecture.md).
 
-**Active Directory Domain Services · Windows Server administration · DNS · DHCP · Group Policy · Kerberos authentication · PowerShell · CSV automation · RBAC · NTFS/SMB access control · Security event analysis · Incident triage · Windows 11 endpoint management · Technical documentation**
+## Technical case studies
 
-## Validation and honesty about scope
+| Topic | Read the evidence-led report |
+|---|---|
+| CSV onboarding errors and department memberships | [Directory structure and automation](documentation/02-active-directory-structure-and-automation.md) |
+| Policy scoping and workstation enforcement | [Group Policy controls](documentation/05-workstation-group-policy-security.md) |
+| Permitted vs. denied SMB and NTFS access | [Department access-control investigation](documentation/troubleshooting-case-studies/02-access-control-validation.md) |
+| DHCP lease and incomplete DNS timeout investigation | [DHCP/DNS troubleshooting](documentation/07-dhcp-and-dns-troubleshooting.md) |
+| Group/user lifecycle auditing | [Account lifecycle events](documentation/security-incident-reports/03-account-lifecycle-auditing.md) · [Group-change events](documentation/security-incident-reports/04-group-membership-auditing.md) |
+| Kerberos error 0x18 | [Failed Kerberos preauthentication](documentation/security-incident-reports/01-kerberos-failed-logon.md) |
+| Lockout, event correlation and recovery | [Account lockout case](documentation/security-incident-reports/02-account-lockout-and-recovery.md) |
 
-- This lab uses **one DC and one Windows client**, not a multi-site enterprise or a production high-availability design.
-- The 30 accounts are **fictional test employees**. No live company identities or production data were managed.
-- Event evidence demonstrates that configured auditing **records** activity; it does not establish a SIEM, continuous detection rule, automated response, or production alerting.
-- Screenshots show actual lab output; sanitized reference scripts in this repository are **documentation/reusable checks**, not a claim that an unexported original onboarding script was committed.
-- The DHCP network is intentionally isolated. No routing/internet access through a lab DHCP gateway is claimed.
-- The remaining plain-`nslookup` timeout behavior is explicitly recorded in the troubleshooting report.
+[All nine phases](documentation/README.md) · [107 screenshots indexed by milestone](documentation/evidence-index.md) · [Final verification matrix](documentation/10-verification-and-limitations.md) · [Reviewer reproduction checklist](documentation/reviewer-verification-checklist.md)
 
-### Repository map
+## Source code and repeatability
 
-```text
-README.md
-configs/                     # Sanitized configuration details
-diagrams/                    # Architecture SVG and Mermaid source
-documentation/
-  01-... through 10-...      # Chronological phase reports
-  evidence-index.md          # 107 screenshot links
-  operational-runbook.md     # Safe verification commands
-  security-incident-reports/ # Security event case studies
-  troubleshooting-case-studies/
-notes/                       # Assumptions, known issues, review notes
-screenshots/                 # Original numbered lab evidence
-scripts/                     # Clearly labeled new verification/export helpers
-```
+The original onboarding script **C:\ADLab\Scripts\Create-Employees-v3.ps1** was executed inside the VM and is visible by name and output in the screenshots, but **its full original source and the final 30-row CSV have not been exported**. That gap is explicit. The files below are newly written examples/review helpers, **not representations of the original deployed script**.
+
+| New source | Purpose | State |
+|---|---|---|
+| [Invoke-LabEmployeeProvisioning.ps1](scripts/Invoke-LabEmployeeProvisioning.ps1) and [CSV validator](scripts/EmployeeCsv.Validation.psm1) | Strict CSV input validation, per-department OU/group preflight, rerunnable planning, disabled-user creation only with explicit -Apply | **New; not executed against the original VM** |
+| [Verify-Lab.ps1](scripts/Verify-Lab.ps1) | Read-only checks for users, group counts, DHCP, DNS, SMB and temporary-object cleanup; incomplete sections fail | **New; not runtime-verified** |
+| [Analyze-AuthenticationEvents.ps1](scripts/Analyze-AuthenticationEvents.ps1) | Reads local events 4771 and 4740 or a synthetic CSV; flags repeated bad-password activity with nearby lockout | **New; not deployed as monitoring** |
+| [Export-SecurityEvents.ps1](scripts/Export-SecurityEvents.ps1) | Read-only local event query; optional on-disk CSV | **New; not runtime-verified** |
+| [Offline tests and synthetic fixtures](tests/) | CSV validation and example authentication correlation without AD access | **Tests supplied; execution result not claimed** |
+
+Start with [script usage and safety instructions](scripts/README.md). The new onboarding example is **plan-only by default** and, even with -Apply, creates disabled accounts without passwords. Do not confuse these reference files with tested production automation.
+
+## Known limits and unresolved checks
+
+- **DNS:** Creating a reverse zone and PTR fixed the missing PTR/server-name lookup, but intermittent timeout messages with ordinary non-trailing-dot nslookup were not conclusively explained. See [precise observation and hypotheses](documentation/07-dhcp-and-dns-troubleshooting.md#root-cause-and-unresolved-condition).
+- **USB restriction:** GPO application and Deny_Write=1 were verified. **A physical/virtual removable-disk write-denial experiment was not performed.**
+- **Inactivity lock:** The 600-second policy was observed in configuration and a Windows lock screen was captured. The evidence does **not independently measure** the idle period to confirm that exact timing caused the lock.
+- **SMB access:** Positive/negative tests used two named fictional users, not all 30; the four-department effective-access matrix is not complete.
+- **Event analysis:** 4771/4740/4767 records were queried manually. New analysis code has not been run against the VM's actual Security log and is not a SIEM alert rule.
+- **Design:** One domain controller, one client, no production identities, no failover, no tested restoration, and no separate file server.
+
+Read the [full test matrix and remaining work](documentation/10-verification-and-limitations.md). These limits are included so a reviewer can distinguish what was **observed**, what was **configured only**, and what is **still to be tested**.
 
 ---
-*Built for practical learning. Technical claims can be checked against the linked output and numbered screenshots.*
+
+*Independent educational lab; results are linked to original numbered screenshots. Scripts added after the lab are identified as new work and are not presented as historical evidence.*

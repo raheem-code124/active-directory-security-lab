@@ -46,7 +46,7 @@ auditpol /get /subcategory:"Kerberos Authentication Service"
 |---|---|---|
 | AD DS and DNS services running | Pass | [10b](../screenshots/10b-active-directory-services.png) |
 | Domain join and employee sign-in | Pass | [34](../screenshots/34-client01-domain-join-success.png), [35](../screenshots/35-domain-employee-login-verification.png) |
-| Auto-lock after 600 sec | Pass | [43](../screenshots/43-workstation-gpo-application-verification.png), [44](../screenshots/44-workstation-auto-lock-test.png) |
+| 600-sec lock setting and observed lock screen (elapsed time not measured independently) | Configured + observed | [43](../screenshots/43-workstation-gpo-application-verification.png), [44](../screenshots/44-workstation-auto-lock-test.png) |
 | Firewall profiles enabled/default rules | Pass | [47b](../screenshots/47b-workstation-firewall-verification.png) |
 | Removable disk deny-write *policy applied* | Pass | [50b](../screenshots/50b-usb-write-restriction-registry-verified.png) |
 | Physical USB write attempt blocked | Not tested | — |
@@ -70,17 +70,17 @@ auditpol /get /subcategory:"Kerberos Authentication Service"
 5. **USB test limitation:** Registry and GPO verified, but no physical/virtual USB write attempt recorded.
 6. **DNS issue still open:** The A and PTR records worked, but some ordinary `nslookup` commands showed timeouts.
 7. **Not every employee tested:** Actual SMB positive/negative tests used Alex Morgan and Sarah Johnson; no 30-user sign-in matrix.
-8. **Original script not exported:** The working CSV provisioning script ran inside the VM but has not been included as a verified byte-for-byte source file. A separately labeled read-only validation helper is provided.
+8. **Original script not exported:** The working CSV provisioning script ran inside the VM but has not been included as a verified byte-for-byte source file. A separately labeled new provisioning reconstruction and offline CSV validator are published but have not been used to reproduce the historical run.
 9. **Evaluation software:** Windows Server and Windows 11 Enterprise were evaluation systems.
 10. **No external pentest or malware:** Authentication and group-change incidents were controlled lab events.
 
 ## Future improvements (not yet implemented)
 
 - Enable more targeted audit subcategories and an appropriate central collection/alerting pipeline.
-- Create alerts for privileged group changes and repeated `4771` / `4740` events, with false-positive handling.
+- Execute, test, and refine the newly published local 4771/4740 correlation helper against actual DC01 logs. It is not a deployed continuous alerting system.
 - Capture DNS traffic to isolate the intermittent timeout behavior.
 - Test a removable media write denial with a dedicated virtual USB disk.
-- Export the actual onboarding script and conduct a code-quality/idempotency review before publication.
+- Export the actual onboarding script and compare its source with the newly written example; run a real idempotency test before claiming reproducible automation.
 - Add a second member workstation and second DC to explore scale and replication.
 - Set a dedicated file server and compare access with effective-rights reporting.
 - Document recoverability using a controlled DC backup/restore lab.
@@ -92,3 +92,17 @@ auditpol /get /subcategory:"Kerberos Authentication Service"
 A strong interview answer should discuss **why** group-based access, DNS, GPO scope, and audit evidence were chosen; it should also openly mention the unresolved DNS behavior and USB test limitation instead of overstating project scope.
 
 [Review every evidence file](evidence-index.md) · [Read the runbook](operational-runbook.md).
+
+
+## Post-lab source review status (new work)
+
+After the historical screenshots, new read-only checks, a plan-first disabled-user provisioning example, an authentication-correlation helper, and synthetic offline test fixtures were added to the repository. **Their presence is not proof they ran successfully against DC01 or that the original onboarding script was recovered.**
+
+| Post-lab artifact | Source review availability | Actual execution |
+|---|---|---|
+| [Provisioning example and CSV validator](../scripts/README.md) | Readable source | **Pending Windows/AD test** |
+| [Synthetic validation tests](../tests/) | Test code and artificial CSV inputs | **Pending PowerShell run** |
+| [Updated Verify-Lab.ps1](../scripts/Verify-Lab.ps1) | Fails on mismatch or incomplete checks | **Pending DC01 run** |
+| [Authentication analyzer](../scripts/Analyze-AuthenticationEvents.ps1) | Correlation logic and fixture | **Pending real-log test** |
+
+Use [reviewer verification checklist](reviewer-verification-checklist.md) to record the next genuine tests and remaining unverified claims.

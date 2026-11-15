@@ -42,3 +42,14 @@ This is an educational two-VM layout. There is **no** production firewall applia
 - DHCP IPv4 uses UDP 67/68.
 
 These are protocol reference values, **not** a claim that every port was individually tested or packet-captured.
+
+
+## Security architecture review — intentionally simplified
+
+**Observed training design:** DC01 simultaneously acted as an AD DS domain controller, DNS/DHCP server, and SMB file host on the same isolated network. This lowered VM/resource requirements and allowed directory identity and access-control exercises with two VMs. It is not recommended as a production privileged-identity design.
+
+**Production-style alternative (not deployed):** Use at least one dedicated domain member server for SMB file services, isolate administrative access to domain controllers, restrict SMB reachability to clients that need it, and design redundant DC/DNS services appropriate to an organization's recovery needs. Control Tier 0 administrative credentials separately from regular workstation and file-server accounts.
+
+**Trust boundary:** A compromised SMB workload co-located with the DC would create a much more serious privilege-exposure problem than the same workload on a separate member server. The lab's two-VM architecture therefore demonstrates functionality, **not** a hardened enterprise segmentation model.
+
+**Evidence limit:** The diagram is an architecture illustration derived from the captured configuration. It is not a packet capture, port scan, AD topology export, or independent security assessment.

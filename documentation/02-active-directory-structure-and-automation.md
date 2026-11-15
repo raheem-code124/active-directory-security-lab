@@ -89,3 +89,14 @@ The workflow was improved to check conditions before making changes and to confi
 - Final 30-user outcome: confirmed later, not claimed as complete at this intermediate step.
 
 **Source caveat:** The exact original `Create-Employees-v3.ps1` file was saved inside the VM and is **not present** in this repository. This write-up describes its visible behavior; no invented full script has been labeled as the original. See [scripts/README.md](../scripts/README.md).
+
+
+## New inspectable provisioning example (post-lab, not the historical script)
+
+To make the provisioning logic reviewable, the repository now includes a **newly written** [Invoke-LabEmployeeProvisioning.ps1](../scripts/Invoke-LabEmployeeProvisioning.ps1) with a separate [offline CSV validator](../scripts/EmployeeCsv.Validation.psm1). These were created **after** the 30-account lab run and were **not used** to generate the screenshots above.
+
+The new example validates four required columns, rejects duplicate/invalid usernames, checks the target domain, OUs and groups before changes, uses plan-only mode unless -Apply is specified, and creates disabled accounts without storing credentials. It refuses to move an existing user from an unexpected OU. If membership changes are needed, it can apply them on a later rerun. These are design properties of the source, **not yet verified runtime results**.
+
+[Sample fictional CSV](../tests/sample-employees.csv) · [Offline validation test](../tests/Test-EmployeeCsv.ps1) · [How to run safely](../scripts/README.md).
+
+**What is still needed:** Export and review C:\ADLab\Scripts\Create-Employees-v3.ps1 and the original employees.csv. Until then, the original script's complete implementation, password handling, and idempotency cannot be independently verified.
