@@ -88,7 +88,7 @@ The workflow was improved to check conditions before making changes and to confi
 - CSV-based bulk onboarding: exercised, debugged, and revised.
 - Final 30-user outcome: confirmed later, not claimed as complete at this intermediate step.
 
-**Historical source now available:** The user-supplied [original `Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) is archived unchanged (2,599 bytes, matching the size shown on DC01). The file is consistent with the screenshots, but no independent SHA-256 hash from DC01 was captured. The CSV still contains **28 records**, whereas the final directory had **30** users. **How the other two were created is not established by this script alone.** See [source/code review](code-review-original-onboarding.md).
+**Historical source now available:** The user-supplied [original `Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) is archived unchanged (2,599 bytes, matching the size shown on DC01). The file is consistent with the screenshots, but no independent SHA-256 hash from DC01 was captured. The archived [original CSV](../scripts/historical/employees.csv) contains **28 records**, whereas the final directory had **30** users. **How the other two were created is not established by this script alone.** See [source/code review](code-review-original-onboarding.md).
 
 
 ## New inspectable provisioning example (post-lab, not the historical script)
