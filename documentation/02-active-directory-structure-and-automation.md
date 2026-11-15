@@ -32,15 +32,15 @@ Four global security groups were used throughout the lab:
 
 | Step | Action | Evidence |
 |---|---|---|
-| 13 | Created and inspected the `Company` OU hierarchy | [OU structure](../screenshots/13-active-directory-ou-structure.png) |
-| 14 | Created department security groups | [Group structure](../screenshots/14-department-security-groups.png) |
-| 15a–15b | Created and verified a Finance user and department membership through the GUI | [Account](../screenshots/15a-finance-employee-created.png) · [Group](../screenshots/15b-finance-group-membership.png) |
-| 16a–16b | Repeated user creation and membership assignment in PowerShell | [Account](../screenshots/16a-powershell-user-created.png) · [Group](../screenshots/16b-powershell-group-membership.png) |
-| 17a–17b | Built and checked an employee CSV input | [CSV](../screenshots/17a-employee-csv-created.png) · [Import check](../screenshots/17b-employee-csv-verification.png) |
-| 18 | Wrote a PowerShell onboarding script | [Script](../screenshots/18-employee-automation-script-created.png) |
-| 19a–19b | Investigated errors from an early bulk run and recovered from partial state | [Errors](../screenshots/19a-bulk-onboarding-errors.png) · [Recovery](../screenshots/19b-employee-account-recovery.png) |
-| 20–21 | Checked and corrected department group membership | [Check](../screenshots/20-department-group-membership-verification.png) · [Correction](../screenshots/21-department-memberships-corrected.png) |
-| 22 | Ran an improved script with create/verify and group-assignment output | [Improved script](../screenshots/22-improved-onboarding-script-verification.png) |
+| 13 | Created and inspected the `Company` OU hierarchy | [OU structure](../screenshots/0013-active-directory-ou-structure.png) |
+| 14 | Created department security groups | [Group structure](../screenshots/0014-department-security-groups.png) |
+| 15a–15b | Created and verified a Finance user and department membership through the GUI | [Account](../screenshots/0015a-finance-employee-created.png) · [Group](../screenshots/0015b-finance-group-membership.png) |
+| 16a–16b | Repeated user creation and membership assignment in PowerShell | [Account](../screenshots/0016a-powershell-user-created.png) · [Group](../screenshots/0016b-powershell-group-membership.png) |
+| 17a–17b | Built and checked an employee CSV input | [CSV](../screenshots/0017a-employee-csv-created.png) · [Import check](../screenshots/0017b-employee-csv-verification.png) |
+| 18 | Wrote a PowerShell onboarding script | [Script](../screenshots/0018-employee-automation-script-created.png) |
+| 19a–19b | Investigated errors from an early bulk run and recovered from partial state | [Errors](../screenshots/0019a-bulk-onboarding-errors.png) · [Recovery](../screenshots/0019b-employee-account-recovery.png) |
+| 20–21 | Checked and corrected department group membership | [Check](../screenshots/0020-department-group-membership-verification.png) · [Correction](../screenshots/0021-department-memberships-corrected.png) |
+| 22 | Ran an improved script with create/verify and group-assignment output | [Improved script](../screenshots/0022-improved-onboarding-script-verification.png) |
 
 ## CSV-backed provisioning
 

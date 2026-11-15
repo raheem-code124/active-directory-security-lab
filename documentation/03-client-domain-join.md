@@ -19,20 +19,20 @@ Bring a Windows 11 workstation into the domain so centrally created users can au
 
 | Capture | Technical activity |
 |---|---|
-| [23](../screenshots/23-windows-11-enterprise-iso-downloaded.png) | Downloaded Windows 11 Enterprise evaluation ISO |
-| [24](../screenshots/24-windows-11-client-vm-created.png) | Created the CLIENT01 virtual machine |
-| [25](../screenshots/25-windows-11-initial-setup.png) | Completed OS setup |
-| [26](../screenshots/26-windows-11-client-desktop.png) | Verified a usable Windows desktop |
-| [27](../screenshots/27-windows-11-license-verification.png) | Checked the evaluation/license state |
-| [28](../screenshots/28-client-isolated-network-configured.png) | Configured the isolated VM network |
-| [29](../screenshots/29-client01-computer-renamed.png) | Renamed the workstation |
-| [30](../screenshots/30-client01-static-ip-configuration.png) | Assigned IPv4 and DC01 as the DNS server |
-| [31](../screenshots/31-client-domain-controller-connectivity.png) | Verified network reachability to DC01 |
-| [32](../screenshots/32-active-directory-dns-discovery.png) | Checked discovery of the AD DNS namespace |
-| [33](../screenshots/33-client01-time-synchronization.png) | Checked/synchronized client clock |
-| [34](../screenshots/34-client01-domain-join-success.png) | Joined the machine to `corp.example.test` |
-| [35](../screenshots/35-domain-employee-login-verification.png) | Signed in with a domain employee account |
-| [36](../screenshots/36-domain-services-health-check.png) | Rechecked domain-service health |
+| [23](../screenshots/0023-windows-11-enterprise-iso-downloaded.png) | Downloaded Windows 11 Enterprise evaluation ISO |
+| [24](../screenshots/0024-windows-11-client-vm-created.png) | Created the CLIENT01 virtual machine |
+| [25](../screenshots/0025-windows-11-initial-setup.png) | Completed OS setup |
+| [26](../screenshots/0026-windows-11-client-desktop.png) | Verified a usable Windows desktop |
+| [27](../screenshots/0027-windows-11-license-verification.png) | Checked the evaluation/license state |
+| [28](../screenshots/0028-client-isolated-network-configured.png) | Configured the isolated VM network |
+| [29](../screenshots/0029-client01-computer-renamed.png) | Renamed the workstation |
+| [30](../screenshots/0030-client01-static-ip-configuration.png) | Assigned IPv4 and DC01 as the DNS server |
+| [31](../screenshots/0031-client-domain-controller-connectivity.png) | Verified network reachability to DC01 |
+| [32](../screenshots/0032-active-directory-dns-discovery.png) | Checked discovery of the AD DNS namespace |
+| [33](../screenshots/0033-client01-time-synchronization.png) | Checked/synchronized client clock |
+| [34](../screenshots/0034-client01-domain-join-success.png) | Joined the machine to `corp.example.test` |
+| [35](../screenshots/0035-domain-employee-login-verification.png) | Signed in with a domain employee account |
+| [36](../screenshots/0036-domain-services-health-check.png) | Rechecked domain-service health |
 
 ## Diagnostics used
 
