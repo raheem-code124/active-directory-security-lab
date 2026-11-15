@@ -9,7 +9,7 @@
 - **Evidence comparison:** The file contents are consistent with the Notepad captures of the original and the length matches the **2,599-byte** file listed on DC01. An independent hash was **not** generated on DC01, so this is not cryptographic proof that the source matches the VM byte-for-byte.
 - **SHA-256 of uploaded file:** `645e351d5ace73f0ffd6ec938777f15be75d8ccdd6e757df80c70d1d1e8c2726`.
 - **Inputs:** The script reads the local `C:\ADLab\Scripts\employees.csv` with **28** expected records. That [28-record CSV](employees.csv) is now archived alongside the script, preserving its 778-byte CRLF contents.
-- **Outcome distinction:** The lab ultimately contained **30** employee accounts; this source file alone does not explain the other two users.
+- **Outcome distinction:** The lab ultimately contained **30** employee accounts; earlier screenshots show separate IT (`amorgan`) and Finance (`sjohnson`) accounts consistent with the remaining two; a live 30-username comparison is still pending.
 
 ## Safety and technical caveats
 
