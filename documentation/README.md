@@ -31,6 +31,6 @@ This record separates the **original hands-on lab** from **later follow-up verif
 
 ## Reference materials
 
-[Configuration reference](configuration-reference.md) · [Operational runbook](operational-runbook.md) · [Reviewer checklist](reviewer-verification-checklist.md) · [Historical onboarding code review](code-review-original-onboarding.md) · [Incident reports](security-incident-reports/01-kerberos-failed-logon.md) · [Case studies](troubleshooting-case-studies/01-dhcp-and-dns-corrective-actions.md)
+[Configuration reference](configuration-reference.md) · [Operational runbook](operational-runbook.md) · [Verification checklist](verification-checklist.md) · [Historical onboarding code review](code-review-original-onboarding.md) · [Incident reports](security-incident-reports/01-kerberos-failed-logon.md) · [Case studies](troubleshooting-case-studies/01-dhcp-and-dns-corrective-actions.md)
 
 **Evidence rule:** Observed command results are distinct from a script's intended behavior. The original domain remained at 30 users, while a disconnected clone reached 34. USB policy was configured but no physical write was attempted. DNS capture artifacts exist but do not prove a fully resolved timeout issue.

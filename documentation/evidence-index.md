@@ -2,7 +2,7 @@
 
 [Documentation hub](README.md) · [Project overview](../README.md)
 
-All screenshot files use four-digit step numbers (for example `0001`, `0113`, `0124`, `0132i`). Letter suffixes are preserved. No screenshot `0117` was uploaded, so that milestone remains a gap. Filenames are descriptive labels, not a claim that each image's contents have been independently checked for privacy.
+All screenshot files use four-digit step numbers (for example `0001`, `0113`, `0124`, `0132i`). Letter suffixes are preserved. No screenshot `0117` was uploaded, so that milestone remains a gap. Image names describe the command or result captured. Check image contents for sensitive details before sharing them.
 
 **Provenance:** The original evidence index covered 108 screenshots; 66 additional captures were uploaded from later verification sessions. The repository now contains 174 screenshot files.
 
