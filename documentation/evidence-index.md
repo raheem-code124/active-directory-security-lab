@@ -176,6 +176,12 @@ Use the corresponding phase report for the exact technical interpretation, comma
 | 87 | [87-lockout-test-environment-cleanup.png](../screenshots/87-lockout-test-environment-cleanup.png) | lockout test environment cleanup |
 | 88 | [88-final-active-directory-security-verification.png](../screenshots/88-final-active-directory-security-verification.png) | final active directory security verification |
 
+## Supplementary original-source verification (89)
+
+| Step | Evidence | What the screenshot shows |
+|---|---|---|
+| 89 | [89-original-automation-source-verification.png.png](../screenshots/89-original-automation-source-verification.png.png) | A later DC01 file listing showing the 2,599-byte v3 onboarding script and 778-byte CSV, plus a PowerShell CSV import reporting 28 records and the four expected columns. The uploaded filename retains its original double `.png.png` extension. |
+
 ## Completeness and limitations
 
 - 01 through 89 are represented; 15 milestones contain multiple lettered captures.
