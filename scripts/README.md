@@ -17,6 +17,7 @@ Run in Windows PowerShell 5.1+ or PowerShell 7 from the repository root (PowerSh
 
 ~~~powershell
 .\tests\Test-EmployeeCsv.ps1
+.\tests\Test-HistoricalCsv.ps1
 .\tests\Test-AuthAnalyzer.ps1
 .\tests\Test-RepoStructure.ps1
 ~~~
