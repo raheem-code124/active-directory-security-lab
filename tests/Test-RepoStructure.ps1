@@ -6,7 +6,7 @@ $root = Split-Path -Parent $PSScriptRoot
 $docs = @(Get-ChildItem -LiteralPath $root -Filter '*.md' -Recurse -File)
 $errorsFound = [System.Collections.Generic.List[string]]::new()
 $checked = 0
-$pattern = '!?\\[[^\\]]*\\]\\(([^)]+)\\)'
+$pattern = '!?\[[^\]]*\]\(([^)]+)\)'
 foreach ($doc in $docs) {
     $content = [System.IO.File]::ReadAllText($doc.FullName)
     foreach ($match in [regex]::Matches($content, $pattern)) {
