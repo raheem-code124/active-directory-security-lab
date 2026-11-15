@@ -8,7 +8,7 @@
 4. **Two-layer SMB authorization:** Use both share permissions and NTFS permissions.
 5. **Dedicated lockout test:** Use `lockout.test` with a fine-grained password policy to avoid editing the global domain lockout setting.
 6. **Reversible exercises:** Delete `audit.test`, `SG_Audit_Test`, `lockout.test` and `PSO-Lockout-Test` after collecting evidence.
-7. **Documentation honesty:** Don't claim an untested physical USB write block, full DNS timeout remediation, or original source files not exported from VM.
+7. **Documentation honesty:** Don't claim an untested physical USB write block, full DNS timeout remediation, or original on-VM file hashes not yet independently compared against archived sources.
 
 ## Screenshot naming
 
@@ -24,7 +24,7 @@ Capture numbers `01–88` describe ordered lab milestones. Suffixes (`10a`, `10b
 - [ ] Inspect screen captures for credential/private-data leaks before making this repository public.
 - [ ] Do **not** publish VM disks, ISO images, login passwords, event-log dumps, or secret exports.
 - [ ] Review new `scripts/` helpers before running them; they were not part of original lab execution.
-- [ ] Make the currently private repository public only when ready for recruiter viewing.
+- [ ] Make the currently private repository public only after auditing screenshots for sensitive content.
 
 ## Publication notes
 
