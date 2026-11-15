@@ -17,9 +17,10 @@ Run in Windows PowerShell 5.1+ or PowerShell 7 from the repository root (PowerSh
 ~~~powershell
 .\tests\Test-EmployeeCsv.ps1
 .\tests\Test-AuthAnalyzer.ps1
+.\tests\Test-RepoStructure.ps1
 ~~~
 
-**Expected if the implementation passes:** one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. This expected result is not yet an observed test output. If a test fails, correct the source and record the failure.
+**Expected if the implementation passes:** all local Markdown links resolve, all 107 historical images exist, one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. This expected result is not yet an observed test output. If a test fails, correct the source and record the failure.
 
 ## Safe onboarding workflow on DC01
 
