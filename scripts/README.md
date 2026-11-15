@@ -20,7 +20,7 @@ Run in Windows PowerShell 5.1+ or PowerShell 7 from the repository root (PowerSh
 .\tests\Test-RepoStructure.ps1
 ~~~
 
-**Expected if the implementation passes:** all local Markdown links resolve, all 107 historical images exist, one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. This expected result is not yet an observed test output. If a test fails, correct the source and record the failure.
+**Checks covered by the successful CI run:** all local Markdown links resolve, all 107 historical images exist, one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. The offline scenarios **passed on GitHub-hosted PowerShell** in [this CI run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); they do not verify any live Windows Server or AD operation. If a test fails, correct the source and record the failure.
 
 ## Safe onboarding workflow on DC01
 

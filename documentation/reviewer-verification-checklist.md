@@ -21,8 +21,8 @@ This document separates **historical evidence (observed)** from **new tools (unv
 
 ## B. New code: execution checklist
 
-- [ ] In PowerShell, run tests/Test-EmployeeCsv.ps1; record exact terminal output and exit status.
-- [ ] Run tests/Test-AuthAnalyzer.ps1; record exact terminal output and exit status.
+- [x] Offline synthetic CSV validator tests passed in [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); includes group mapping and duplicate rejection.
+- [x] Offline authentication analyzer scenarios passed in [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); includes positive correlation and negative split-source/status cases.
 - [ ] On a VM snapshot of DC01, run scripts/Verify-Lab.ps1; inspect **all** failed/skipped sections.
 - [ ] Run scripts/Invoke-LabEmployeeProvisioning.ps1 with **no -Apply**, capture planned actions.
 - [ ] Run with -Apply -WhatIf, confirm no directory changes; only then consider an authorized write-mode test.
@@ -31,7 +31,7 @@ This document separates **historical evidence (observed)** from **new tools (unv
 - [ ] Export and review the original onboarding source and CSV; compare to screenshots before publishing.
 - [ ] Publish a dated file containing **actual** test commands, input, output, exceptions, and fixes. Never generate fictitious terminal results.
 
-**Current status:** All items in B are **pending**, unless the repository is later updated with evidence. The new scripts are reviewable source, not historical or runtime validation.
+**Current status (2026-11-15 UTC):** GitHub Actions parsed eight PowerShell files and passed the synthetic CSV/authentication tests and repository integrity check (27 Markdown documents, 455 links, 107 screenshots). [Review full run logs](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297). **All DC01/CLIENT01 live checks above remain pending.**
 
 ## C. Planned hands-on tests (not yet completed)
 

@@ -56,11 +56,13 @@ The original onboarding script **C:\ADLab\Scripts\Create-Employees-v3.ps1** was 
 
 | New source | Purpose | State |
 |---|---|---|
-| [Invoke-LabEmployeeProvisioning.ps1](scripts/Invoke-LabEmployeeProvisioning.ps1) and [CSV validator](scripts/EmployeeCsv.Validation.psm1) | Strict CSV input validation, per-department OU/group preflight, rerunnable planning, disabled-user creation only with explicit -Apply | **New; not executed against the original VM** |
-| [Verify-Lab.ps1](scripts/Verify-Lab.ps1) | Read-only checks for users, group counts, DHCP, DNS, SMB and temporary-object cleanup; incomplete sections fail | **New; not runtime-verified** |
-| [Analyze-AuthenticationEvents.ps1](scripts/Analyze-AuthenticationEvents.ps1) | Reads local events 4771 and 4740 or a synthetic CSV; flags repeated bad-password activity with nearby lockout | **New; not deployed as monitoring** |
+| [Invoke-LabEmployeeProvisioning.ps1](scripts/Invoke-LabEmployeeProvisioning.ps1) and [CSV validator](scripts/EmployeeCsv.Validation.psm1) | Strict CSV input validation, per-department OU/group preflight, rerunnable planning, disabled-user creation only with explicit -Apply | **CSV validation passed offline CI; AD write path not executed** |
+| [Verify-Lab.ps1](scripts/Verify-Lab.ps1) | Read-only checks for users, group counts, DHCP, DNS, SMB and temporary-object cleanup; incomplete sections fail | **Source parsed in CI; live DC01 checks not executed** |
+| [Analyze-AuthenticationEvents.ps1](scripts/Analyze-AuthenticationEvents.ps1) | Reads local events 4771 and 4740 or a synthetic CSV; flags repeated bad-password activity with nearby lockout | **Synthetic positive/negative scenarios passed CI; not deployed** |
 | [Export-SecurityEvents.ps1](scripts/Export-SecurityEvents.ps1) | Read-only local event query; optional on-disk CSV | **New; not runtime-verified** |
-| [Offline tests and synthetic fixtures](tests/) | CSV validation and example authentication correlation without AD access | **Tests supplied; execution result not claimed** |
+| [Offline tests and synthetic fixtures](tests/) | CSV validation and example authentication correlation without AD access | **Passed on GitHub Actions, [see run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297)** |
+
+**Automated offline verification:** A [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297) parsed eight PowerShell source/test files and passed synthetic CSV validation, positive/negative authentication scenarios, and checks for 455 local links, 107 screenshots, and the architecture SVG. These results do **not** establish that AD-writing code or Windows Security-log queries run successfully against DC01.
 
 Start with [script usage and safety instructions](scripts/README.md). The new onboarding example is **plan-only by default** and, even with -Apply, creates disabled accounts without passwords. Do not confuse these reference files with tested production automation.
 

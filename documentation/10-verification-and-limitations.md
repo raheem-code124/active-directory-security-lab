@@ -101,8 +101,8 @@ After the historical screenshots, new read-only checks, a plan-first disabled-us
 | Post-lab artifact | Source review availability | Actual execution |
 |---|---|---|
 | [Provisioning example and CSV validator](../scripts/README.md) | Readable source | **Pending Windows/AD test** |
-| [Synthetic validation tests](../tests/) | Test code and artificial CSV inputs | **Pending PowerShell run** |
+| [Synthetic validation tests](../tests/) | Source and artificial CSV inputs | **Passed in [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); does not include AD** |
 | [Updated Verify-Lab.ps1](../scripts/Verify-Lab.ps1) | Fails on mismatch or incomplete checks | **Pending DC01 run** |
-| [Authentication analyzer](../scripts/Analyze-AuthenticationEvents.ps1) | Correlation logic and fixture | **Pending real-log test** |
+| [Authentication analyzer](../scripts/Analyze-AuthenticationEvents.ps1) | Correlation logic passed positive/negative synthetic test in [CI](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297) | **Real-log/DC01 test pending** |
 
 Use [reviewer verification checklist](reviewer-verification-checklist.md) to record the next genuine tests and remaining unverified claims.
