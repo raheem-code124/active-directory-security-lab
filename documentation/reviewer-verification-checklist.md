@@ -30,6 +30,7 @@ This document separates **historical evidence (observed)** from **new tools (unv
 - [ ] Run the analyzer on the DC01 Security log with enough HoursBack for events to exist.
 - [x] Review and archive supplied 2,599-byte original script; confirmed size and visible content against DC01 screenshots (not VM hash).
 - [x] Archive the original fictional 28-row CSV alongside the historical PowerShell source.
+- [x] Add offline assertions for the archived CSV's row count, per-department counts, usernames, and documented file sizes; this does not compare against the live domain.
 - [ ] Compare both archived file hashes against DC01; export the complete 30-user roster and confirm the two separately created accounts (`sjohnson`, `amorgan`) are the only records outside the CSV.
 - [ ] Publish a dated file containing **actual** test commands, input, output, exceptions, and fixes. Never generate fictitious terminal results.
 
