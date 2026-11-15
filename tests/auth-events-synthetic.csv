@@ -1,0 +1,7 @@
+TimeCreated,Id,User,SourceIp,Status,CallerComputer
+2026-11-14T20:00:00,4771,sample.user,192.0.2.44,0x18,
+2026-11-14T20:01:00,4771,sample.user,192.0.2.44,0x18,
+2026-11-14T20:02:00,4771,sample.user,192.0.2.44,0x18,
+2026-11-14T20:02:02,4740,sample.user,,,SAMPLE-CLIENT
+2026-11-14T20:03:00,4771,other.user,192.0.2.99,0x18,
+2026-11-14T20:04:00,4771,other.user,192.0.2.99,0x19,

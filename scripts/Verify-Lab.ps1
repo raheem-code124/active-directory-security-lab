@@ -12,6 +12,7 @@
 
 $ErrorActionPreference = 'Stop'
 $results = [System.Collections.Generic.List[object]]::new()
+$errors = [System.Collections.Generic.List[string]]::new()
 
 function Add-Check {
     param([string]$Area, [string]$Check, $Actual, $Expected)
@@ -57,7 +58,7 @@ try {
     $testPso = @(Get-ADFineGrainedPasswordPolicy -Filter "Name -eq 'PSO-Lockout-Test'").Count
     Add-Check Cleanup 'Absent temporary PSO' $testPso 0
 }
-catch { Write-Warning "Active Directory checks incomplete: $($_.Exception.Message)" }
+catch { $errors.Add("Active Directory: $($_.Exception.Message)"); Write-Warning "Active Directory checks incomplete: $($_.Exception.Message)" }
 
 try {
     $scope = Get-DhcpServerv4Scope -ScopeId '192.168.50.0'
@@ -68,7 +69,7 @@ try {
     $dnsServer = ($option | Where-Object OptionId -eq 6).Value -join ','
     Add-Check DHCP 'Option 006 DNS server' $dnsServer '192.168.50.10'
 }
-catch { Write-Warning "DHCP checks incomplete: $($_.Exception.Message)" }
+catch { $errors.Add("DHCP: $($_.Exception.Message)"); Write-Warning "DHCP checks incomplete: $($_.Exception.Message)" }
 
 try {
     $zone = Get-DnsServerZone -Name '50.168.192.in-addr.arpa'
@@ -81,7 +82,7 @@ try {
     }
     else { Add-Check DNS 'PTR of 192.168.50.10' '<not found>' 'DC01.corp.example.test' }
 }
-catch { Write-Warning "DNS checks incomplete: $($_.Exception.Message)" }
+catch { $errors.Add("DNS: $($_.Exception.Message)"); Write-Warning "DNS checks incomplete: $($_.Exception.Message)" }
 
 try {
     foreach ($dept in @('Finance','HR','IT','Operations')) {
@@ -89,10 +90,15 @@ try {
         Add-Check SMB "Share $dept path" $share.Path "C:\CompanyShares\$dept"
     }
 }
-catch { Write-Warning "SMB checks incomplete: $($_.Exception.Message)" }
+catch { $errors.Add("SMB: $($_.Exception.Message)"); Write-Warning "SMB checks incomplete: $($_.Exception.Message)" }
 
 Write-Host ''
 $results | Format-Table Area,Check,Actual,Expected,Pass -AutoSize
 $failed = @($results | Where-Object { -not $_.Pass }).Count
-Write-Host ("Checks: {0} total, {1} failed. An incomplete module check above is not a PASS." -f $results.Count,$failed)
+Write-Host ("Checks: {0} completed, {1} mismatched, {2} sections errored." -f $results.Count,$failed,$errors.Count)
+foreach ($errorMessage in $errors) { Write-Warning $errorMessage }
+if ($results.Count -eq 0 -or $failed -gt 0 -or $errors.Count -gt 0) {
+    throw "Lab verification INCOMPLETE/FAILED. Review mismatches and errors; do not report a PASS."
+}
+Write-Host 'Lab verification checks PASSED (limited to the checks listed above).' -ForegroundColor Green
 Write-Host "Note: This does not confirm CLIENT01 GPOs, SMB effective user access, or resolve DNS query timeouts."

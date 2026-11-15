@@ -20,11 +20,25 @@ $start = (Get-Date).AddHours(-$HoursBack)
 
 Write-Host ("Reading Security event IDs {0} since {1}" -f ($ids -join ','),$start) -ForegroundColor Cyan
 
-$events = @(Get-WinEvent -FilterHashtable @{
-    LogName   = 'Security'
-    Id        = $ids
-    StartTime = $start
-} -ErrorAction Stop)
+# A quiet lab log is a valid result; permissions and other errors still fail.
+try {
+    $events = @(Get-WinEvent -FilterHashtable @{
+        LogName   = 'Security'
+        Id        = $ids
+        StartTime = $start
+    } -ErrorAction Stop)
+}
+catch {
+    if ($_.FullyQualifiedErrorId -match 'NoMatchingEventsFound' -or
+        $_.Exception.Message -match 'No events were found') {
+        $events = @()
+    }
+    else { throw }
+}
+if ($events.Count -eq 0) {
+    Write-Host 'No matching Security events in this time window. No CSV created.'
+    return
+}
 
 $rows = @($events | Select-Object TimeCreated,Id,ProviderName,RecordId,
     @{Name='Summary';Expression={
