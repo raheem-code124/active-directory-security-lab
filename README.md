@@ -52,7 +52,7 @@ Designed and tested an isolated Windows domain with Active Directory, DNS/DHCP, 
 
 ## Source code and repeatability
 
-The [original onboarding script supplied from DC01](scripts/historical/Create-Employees-v3.ps1) is now archived **without edits** in [`scripts/historical/`](scripts/historical/README.md). It reads an **existing 28-record CSV**; the directory's **30 final user accounts** were verified separately, and the records alone do not establish how the additional two accounts were provisioned. The original [28-record `employees.csv`](scripts/historical/employees.csv) is archived alongside the script; the CSV and script are historical source inputs, not proof of a fresh run. The other scripts below are new reference implementations and helpers, not replacements presented as the original.
+The [original onboarding script supplied from DC01](scripts/historical/Create-Employees-v3.ps1) is now archived **without edits** in [`scripts/historical/`](scripts/historical/README.md). It reads an **existing 28-record CSV**; the directory's **30 final user accounts** were verified separately, and earlier screenshots show separate IT (`amorgan`) and Finance (`sjohnson`) account creation consistent with the other two accounts; a complete account-by-account reconciliation remains pending. The original [28-record `employees.csv`](scripts/historical/employees.csv) is archived alongside the script; the CSV and script are historical source inputs, not proof of a fresh run. The other scripts below are new reference implementations and helpers, not replacements presented as the original.
 
 | New source | Purpose | State |
 |---|---|---|
