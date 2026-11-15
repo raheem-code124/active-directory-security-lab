@@ -27,7 +27,7 @@ This is the technical record for the fictional **CORP** enterprise lab. Read [th
 - [Troubleshooting case 02 — folder permissions](troubleshooting-case-studies/02-access-control-validation.md).
 - [Operational runbook](operational-runbook.md) and [read-only verification helper](../scripts/Verify-Lab.ps1).
 - [Final verification and limitations](10-verification-and-limitations.md).
-- [Complete screenshot index](evidence-index.md): **107 actual screenshots**, numbered 01–88 with suffixed captures.
+- [Complete screenshot index](evidence-index.md): **108 actual screenshots**, numbered 01–89 with suffixed captures.
 
 ## Reading the evidence
 
