@@ -1,9 +1,10 @@
 # PowerShell source, safety and reproducibility
 
-The ORIGINAL employee onboarding source, Create-Employees-v3.ps1, was run inside DC01 but is not uploaded. **The newly published code below is a separately authored reconstruction and set of investigation helpers.** None are claimed to have been executed in the historical screenshots. No passwords or authentication tokens are committed.
+The [historical `Create-Employees-v3.ps1`](historical/Create-Employees-v3.ps1) has now been uploaded from a user-supplied file matching the **2,599-byte size** shown in DC01. It is archived unchanged, with a [source provenance and safety note](historical/README.md) and [line-by-line technical review](../documentation/code-review-original-onboarding.md). This source was reported as run during the original lab; **the separately authored new tools below were not used for the historical screenshots**. The original 28-row CSV has not been uploaded. No fixed account passwords or tokens are committed.
 
 | File | Does it modify AD? | Purpose |
 |---|---|---|
+| [Historical Create-Employees-v3.ps1](historical/Create-Employees-v3.ps1) | **Yes — creating accounts and adding group memberships** | Archived supplied source, not an instruction to run it again |
 | [EmployeeCsv.Validation.psm1](EmployeeCsv.Validation.psm1) | No | Offline four-column CSV validation, username and department checks, case-insensitive duplicate rejection |
 | [Invoke-LabEmployeeProvisioning.ps1](Invoke-LabEmployeeProvisioning.ps1) | **Only with -Apply** | Preflight AD domain, OUs, groups and accounts; plan changes; create disabled new users; ensure correct group membership |
 | [Verify-Lab.ps1](Verify-Lab.ps1) | No | Check directory, group, cleanup, DHCP, DNS and SMB state. Throws if any comparison fails or a section cannot run |
@@ -54,11 +55,12 @@ The verification helper returns a failure if a section errors or results disagre
 
 The authentication analyzer groups 4771 failures with status 0x18 by account and source IP in a time window and notes whether a 4740 event for that account occurs nearby. **It cannot by itself prove malicious activity or that the IP and caller computer are the same host**; confirm using environment evidence. No continuous collection or alerting is implemented.
 
-## Original historical artifacts still needed
+## What remains to verify
 
-1. Export C:\ADLab\Scripts\Create-Employees-v3.ps1 and employees.csv from the VM.
-2. Review source and data for credentials and unwanted personal information.
-3. Keep the original named and labeled as the historical deployment. Compare its code to the new reconstruction; do not silently substitute one for the other.
-4. Run the new offline tests and read-only DC01 checks, then publish actual results in a dated test record.
+1. **Source supplied and archived:** `Create-Employees-v3.ps1` is included as a 2,599-byte CRLF file; the byte count agrees with the DC01 screenshot. An independent hash comparison with the still-running VM has **not** been performed.
+2. **Original data missing:** `C:\ADLab\Scripts\employees.csv` remains only in the VM (28 records when inspected). Export it, review for sensitive fields, and add an appropriately sanitized version if useful.
+3. **Historical versus new:** Keep the archived source unchanged; the newer safe provisioning example has different behavior and is not evidence that the historical job used that code.
+4. **Runtime tests pending:** Run the read-only verification tools and the new example only in plan/WhatIf mode first; retain actual outputs.
+5. **Do not re-run the archived original** on your established directory. It can create enabled accounts and change group membership.
 
 See [reviewer verification checklist](../documentation/reviewer-verification-checklist.md), [directory automation history](../documentation/02-active-directory-structure-and-automation.md), and [final limitations](../documentation/10-verification-and-limitations.md).

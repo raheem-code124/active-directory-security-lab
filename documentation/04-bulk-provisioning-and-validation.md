@@ -8,9 +8,9 @@ Bring the fictional employee directory to a known correct state after the initia
 
 ## CSV updates and automation
 
-The final CSV at `C:\ADLab\Scripts\employees.csv` used columns `FirstName`, `LastName`, `Username`, and `Department`. A PowerShell check against the file showed **28 records** at one intermediate point. The dataset and deployment workflow were then expanded, and final validation confirmed **30 accounts** inside the `Company` OU.
+The surviving CSV at `C:\ADLab\Scripts\employees.csv` has columns `FirstName`, `LastName`, `Username`, and `Department` and **28 records**, as verified in the later file check. The archived `Create-Employees-v3.ps1` also explicitly expects 28 records. Final AD verification found **30 accounts** inside the `Company` OU. The evidence does **not** establish whether the additional two accounts came from manual creation, an earlier script, or another step.
 
-This distinction matters: **28 is a documented intermediate count, 30 is the verified final state**. The history is intentionally kept because accurate reporting of changed requirements and verification is part of the work.
+This distinction matters: **28 is the number of entries in the inspected CSV; 30 is the final AD account count.** These are different measurements, not proof that the CSV was expanded to 30 rows. See [historical source and code review](code-review-original-onboarding.md).
 
 | Capture | Evidence |
 |---|---|
@@ -53,4 +53,4 @@ The Workstations OU also establishes clean Group Policy targeting. A GPO linked 
 
 ## Reusability and limitations
 
-The original onboarding script remains on the VM; its complete source was not exported to GitHub. The [PowerShell helpers](../scripts/README.md) in this repository are explicitly new reference/verification tools. The final employee dataset contains invented names and was not sourced from an actual employer.
+The original 2,599-byte [onboarding script is now archived](../scripts/historical/Create-Employees-v3.ps1), along with a [code review](code-review-original-onboarding.md); the historical CSV itself remains unexported. The separately documented [PowerShell helpers](../scripts/README.md) are **new** reference/verification tools. All employee identities in this lab are fictional.

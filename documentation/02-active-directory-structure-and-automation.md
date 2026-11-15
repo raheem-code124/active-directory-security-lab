@@ -88,7 +88,7 @@ The workflow was improved to check conditions before making changes and to confi
 - CSV-based bulk onboarding: exercised, debugged, and revised.
 - Final 30-user outcome: confirmed later, not claimed as complete at this intermediate step.
 
-**Source caveat:** The exact original `Create-Employees-v3.ps1` file was saved inside the VM and is **not present** in this repository. This write-up describes its visible behavior; no invented full script has been labeled as the original. See [scripts/README.md](../scripts/README.md).
+**Historical source now available:** The user-supplied [original `Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) is archived unchanged (2,599 bytes, matching the size shown on DC01). The file is consistent with the screenshots, but no independent SHA-256 hash from DC01 was captured. The CSV still contains **28 records**, whereas the final directory had **30** users. **How the other two were created is not established by this script alone.** See [source/code review](code-review-original-onboarding.md).
 
 
 ## New inspectable provisioning example (post-lab, not the historical script)
@@ -99,4 +99,4 @@ The new example validates four required columns, rejects duplicate/invalid usern
 
 [Sample fictional CSV](../tests/sample-employees.csv) · [Offline validation test](../tests/Test-EmployeeCsv.ps1) · [How to run safely](../scripts/README.md).
 
-**What is still needed:** Export and review C:\ADLab\Scripts\Create-Employees-v3.ps1 and the original employees.csv. Until then, the original script's complete implementation, password handling, and idempotency cannot be independently verified.
+**What is still needed:** Export the original `employees.csv`, reconcile its 28 records with the final directory's 30 accounts, and obtain an independent hash from DC01 if byte-for-byte provenance must be demonstrated. The archived script's implementation can now be reviewed, but it has not been re-executed for this audit. Its password handling and partial-failure limitations are documented in the [historical code review](code-review-original-onboarding.md).

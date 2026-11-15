@@ -52,19 +52,20 @@ Designed and tested an isolated Windows domain with Active Directory, DNS/DHCP, 
 
 ## Source code and repeatability
 
-The original onboarding script **C:\ADLab\Scripts\Create-Employees-v3.ps1** was executed inside the VM and is visible by name and output in the screenshots, but **its full original source and the final 30-row CSV have not been exported**. That gap is explicit. The files below are newly written examples/review helpers, **not representations of the original deployed script**.
+The [original onboarding script supplied from DC01](scripts/historical/Create-Employees-v3.ps1) is now archived **without edits** in [`scripts/historical/`](scripts/historical/README.md). It reads an **existing 28-record CSV**; the directory's **30 final user accounts** were verified separately, and the records alone do not establish how the additional two accounts were provisioned. The original `employees.csv` has **not been uploaded**. The other scripts below are new reference implementations and helpers, not replacements presented as the original.
 
 | New source | Purpose | State |
 |---|---|---|
+| [Archived Create-Employees-v3.ps1](scripts/historical/Create-Employees-v3.ps1) | User-supplied copy of historical 28-row onboarding logic; account/group checks and random initial password generation | **Source preserved; not re-executed** |
 | [Invoke-LabEmployeeProvisioning.ps1](scripts/Invoke-LabEmployeeProvisioning.ps1) and [CSV validator](scripts/EmployeeCsv.Validation.psm1) | Strict CSV input validation, per-department OU/group preflight, rerunnable planning, disabled-user creation only with explicit -Apply | **CSV validation passed offline CI; AD write path not executed** |
 | [Verify-Lab.ps1](scripts/Verify-Lab.ps1) | Read-only checks for users, group counts, DHCP, DNS, SMB and temporary-object cleanup; incomplete sections fail | **Source parsed in CI; live DC01 checks not executed** |
 | [Analyze-AuthenticationEvents.ps1](scripts/Analyze-AuthenticationEvents.ps1) | Reads local events 4771 and 4740 or a synthetic CSV; flags repeated bad-password activity with nearby lockout | **Synthetic positive/negative scenarios passed CI; not deployed** |
 | [Export-SecurityEvents.ps1](scripts/Export-SecurityEvents.ps1) | Read-only local event query; optional on-disk CSV | **New; not runtime-verified** |
 | [Offline tests and synthetic fixtures](tests/) | CSV validation and example authentication correlation without AD access | **Passed on GitHub Actions, [see run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297)** |
 
-**Automated offline verification:** A [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297) parsed eight PowerShell source/test files and passed synthetic CSV validation, positive/negative authentication scenarios, and checks for 455 local links, 107 screenshots, and the architecture SVG. These results do **not** establish that AD-writing code or Windows Security-log queries run successfully against DC01.
+**Automated offline verification:** A [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297) parsed the PowerShell source/test files available at that commit and passed synthetic CSV validation, positive/negative authentication scenarios, and checks for 455 local links, 107 screenshots, and the architecture SVG. These results do **not** establish that AD-writing code or Windows Security-log queries run successfully against DC01.
 
-Start with [script usage and safety instructions](scripts/README.md). The new onboarding example is **plan-only by default** and, even with -Apply, creates disabled accounts without passwords. Do not confuse these reference files with tested production automation.
+Start with [script usage and safety instructions](scripts/README.md). The separate new onboarding example is **plan-only by default** and, even with -Apply, creates disabled accounts without passwords. Do not confuse these reference files with tested production automation.
 
 ## Known limits and unresolved checks
 
