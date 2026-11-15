@@ -12,7 +12,7 @@
 
 ## Screenshot naming
 
-Capture numbers `01–88` describe ordered lab milestones. Suffixes (`10a`, `10b`, `52a`–`52d`, `80a`–`80c`, `84a`–`84b`) represent multiple screenshots for one milestone. Thus there are **107 images**, not just 88.
+Capture numbers `01–89` describe ordered lab milestones. Suffixes (`10a`, `10b`, `52a`–`52d`, `80a`–`80c`, `84a`–`84b`) represent multiple screenshots for one milestone. Thus there are **108 images**, not just 88.
 
 ## Review checklist
 
