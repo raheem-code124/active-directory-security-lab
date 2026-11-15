@@ -58,7 +58,7 @@ The authentication analyzer groups 4771 failures with status 0x18 by account and
 ## What remains to verify
 
 1. **Source supplied and archived:** `Create-Employees-v3.ps1` is included as a 2,599-byte CRLF file; the byte count agrees with the DC01 screenshot. An independent hash comparison with the still-running VM has **not** been performed.
-2. **Original data missing:** `C:\ADLab\Scripts\employees.csv` remains only in the VM (28 records when inspected). Export it, review for sensitive fields, and add an appropriately sanitized version if useful.
+2. **Original data archived:** The original [28-record employee CSV](historical/employees.csv) is preserved (778 bytes, CRLF). The CSV does not explain the final two additional AD accounts.
 3. **Historical versus new:** Keep the archived source unchanged; the newer safe provisioning example has different behavior and is not evidence that the historical job used that code.
 4. **Runtime tests pending:** Run the read-only verification tools and the new example only in plan/WhatIf mode first; retain actual outputs.
 5. **Do not re-run the archived original** on your established directory. It can create enabled accounts and change group membership.
