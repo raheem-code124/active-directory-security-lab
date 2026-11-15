@@ -70,7 +70,7 @@ auditpol /get /subcategory:"Kerberos Authentication Service"
 5. **USB test limitation:** Registry and GPO verified, but no physical/virtual USB write attempt recorded.
 6. **DNS issue still open:** The A and PTR records worked, but some ordinary `nslookup` commands showed timeouts.
 7. **Not every employee tested:** Actual SMB positive/negative tests used Alex Morgan and Sarah Johnson; no 30-user sign-in matrix.
-8. **Original source provided; historical CSV still missing:** The user supplied `Create-Employees-v3.ps1` (2,599 bytes, matching the DC01 file-list screenshot), now archived unchanged. Its original on-VM hash has not been checked; `employees.csv` with 28 entries is still not committed. The archived script cannot independently account for all 30 final AD users. New provisioning code is separately labeled and has not reproduced the historical job.
+8. **Original source and CSV archived; final reconciliation incomplete:** Both [Create-Employees-v3.ps1](../scripts/historical/Create-Employees-v3.ps1) and [employees.csv](../scripts/historical/employees.csv) are committed (2,599 and 778 bytes). Earlier screenshots show separate Finance and IT account creation consistent with 28 CSV records plus 2 existing users; a final 30-username comparison and independent DC01 file hashes remain outstanding. The new provisioning code is separately labeled and has not reproduced the historical job.
 9. **Evaluation software:** Windows Server and Windows 11 Enterprise were evaluation systems.
 10. **No external pentest or malware:** Authentication and group-change incidents were controlled lab events.
 
@@ -80,7 +80,7 @@ auditpol /get /subcategory:"Kerberos Authentication Service"
 - Execute, test, and refine the newly published local 4771/4740 correlation helper against actual DC01 logs. It is not a deployed continuous alerting system.
 - Capture DNS traffic to isolate the intermittent timeout behavior.
 - Test a removable media write denial with a dedicated virtual USB disk.
-- Export and sanitize the original 28-row CSV, compare an independent DC01 file hash, reconcile the two additional AD accounts, and test the new provisioning example in an isolated clone before claiming repeatability.
+- Compare the archived 28-row CSV against the complete live 30-user roster and capture independent DC01 file hashes; test the new provisioning example in an isolated clone before claiming repeatability.
 - Add a second member workstation and second DC to explore scale and replication.
 - Set a dedicated file server and compare access with effective-rights reporting.
 - Document recoverability using a controlled DC backup/restore lab.
@@ -96,7 +96,7 @@ A strong interview answer should discuss **why** group-based access, DNS, GPO sc
 
 ## Post-lab source review status (new work)
 
-After the historical screenshots, new read-only checks, a plan-first disabled-user provisioning example, an authentication-correlation helper, and synthetic offline test fixtures were added to the repository. **Their presence does not prove they ran against DC01.** The separate archived historical source was supplied later, with its original CSV and VM hash verification still outstanding.
+After the historical screenshots, new read-only checks, a plan-first disabled-user provisioning example, an authentication-correlation helper, and synthetic offline test fixtures were added to the repository. **Their presence does not prove they ran against DC01.** The separate archived historical source and 28-row CSV were supplied later; independent hashes from DC01 and a complete live roster comparison remain outstanding.
 
 | Post-lab artifact | Source review availability | Actual execution |
 |---|---|---|
