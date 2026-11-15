@@ -88,15 +88,20 @@ The workflow was improved to check conditions before making changes and to confi
 - CSV-based bulk onboarding: exercised, debugged, and revised.
 - Final 30-user outcome: confirmed later, not claimed as complete at this intermediate step.
 
-**Historical source now available:** The user-supplied [original `Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) is archived unchanged (2,599 bytes, matching the size shown on DC01). The file is consistent with the screenshots, but no independent SHA-256 hash from DC01 was captured. The archived [original CSV](../scripts/historical/employees.csv) contains **28 records**, whereas the final directory had **30** users. **How the other two were created is not established by this script alone.** See [source/code review](code-review-original-onboarding.md).
+**Historical source now available:** The user-supplied [original `Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) is archived unchanged (2,599 bytes, matching the size shown on DC01). The file is consistent with the screenshots, and on-VM SHA-256 digests were later captured on DC01. A byte-for-byte comparison to the GitHub archived blobs was not independently established. The archived [original CSV](../scripts/historical/employees.csv) contains **28 records**, whereas the final directory had **30** users. **How the other two were created is not established by this script alone.** See [source/code review](code-review-original-onboarding.md).
 
 
 ## New inspectable provisioning example (post-lab, not the historical script)
 
 To make the provisioning logic reviewable, the repository now includes a **newly written** [Invoke-LabEmployeeProvisioning.ps1](../scripts/Invoke-LabEmployeeProvisioning.ps1) with a separate [offline CSV validator](../scripts/EmployeeCsv.Validation.psm1). These were created **after** the 30-account lab run and were **not used** to generate the screenshots above.
 
-The new example validates four required columns, rejects duplicate/invalid usernames, checks the target domain, OUs and groups before changes, uses plan-only mode unless -Apply is specified, and creates disabled accounts without storing credentials. It refuses to move an existing user from an unexpected OU. If membership changes are needed, it can apply them on a later rerun. These are design properties of the source, **not yet verified runtime results**.
+The new example validates four required columns, rejects duplicate/invalid usernames, checks the target domain, OUs and groups before changes, uses plan-only mode unless -Apply is specified, and creates disabled accounts without storing credentials. It refuses to move an existing user from an unexpected OU. If membership changes are needed, it can apply them on a later rerun. These are properties of the source. The new script was subsequently **tested in an isolated DC01 clone**: plan-only, WhatIf, four disabled account creations and plan-only rerun. See [follow-up 14](14-isolated-provisioning-validation.md).
 
 [Sample fictional CSV](../tests/sample-employees.csv) · [Offline validation test](../tests/Test-EmployeeCsv.ps1) · [How to run safely](../scripts/README.md).
 
-**What is still needed:** Reconcile the [archived 28-record CSV](../scripts/historical/employees.csv) with the directory's final 30 accounts and obtain an independent hash from DC01 if byte-for-byte VM provenance must be demonstrated. The archived script's implementation can now be reviewed, but it has not been re-executed for this audit. Its password handling and partial-failure limitations are documented in the [historical code review](code-review-original-onboarding.md).
+**Later verification:** A read-only live reconciliation matched the archived 28-record CSV plus the separately created `amorgan` and `sjohnson` against all 30 original users. DC01 source digests were captured, but independent archived-blob comparison remains unverified. See [follow-up 11](11-live-roster-and-integrity-verification.md). The archived script's implementation can now be reviewed, but it has not been re-executed for this audit. Its password handling and partial-failure limitations are documented in the [historical code review](code-review-original-onboarding.md).
+
+
+## Later live results
+
+The original 30-account environment was validated in read-only mode, then the **newer** safe provisioning script was executed only on a disconnected clone with four disabled demo accounts. These tests do not imply that the newer script created the original employees. See [reconciliation](11-live-roster-and-integrity-verification.md) and [clone provisioning](14-isolated-provisioning-validation.md).

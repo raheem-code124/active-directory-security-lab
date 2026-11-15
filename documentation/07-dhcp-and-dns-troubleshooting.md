@@ -136,3 +136,8 @@ DHCP authorization and scope work, a lease was issued to CLIENT01, the domain DN
 **Isolation note:** Running DHCP on a real unisolated LAN can disrupt other computers. These settings were intended only for the dedicated VirtualBox lab network.
 
 [See standalone diagnostic case](troubleshooting-case-studies/01-dhcp-and-dns-corrective-actions.md).
+
+
+## Follow-up DNS query and packet evidence — Steps 0107–0123
+
+The later investigation captured suffix-expanded queries, correct local A/PTR responses, a DNS-filtered Packet Monitor trace converted from ETL to PCAPNG (148 packets formatted; zero dropped), and server recursion, root-hint and routing settings. These added data points **did not conclusively establish** why intermittent ordinary `nslookup` timeout warnings appeared. See the [detailed follow-up](12-dns-follow-up-investigation.md).

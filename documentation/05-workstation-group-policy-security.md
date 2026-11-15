@@ -94,3 +94,10 @@ Evidence: [48 policy](../screenshots/0048-workstation-usb-write-restriction-gpo.
 A GPO visible in Group Policy Management doesn't prove client enforcement. The administrator must verify **scope**, policy application, effective Windows settings, and, when possible, behavior. The lab contains all those forms of evidence except an actual USB write attempt.
 
 For additional details, see [configuration reference](configuration-reference.md) and [final limitations](10-verification-and-limitations.md).
+
+
+## Follow-up CLIENT01 policy check — Step 0131
+
+A later `gpresult /r /scope computer` confirmed all three GPOs applied on CLIENT01, and `reg query` returned `Deny_Write REG_DWORD 0x1` for the removable-disk storage class. The existing limitation remains: **no physical or emulated USB write attempt was tested**.
+
+Evidence: [0131a applied GPOs](../screenshots/0131a-usb-restriction-gpo-applied.png) · [0131b registry](../screenshots/0131b-usb-write-restriction-registry-verified.png). [Related follow-up](14-isolated-provisioning-validation.md).

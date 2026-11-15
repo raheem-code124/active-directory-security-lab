@@ -8,7 +8,7 @@ Bring the fictional employee directory to a known correct state after the initia
 
 ## CSV updates and automation
 
-The surviving CSV at `C:\ADLab\Scripts\employees.csv` has columns `FirstName`, `LastName`, `Username`, and `Department` and **28 records**, as verified in the later file check. The archived `Create-Employees-v3.ps1` also explicitly expects 28 records. Final AD verification found **30 accounts** inside the `Company` OU. Earlier screenshots [15a–15b](../screenshots/0015a-finance-employee-created.png) and [16a–16b](../screenshots/0016a-powershell-user-created.png) show the separate Finance account Sarah Johnson (`sjohnson`) and IT account Alex Morgan (`amorgan`) before the bulk CSV import. Both names are absent from the 28-row CSV. Their departmental assignments account for the one-member difference in Finance and IT; a complete username-by-username export of all 30 accounts is still needed for final reconciliation.
+The surviving CSV at `C:\ADLab\Scripts\employees.csv` has columns `FirstName`, `LastName`, `Username`, and `Department` and **28 records**, as verified in the later file check. The archived `Create-Employees-v3.ps1` also explicitly expects 28 records. Final AD verification found **30 accounts** inside the `Company` OU. Earlier screenshots [15a–15b](../screenshots/0015a-finance-employee-created.png) and [16a–16b](../screenshots/0016a-powershell-user-created.png) show the separate Finance account Sarah Johnson (`sjohnson`) and IT account Alex Morgan (`amorgan`) before the bulk CSV import. Both names are absent from the 28-row CSV. Their departmental assignments account for the one-member difference in Finance and IT; a later complete live read-only roster reconciliation matched all 30 accounts; see [follow-up 11](11-live-roster-and-integrity-verification.md).
 
 This distinction matters: **28 is the number of entries in the inspected CSV; 30 is the final AD account count.** These are different measurements, not proof that the CSV was expanded to 30 rows. See [historical source and code review](code-review-original-onboarding.md).
 
@@ -54,3 +54,8 @@ The Workstations OU also establishes clean Group Policy targeting. A GPO linked 
 ## Reusability and limitations
 
 The original 2,599-byte [onboarding script is now archived](../scripts/historical/Create-Employees-v3.ps1), along with a [code review](code-review-original-onboarding.md); the historical [28-row CSV is also archived](../scripts/historical/employees.csv). The separately documented [PowerShell helpers](../scripts/README.md) are **new** reference/verification tools. All employee identities in this lab are fictional.
+
+
+## Follow-up reconciliation
+
+The final 30-account roster was compared against the original 28-row CSV and separately created `amorgan` and `sjohnson` on DC01. The helper reported a successful match and group totals of 8/7/8/7. See [live evidence](11-live-roster-and-integrity-verification.md). This later read-only test is separate from the historical onboarding script.
