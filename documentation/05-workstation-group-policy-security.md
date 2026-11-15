@@ -30,7 +30,7 @@ gpupdate /force
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v InactivityTimeoutSecs
 ```
 
-Evidence: [42 GPO editor](../screenshots/42-workstation-auto-lock-gpo.png) · [43 applied/registry](../screenshots/43-workstation-gpo-application-verification.png) · [44 lock screen](../screenshots/44-workstation-auto-lock-test.png).
+Evidence: [42 GPO editor](../screenshots/0042-workstation-auto-lock-gpo.png) · [43 applied/registry](../screenshots/0043-workstation-gpo-application-verification.png) · [44 lock screen](../screenshots/0044-workstation-auto-lock-test.png).
 
 **Why:** Short idle-time locks reduce the risk that someone can use an unattended workstation session. This does not replace authentication or screen-lock habits.
 
@@ -53,7 +53,7 @@ Get-NetFirewallProfile -PolicyStore ActiveStore |
 
 **Observed result:** Domain, Private, Public were `Enabled=True`, `DefaultInboundAction=Block`, `DefaultOutboundAction=Allow`. The `gpresult` list showed both baseline and firewall GPOs.
 
-Evidence: [45 configuration](../screenshots/45-workstation-firewall-policy-configured.png) · [46 linked](../screenshots/46-workstation-firewall-gpo-linked.png) · [47a GPOs](../screenshots/47a-workstation-gpo-verification.png) · [47b profiles](../screenshots/47b-workstation-firewall-verification.png).
+Evidence: [45 configuration](../screenshots/0045-workstation-firewall-policy-configured.png) · [46 linked](../screenshots/0046-workstation-firewall-gpo-linked.png) · [47a GPOs](../screenshots/0047a-workstation-gpo-verification.png) · [47b profiles](../screenshots/0047b-workstation-firewall-verification.png).
 
 **Why:** Establishes a default network exposure posture while allowing normal outbound client communication. The lab confirmed the profile defaults; it did not enumerate every possible application-specific firewall rule.
 
@@ -71,7 +71,7 @@ gpresult /r /scope computer
 Get-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\RemovableStorageDevices\{53f5630d-b6bf-11d0-94f2-00a0c91efb8b}' -Name Deny_Write
 ```
 
-Evidence: [48 policy](../screenshots/48-workstation-usb-write-restriction-gpo.png) · [49 link](../screenshots/49-workstation-usb-restriction-linked.png) · [50a applied](../screenshots/50a-usb-restriction-gpo-applied.png) · [50b registry](../screenshots/50b-usb-write-restriction-registry-verified.png).
+Evidence: [48 policy](../screenshots/0048-workstation-usb-write-restriction-gpo.png) · [49 link](../screenshots/0049-workstation-usb-restriction-linked.png) · [50a applied](../screenshots/0050a-usb-restriction-gpo-applied.png) · [50b registry](../screenshots/0050b-usb-write-restriction-registry-verified.png).
 
 **Important limitation:** The GPO and registry state were verified, but this lab did **not** demonstrate writing to a physical/virtual USB flash drive and receiving an access-denied error. Do not describe this as a completed live USB transfer block test.
 
@@ -94,3 +94,10 @@ Evidence: [48 policy](../screenshots/48-workstation-usb-write-restriction-gpo.pn
 A GPO visible in Group Policy Management doesn't prove client enforcement. The administrator must verify **scope**, policy application, effective Windows settings, and, when possible, behavior. The lab contains all those forms of evidence except an actual USB write attempt.
 
 For additional details, see [configuration reference](configuration-reference.md) and [final limitations](10-verification-and-limitations.md).
+
+
+## Follow-up CLIENT01 policy check — Step 0131
+
+A later `gpresult /r /scope computer` confirmed all three GPOs applied on CLIENT01, and `reg query` returned `Deny_Write REG_DWORD 0x1` for the removable-disk storage class. The existing limitation remains: **no physical or emulated USB write attempt was tested**.
+
+Evidence: [0131a applied GPOs](../screenshots/0131a-usb-restriction-gpo-applied.png) · [0131b registry](../screenshots/0131b-usb-write-restriction-registry-verified.png). [Related follow-up](14-isolated-provisioning-validation.md).

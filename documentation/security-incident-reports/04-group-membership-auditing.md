@@ -37,7 +37,7 @@ Get-WinEvent -FilterHashtable @{
 | Member | `CN=Alex Morgan,OU=IT,OU=Company,DC=corp,DC=example,DC=test` |
 | Group | `SG_Audit_Test` / `CORP` |
 
-Evidence: [76 event 4728](../../screenshots/76-security-group-membership-audit-event.png).
+Evidence: [76 event 4728](../../screenshots/0076-security-group-membership-audit-event.png).
 
 ## Cleanup and confirmation
 
@@ -50,9 +50,9 @@ Get-ADGroup -Filter "SamAccountName -eq 'SG_Audit_Test'"
 
 The lookup returned no group. DC01 then produced Event ID **4730**, at **2026-11-14 20:17:08**, with `CORP\Administrator` as Subject and `SG_Audit_Test` as deleted group.
 
-Evidence: [77 event 4730](../../screenshots/77-security-group-deletion-audit-event.png).
+Evidence: [77 event 4730](../../screenshots/0077-security-group-deletion-audit-event.png).
 
-Final production-like lab groups retained all expected members (IT 8, HR 7, Finance 8, Operations 7): [88 final validation](../../screenshots/88-final-active-directory-security-verification.png).
+Final production-like lab groups retained all expected members (IT 8, HR 7, Finance 8, Operations 7): [88 final validation](../../screenshots/0088-final-active-directory-security-verification.png).
 
 ## What a security analyst learns
 

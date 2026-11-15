@@ -19,7 +19,7 @@ gpupdate /force
 auditpol /get /subcategory:"Kerberos Authentication Service"
 ```
 
-**Observed:** `Kerberos Authentication Service   Success and Failure`. [Screenshot 78](../screenshots/78-kerberos-authentication-auditing-enabled.png).
+**Observed:** `Kerberos Authentication Service   Success and Failure`. [Screenshot 78](../screenshots/0078-kerberos-authentication-auditing-enabled.png).
 
 ## Part B — Failed-password simulation and investigation
 
@@ -29,7 +29,7 @@ From CLIENT01, signed in as `CORP\sjohnson`, ran:
 runas /user:CORP\amorgan cmd
 ```
 
-Entered an intentionally incorrect password. The client returned `RUNAS ERROR` with **1326: The user name or password is incorrect**. [Screenshot 79](../screenshots/79-failed-domain-authentication-simulation.png).
+Entered an intentionally incorrect password. The client returned `RUNAS ERROR` with **1326: The user name or password is incorrect**. [Screenshot 79](../screenshots/0079-failed-domain-authentication-simulation.png).
 
 On DC01, searched for Event ID `4771`:
 
@@ -44,7 +44,7 @@ Get-WinEvent -FilterHashtable @{
 
 **Observed:** `Kerberos pre-authentication failed`, username `amorgan`, failure code **`0x18`** (bad password), source `::ffff:192.168.50.100` (IPv4-mapped CLIENT01), and multiple event records around the simulated attempt. Multiple events were captured, but the number of manual password entries **cannot be inferred** from the event count alone.
 
-Evidence: [80a](../screenshots/80a-kerberos-failed-authentication-event.png) · [80b](../screenshots/80b-kerberos-failure-event-details.png) · [80c](../screenshots/80c-kerberos-additional-failure-records.png).
+Evidence: [80a](../screenshots/0080a-kerberos-failed-authentication-event.png) · [80b](../screenshots/0080b-kerberos-failure-event-details.png) · [80c](../screenshots/0080c-kerberos-additional-failure-records.png).
 
 ## Part C — Account lockout policy planning
 
@@ -56,7 +56,7 @@ The **existing default domain password policy** had:
 | `LockoutDuration` | 00:10:00 |
 | `LockoutObservationWindow` | 00:10:00 |
 
-Evidence: [81](../screenshots/81-active-directory-account-lockout-policy.png).
+Evidence: [81](../screenshots/0081-active-directory-account-lockout-policy.png).
 
 The experiment therefore used a dedicated temporary account (`lockout.test`) and a **fine-grained password policy** applying only to that account.
 
@@ -80,13 +80,13 @@ Get-ADUserResultantPasswordPolicy "lockout.test" |
   Select-Object Name,LockoutThreshold,LockoutDuration,LockoutObservationWindow
 ```
 
-**Verified:** `PSO-Lockout-Test`, threshold **3**, both time intervals **10 minutes**. Evidence: [82 test user](../screenshots/82-lockout-test-account-created.png) · [83 test policy](../screenshots/83-test-account-lockout-policy-configured.png).
+**Verified:** `PSO-Lockout-Test`, threshold **3**, both time intervals **10 minutes**. Evidence: [82 test user](../screenshots/0082-lockout-test-account-created.png) · [83 test policy](../screenshots/0083-test-account-lockout-policy-configured.png).
 
 ## Part D — Trigger, find, and resolve lockout
 
 From CLIENT01, used `runas /user:CORP\lockout.test cmd` with incorrect credentials. DC01 checks showed the count growing from `BadPwdCount=1, LockedOut=False` to **`BadPwdCount=3, LockedOut=True`**, with the lockout at 8:39:47 PM.
 
-Evidence: [84a failed attempts](../screenshots/84a-account-lockout-failed-attempts.png) · [84b account status](../screenshots/84b-account-lockout-confirmed.png).
+Evidence: [84a failed attempts](../screenshots/0084a-account-lockout-failed-attempts.png) · [84b account status](../screenshots/0084b-account-lockout-confirmed.png).
 
 Queried DC01's Security log for `4740`:
 
@@ -97,7 +97,7 @@ Get-WinEvent -FilterHashtable @{
   Select-Object -First 1 TimeCreated,Id,Message | Format-List
 ```
 
-**Observed Event 4740:** `lockout.test` locked out; **Caller Computer Name: CLIENT01**; Subject account `DC01$` (the machine account recording the event), not the human who guessed the password. [Screenshot 85](../screenshots/85-account-lockout-event-4740-investigation.png).
+**Observed Event 4740:** `lockout.test` locked out; **Caller Computer Name: CLIENT01**; Subject account `DC01$` (the machine account recording the event), not the human who guessed the password. [Screenshot 85](../screenshots/0085-account-lockout-event-4740-investigation.png).
 
 The administrator then unlocked the account and verified `LockedOut=False`:
 
@@ -106,7 +106,7 @@ Unlock-ADAccount -Identity "lockout.test"
 Get-ADUser "lockout.test" -Properties LockedOut | Select-Object Name,LockedOut
 ```
 
-**Observed Event 4767:** `CORP\Administrator` unlocked `lockout.test` at 8:42:12 PM. [Screenshot 86](../screenshots/86-account-unlock-and-security-event-verification.png).
+**Observed Event 4767:** `CORP\Administrator` unlocked `lockout.test` at 8:42:12 PM. [Screenshot 86](../screenshots/0086-account-unlock-and-security-event-verification.png).
 
 ## Part E — Remove temporary objects and revalidate
 
@@ -118,9 +118,9 @@ Get-ADUser -Filter "SamAccountName -eq 'lockout.test'"
 Get-ADFineGrainedPasswordPolicy -Filter "Name -eq 'PSO-Lockout-Test'"
 ```
 
-**Observed:** Both searches returned no objects. [Screenshot 87](../screenshots/87-lockout-test-environment-cleanup.png).
+**Observed:** Both searches returned no objects. [Screenshot 87](../screenshots/0087-lockout-test-environment-cleanup.png).
 
-Ran final user/group and audit checks: 30 accounts, group counts IT 8 / HR 7 / Finance 8 / Operations 7, audit settings for User Account Management, Security Group Management, and Kerberos Authentication Service still `Success and Failure`. [Screenshot 88](../screenshots/88-final-active-directory-security-verification.png).
+Ran final user/group and audit checks: 30 accounts, group counts IT 8 / HR 7 / Finance 8 / Operations 7, audit settings for User Account Management, Security Group Management, and Kerberos Authentication Service still `Success and Failure`. [Screenshot 88](../screenshots/0088-final-active-directory-security-verification.png).
 
 ## Incident response lessons
 

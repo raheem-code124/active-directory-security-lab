@@ -24,13 +24,13 @@ Under Advanced Audit Policy Configuration → Audit Policies → Account Managem
 
 Created the account in the IT OU with `-Enabled $false`. Follow-up `Get-ADUser` showed `Enabled=False`.
 
-Evidence: [74a event search](../../screenshots/74a-ad-user-creation-audit-event.png), [74b event details](../../screenshots/74b-security-event-4720-details.png).
+Evidence: [74a event search](../../screenshots/0074a-ad-user-creation-audit-event.png), [74b event details](../../screenshots/0074b-security-event-4720-details.png).
 
 The log identified a `New Account` called `audit.test` and **Subject** `CORP\Administrator`. The UAC-related fields were consistent with an account created disabled.
 
 ### Event 4726 — Account deleted
 
-Deleted the temporary identity, then queried the Security log for 4726 matching `audit.test`. The event identified the deleted target and administrative subject. [Screenshot 75](../../screenshots/75-ad-user-deletion-audit-event.png).
+Deleted the temporary identity, then queried the Security log for 4726 matching `audit.test`. The event identified the deleted target and administrative subject. [Screenshot 75](../../screenshots/0075-ad-user-deletion-audit-event.png).
 
 ## Investigative significance
 

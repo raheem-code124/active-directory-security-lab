@@ -17,7 +17,7 @@ Configure domain controller audit policies and prove that Windows **actually log
 5. Ran `gpupdate /force` on DC01 and verified applied GPOs via `gpresult /r /scope computer`.
 6. Inspected effective auditing via `auditpol /get /category:"Account Management"`.
 
-Evidence: [71 policy settings](../screenshots/71-dc-account-audit-policy-configured.png) · [72 GPO linked](../screenshots/72-dc-security-auditing-gpo-linked.png) · [73a applied policy](../screenshots/73a-dc-auditing-gpo-applied.png) · [73b effective audit settings](../screenshots/73b-dc-audit-policy-settings-verified.png).
+Evidence: [71 policy settings](../screenshots/0071-dc-account-audit-policy-configured.png) · [72 GPO linked](../screenshots/0072-dc-security-auditing-gpo-linked.png) · [73a applied policy](../screenshots/0073a-dc-auditing-gpo-applied.png) · [73b effective audit settings](../screenshots/0073b-dc-audit-policy-settings-verified.png).
 
 ```powershell
 gpupdate /force
@@ -33,10 +33,10 @@ All actions were performed by `CORP\Administrator` on the isolated domain contro
 
 | Event | Simulated action | Recorded details | Screenshot |
 |---|---|---|---|
-| **4720** | Created disabled account `audit.test` | Subject `CORP\Administrator`, target `audit.test`, 8:06:04 PM | [74a](../screenshots/74a-ad-user-creation-audit-event.png) · [74b](../screenshots/74b-security-event-4720-details.png) |
-| **4726** | Deleted `audit.test` | Subject `CORP\Administrator`, target `audit.test`, 8:07:19 PM | [75](../screenshots/75-ad-user-deletion-audit-event.png) |
-| **4728** | Added Alex Morgan (`amorgan`) to a temporary global security group | Subject `CORP\Administrator`, group `SG_Audit_Test`, member `CN=Alex Morgan,OU=IT,...`, 8:08:17 PM | [76](../screenshots/76-security-group-membership-audit-event.png) |
-| **4730** | Deleted temporary `SG_Audit_Test` | Subject `CORP\Administrator`, group `SG_Audit_Test`, 8:17:08 PM | [77](../screenshots/77-security-group-deletion-audit-event.png) |
+| **4720** | Created disabled account `audit.test` | Subject `CORP\Administrator`, target `audit.test`, 8:06:04 PM | [74a](../screenshots/0074a-ad-user-creation-audit-event.png) · [74b](../screenshots/0074b-security-event-4720-details.png) |
+| **4726** | Deleted `audit.test` | Subject `CORP\Administrator`, target `audit.test`, 8:07:19 PM | [75](../screenshots/0075-ad-user-deletion-audit-event.png) |
+| **4728** | Added Alex Morgan (`amorgan`) to a temporary global security group | Subject `CORP\Administrator`, group `SG_Audit_Test`, member `CN=Alex Morgan,OU=IT,...`, 8:08:17 PM | [76](../screenshots/0076-security-group-membership-audit-event.png) |
+| **4730** | Deleted temporary `SG_Audit_Test` | Subject `CORP\Administrator`, group `SG_Audit_Test`, 8:17:08 PM | [77](../screenshots/0077-security-group-deletion-audit-event.png) |
 
 All timestamps above are from Windows VM screenshots dated **November 14, 2026**.
 

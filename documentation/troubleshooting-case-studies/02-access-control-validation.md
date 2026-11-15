@@ -25,7 +25,7 @@ dir \\DC01\IT
 dir \\DC01\Finance
 ```
 
-**Observed:** `corp\amorgan`; IT directory accessible; Finance directory denied. [Screenshot 56](../../screenshots/56-department-access-control-test.png).
+**Observed:** `corp\amorgan`; IT directory accessible; Finance directory denied. [Screenshot 56](../../screenshots/0056-department-access-control-test.png).
 
 ## Test 2 — Sarah Johnson (Finance)
 
@@ -38,7 +38,7 @@ type \\DC01\Finance\finance-write-test.txt
 echo Unauthorized write test > \\DC01\IT\unauthorized-write-test.txt
 ```
 
-**Observed:** `corp\sjohnson`; Finance listing and file write/read succeeded; IT listing and unauthorized file write were denied. [Screenshot 57](../../screenshots/57-finance-employee-access-verification.png) · [Screenshot 58](../../screenshots/58-department-file-write-access-test.png).
+**Observed:** `corp\sjohnson`; Finance listing and file write/read succeeded; IT listing and unauthorized file write were denied. [Screenshot 57](../../screenshots/0057-finance-employee-access-verification.png) · [Screenshot 58](../../screenshots/0058-department-file-write-access-test.png).
 
 ## How an administrator should investigate a permissions ticket
 
@@ -52,6 +52,11 @@ echo Unauthorized write test > \\DC01\IT\unauthorized-write-test.txt
 
 ## What this did *not* test
 
-It did not exhaustively run 30 employee logins or test all 16 possible department-to-share pairs. The demonstrated end-to-end identities are Alex and Sarah; the server-side configuration was checked for all four departments. It also did not build DFS or a separate file-server VM.
+The **original** case used two named users. The **later follow-up** tested all 16 user/share directory combinations across four representative employees, including authorized file reads/writes and a blocked unauthorized write per user. It did **not** test all 30 accounts or every possible cross-department write permutation. No DFS or separate file-server VM was built. See [the expanded matrix](../13-department-access-control-follow-up.md).
 
 [Full Phase 6 report](../06-department-file-shares-and-access-control.md).
+
+
+## November 15, 2026 follow-up
+
+All four department identities (IT `amorgan`, HR `mpatel`, Finance `sjohnson`, Operations `jlee`) were tested for authorized directory listing and denied access to the other three departments. Four authorized create/read file tests, four cross-department denied writes, and new file cleanup were also captured. Evidence and limitations are in the [four-user report](../13-department-access-control-follow-up.md).

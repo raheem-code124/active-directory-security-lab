@@ -22,8 +22,8 @@ foreach ($doc in $docs) {
     }
 }
 $images = @(Get-ChildItem -LiteralPath (Join-Path $root 'screenshots') -Filter '*.png' -File)
-if ($images.Count -ne 108) {
-    $errorsFound.Add("Historical screenshot count is $($images.Count), expected 108.")
+if ($images.Count -ne 174) {
+    $errorsFound.Add("Screenshot inventory contains $($images.Count) images; expected 174.")
 }
 if (-not (Test-Path -LiteralPath (Join-Path $root 'diagrams/architecture.svg') -PathType Leaf)) {
     $errorsFound.Add('Missing architecture SVG.')

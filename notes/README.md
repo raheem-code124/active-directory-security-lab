@@ -1,31 +1,22 @@
-# Notes: decisions, troubleshooting, and review items
+# Lab notes and publication checklist
 
 ## Design decisions
 
-1. **Lab isolation:** VirtualBox `CORP-LAB` keeps a test DHCP/DNS service off physical networks.
-2. **Separate AD OUs and security groups:** OUs organize objects and target GPOs; groups grant folder access.
-3. **Dedicated GPOs:** Workstation inactivity lock, firewall, USB restrictions, and DC auditing are separate for easier scope management.
-4. **Two-layer SMB authorization:** Use both share permissions and NTFS permissions.
-5. **Dedicated lockout test:** Use `lockout.test` with a fine-grained password policy to avoid editing the global domain lockout setting.
-6. **Reversible exercises:** Delete `audit.test`, `SG_Audit_Test`, `lockout.test` and `PSO-Lockout-Test` after collecting evidence.
-7. **Documentation honesty:** Don't claim an untested physical USB write block, full DNS timeout remediation, or original on-VM file hashes not yet independently compared against archived sources.
+- Original domain runs on isolated VirtualBox internal network `CORP-LAB`; a **disconnected DC01 clone** ran on a separate internal network `CORP-LAB-TEST`.
+- Company OUs and departmental security groups separate object organization from access permission grants.
+- Independent workstation GPOs handle lock setting, firewall defaults and removable-disk restrictions.
+- Both NTFS and share ACLs were inspected; effective SMB allow/deny actions were tested as real signed-in fictional department users.
+- Controlled lockout experiments used a dedicated test identity and fine-grained policy. Temporary security test objects were removed.
+- The USB restriction was configuration-verified without a physical write attempt; DNS timeout cause remains unresolved.
 
-## Screenshot naming
+## Screenshot filenames
 
-Capture numbers `01–89` describe ordered lab milestones. Suffixes (`10a`, `10b`, `52a`–`52d`, `80a`–`80c`, `84a`–`84b`) represent multiple screenshots for one milestone. Thus there are **108 images**, not just 88.
+**174 screenshots**, all with four-digit numbers: `0001`, `0113`, `0124`, `0132i`. Letter suffixes remain on the same original milestones. Screenshot `0117` was not supplied; no placeholder was invented. Binary image data was not changed by the rename. [Full screenshot index](../documentation/evidence-index.md).
 
-## Review checklist
+## Publication and privacy checklist
 
-- [ ] Verify main README renders the `diagrams/architecture.svg` preview.
-- [ ] Check that each evidence link opens the intended screenshot.
-- [ ] Confirm the host, domain, OU, group names and machine IPs against the screenshots.
-- [ ] Open the DNS report and confirm it does not claim every timeout resolved.
-- [ ] Confirm phase reports distinguish observed tests from planned or example commands.
-- [ ] Inspect screen captures for credential/private-data leaks before making this repository public.
-- [ ] Do **not** publish VM disks, ISO images, login passwords, event-log dumps, or secret exports.
-- [ ] Review new `scripts/` helpers before running them; they were not part of original lab execution.
-- [ ] Make the currently private repository public only after auditing screenshots for sensitive content.
-
-## Publication notes
-
-This repository documents a completed **hands-on simulated lab**. It contains no external production systems, real client/customer incidents, or third-party employee directory. The screenshots and reports should support each claim; when an action was not demonstrated, the report says so.
+- [ ] Inspect every screenshot visually for passwords, keys, tokens, personal identifying details and unrelated programs/windows.
+- [ ] Inspect PowerShell scripts and historical CSV data before publication. Do not commit VM disks, ISO files, passwords or private log exports.
+- [ ] Verify live screenshot links, markdown links, the architecture image and the current CI run.
+- [ ] Confirm original 30-user directory and isolated clone-only 34-account state are never conflated.
+- [ ] Keep the GitHub repository **private** until the privacy review is complete.

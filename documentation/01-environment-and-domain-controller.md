@@ -29,14 +29,14 @@ Create a repeatable, **isolated** Windows Server environment that can centrally 
 3. Installed Windows Server, booted to the desktop, and captured a working server baseline.
 4. Kept all domain/DHCP experiments on the isolated virtual network; the Windows computer's real network was not the test target.
 
-Evidence: [01 ISO](../screenshots/01-windows-server-iso-downloaded.png) · [02 VM](../screenshots/02-server-vm-created.png) · [03 edition](../screenshots/03-windows-server-edition.png) · [04 desktop](../screenshots/04-windows-server-desktop.png).
+Evidence: [01 ISO](../screenshots/0001-windows-server-iso-downloaded.png) · [02 VM](../screenshots/0002-server-vm-created.png) · [03 edition](../screenshots/0003-windows-server-edition.png) · [04 desktop](../screenshots/0004-windows-server-desktop.png).
 
 **05–06 — Hostname and TCP/IP**
 
 5. Renamed the server to `DC01` and used a static IP (`192.168.50.10`), so clients could consistently use it for domain DNS.
 6. Verified the configured IPv4 network before promoting the machine.
 
-Evidence: [05 rename](../screenshots/05-server-renamed-dc01.png) · [06 static IP](../screenshots/06-server-static-ip-configuration.png).
+Evidence: [05 rename](../screenshots/0005-server-renamed-dc01.png) · [06 static IP](../screenshots/0006-server-static-ip-configuration.png).
 
 **07–09 — Install AD DS and promote**
 
@@ -44,7 +44,7 @@ Evidence: [05 rename](../screenshots/05-server-renamed-dc01.png) · [06 static I
 8. Ran and passed Active Directory domain-service prerequisite checks.
 9. Promoted the server to the first domain controller of `corp.example.test`, with DNS integration.
 
-Evidence: [07 AD role](../screenshots/07-active-directory-role-installed.png) · [08 prerequisites](../screenshots/08-domain-prerequisites-passed.png) · [09 promotion](../screenshots/09-domain-controller-promoted.png).
+Evidence: [07 AD role](../screenshots/0007-active-directory-role-installed.png) · [08 prerequisites](../screenshots/0008-domain-prerequisites-passed.png) · [09 promotion](../screenshots/0009-domain-controller-promoted.png).
 
 **10–12 — Post-install health, clock, and baseline**
 
@@ -53,7 +53,7 @@ Evidence: [07 AD role](../screenshots/07-active-directory-role-installed.png) ·
 12. Inspected the initial server time and corrected its clock before continuing with Kerberos-based domain authentication. Time consistency matters for Kerberos.
 13. Captured an initial VirtualBox working baseline/snapshot.
 
-Evidence: [10a domain](../screenshots/10a-domain-identity-verification.png) · [10b services](../screenshots/10b-active-directory-services.png) · [10c DNS](../screenshots/10c-domain-dns-verification.png) · [11a time](../screenshots/11a-server-time-verification.png) · [11b snapshot](../screenshots/11b-domain-controller-baseline-snapshot.png) · [12 time fix](../screenshots/12-server-clock-corrected.png).
+Evidence: [10a domain](../screenshots/0010a-domain-identity-verification.png) · [10b services](../screenshots/0010b-active-directory-services.png) · [10c DNS](../screenshots/0010c-domain-dns-verification.png) · [11a time](../screenshots/0011a-server-time-verification.png) · [11b snapshot](../screenshots/0011b-domain-controller-baseline-snapshot.png) · [12 time fix](../screenshots/0012-server-clock-corrected.png).
 
 ## Commands and why they matter
 

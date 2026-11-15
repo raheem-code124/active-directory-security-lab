@@ -38,7 +38,7 @@ Get-ADUserResultantPasswordPolicy -Identity "lockout.test" |
   Select-Object Name,LockoutThreshold,LockoutDuration,LockoutObservationWindow
 ```
 
-**Observed:** default `LockoutThreshold=0`; test `PSO-Lockout-Test` threshold `3`, 10-minute duration and observation window. Evidence: [81](../../screenshots/81-active-directory-account-lockout-policy.png), [82](../../screenshots/82-lockout-test-account-created.png), [83](../../screenshots/83-test-account-lockout-policy-configured.png).
+**Observed:** default `LockoutThreshold=0`; test `PSO-Lockout-Test` threshold `3`, 10-minute duration and observation window. Evidence: [81](../../screenshots/0081-active-directory-account-lockout-policy.png), [82](../../screenshots/0082-lockout-test-account-created.png), [83](../../screenshots/0083-test-account-lockout-policy-configured.png).
 
 ### 2. Generate a failed authentication event from CLIENT01
 
@@ -48,7 +48,7 @@ runas /user:CORP\lockout.test cmd
 
 The deliberate incorrect password yielded `RUNAS ERROR 1326`. DC01's initial state showed `BadPwdCount=1, LockedOut=False`. After subsequent controlled wrong-password attempts, DC01 showed **`BadPwdCount=3, LockedOut=True`**.
 
-Evidence: [84a client commands](../../screenshots/84a-account-lockout-failed-attempts.png) · [84b before/after](../../screenshots/84b-account-lockout-confirmed.png).
+Evidence: [84a client commands](../../screenshots/0084a-account-lockout-failed-attempts.png) · [84b before/after](../../screenshots/0084b-account-lockout-confirmed.png).
 
 ### 3. Investigate the lockout on DC01
 
@@ -61,7 +61,7 @@ Get-WinEvent -FilterHashtable @{
 
 The **4740** event identified the locked account `lockout.test` and **Caller Computer Name: CLIENT01**. Its **Subject** showed `DC01$` with SYSTEM SID `S-1-5-18`; that's the domain controller's logging identity, not proof that someone was interactively using DC01.
 
-Evidence: [85 event 4740](../../screenshots/85-account-lockout-event-4740-investigation.png).
+Evidence: [85 event 4740](../../screenshots/0085-account-lockout-event-4740-investigation.png).
 
 ### 4. Restore access
 
@@ -70,7 +70,7 @@ Unlock-ADAccount -Identity "lockout.test"
 Get-ADUser "lockout.test" -Properties LockedOut | Select-Object Name,LockedOut
 ```
 
-After running the unlock command, `LockedOut=False`. The event log showed **4767**, with `CORP\Administrator` as the subject and `lockout.test` as the target. Evidence: [86 unlock and event](../../screenshots/86-account-unlock-and-security-event-verification.png).
+After running the unlock command, `LockedOut=False`. The event log showed **4767**, with `CORP\Administrator` as the subject and `lockout.test` as the target. Evidence: [86 unlock and event](../../screenshots/0086-account-unlock-and-security-event-verification.png).
 
 ### 5. Return test environment to baseline
 
@@ -82,11 +82,11 @@ Get-ADUser -Filter "SamAccountName -eq 'lockout.test'"
 Get-ADFineGrainedPasswordPolicy -Filter "Name -eq 'PSO-Lockout-Test'"
 ```
 
-Both searches returned no results. Evidence: [87 cleanup](../../screenshots/87-lockout-test-environment-cleanup.png).
+Both searches returned no results. Evidence: [87 cleanup](../../screenshots/0087-lockout-test-environment-cleanup.png).
 
 ### 6. Confirm original directory remained intact
 
-Final output showed 30 Company OU users, groups at **8/7/8/7**, and auditing still enabled for relevant categories. Evidence: [88](../../screenshots/88-final-active-directory-security-verification.png).
+Final output showed 30 Company OU users, groups at **8/7/8/7**, and auditing still enabled for relevant categories. Evidence: [88](../../screenshots/0088-final-active-directory-security-verification.png).
 
 ## Root cause
 

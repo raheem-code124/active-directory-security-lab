@@ -18,10 +18,10 @@
 1. **Establish infrastructure:** Installed DHCP role; AD-authorized `DC01.corp.example.test` at `192.168.50.10` ([59–60](../evidence-index.md)).
 2. **Create scope/options:** `192.168.50.100–.200`, mask `255.255.255.0`, DNS server `.10`, suffix `corp.example.test` ([61–62](../evidence-index.md)).
 3. **Validate client:** `ipconfig /all` showed `.100`, correct DHCP and DNS server; ping to `.10` passed ([63–64](../evidence-index.md)).
-4. **Isolate name resolution:** IP reachability worked, but PTR resolution failed and ordinary `nslookup` timed out before returning a correct A record ([65](../../screenshots/65-dns-forward-and-reverse-lookup-diagnostics.png)).
-5. **Check server's reverse zones:** Network-specific reverse zone wasn't present ([66](../../screenshots/66-dns-reverse-zone-diagnostic.png)).
-6. **Correct the missing PTR:** Add `50.168.192.in-addr.arpa`, record `10 → DC01.corp.example.test` ([67](../../screenshots/67-dns-reverse-zone-and-ptr-created.png)).
-7. **Re-test:** Explicit A and PTR commands worked; full-FQDN `nslookup` with terminal dot worked without timeouts ([68](../../screenshots/68-dns-repair-verification.png), [69](../../screenshots/69-dns-query-timeout-isolation.png), [70](../../screenshots/70-dns-final-query-verification.png)).
+4. **Isolate name resolution:** IP reachability worked, but PTR resolution failed and ordinary `nslookup` timed out before returning a correct A record ([65](../../screenshots/0065-dns-forward-and-reverse-lookup-diagnostics.png)).
+5. **Check server's reverse zones:** Network-specific reverse zone wasn't present ([66](../../screenshots/0066-dns-reverse-zone-diagnostic.png)).
+6. **Correct the missing PTR:** Add `50.168.192.in-addr.arpa`, record `10 → DC01.corp.example.test` ([67](../../screenshots/0067-dns-reverse-zone-and-ptr-created.png)).
+7. **Re-test:** Explicit A and PTR commands worked; full-FQDN `nslookup` with terminal dot worked without timeouts ([68](../../screenshots/0068-dns-repair-verification.png), [69](../../screenshots/0069-dns-query-timeout-isolation.png), [70](../../screenshots/0070-dns-final-query-verification.png)).
 
 ## Evidence-based technical interpretation
 
