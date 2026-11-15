@@ -37,5 +37,6 @@ jobs:
           }
           Write-Host ("Parsed {0} PowerShell sources." -f $files.Count)
           ./tests/Test-EmployeeCsv.ps1
+          ./tests/Test-HistoricalCsv.ps1
           ./tests/Test-AuthAnalyzer.ps1
           ./tests/Test-RepoStructure.ps1
