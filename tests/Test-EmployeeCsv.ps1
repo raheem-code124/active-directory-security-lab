@@ -17,4 +17,38 @@ catch {
     else { throw }
 }
 if (-not $rejected) { throw 'Duplicate username was not rejected.' }
-Write-Host 'PASS: synthetic group mapping and duplicate detection.' -ForegroundColor Green
+$scratch = Join-Path ([System.IO.Path]::GetTempPath()) ('corp-csv-invalid-' + [guid]::NewGuid().ToString('N') + '.csv')
+try {
+    @(
+        'FirstName,LastName,Username,Department,UnexpectedColumn'
+        'Test,Employee,temployee,IT,ignored'
+    ) | Set-Content -LiteralPath $scratch -Encoding utf8
+    $rejectedExtra = $false
+    try {
+        $null = @(Import-LabEmployees -Path $scratch)
+    }
+    catch {
+        if ($_.Exception.Message -match 'exactly FirstName,LastName,Username,Department') {
+            $rejectedExtra = $true
+        } else { throw }
+    }
+    if (-not $rejectedExtra) { throw 'Unexpected CSV column was not rejected.' }
+    @(
+        'FirstName,LastName,Username,Department'
+        'Test,Employee,temployee,Unrecognized'
+    ) | Set-Content -LiteralPath $scratch -Encoding utf8
+    $rejectedDepartment = $false
+    try {
+        $null = @(Import-LabEmployees -Path $scratch)
+    }
+    catch {
+        if ($_.Exception.Message -match 'Invalid department') {
+            $rejectedDepartment = $true
+        } else { throw }
+    }
+    if (-not $rejectedDepartment) { throw 'Invalid department was not rejected.' }
+}
+finally {
+    Remove-Item -LiteralPath $scratch -Force -ErrorAction SilentlyContinue
+}
+Write-Host 'PASS: synthetic group mapping, duplicate detection, invalid department and unexpected column rejection.' -ForegroundColor Green

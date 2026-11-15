@@ -19,6 +19,9 @@ function Import-LabEmployees {
     foreach ($column in $required) {
         if ($column -notin $actual) { throw "CSV missing required column: $column" }
     }
+    if (($actual -join ',') -cne ($required -join ',')) {
+        throw 'CSV must have exactly FirstName,LastName,Username,Department columns in that order.'
+    }
     $groupMap = @{
         IT='SG_IT_Users'
         HR='SG_HR_Users'

@@ -8,6 +8,7 @@ The [historical `Create-Employees-v3.ps1`](historical/Create-Employees-v3.ps1) h
 | [EmployeeCsv.Validation.psm1](EmployeeCsv.Validation.psm1) | No | Offline four-column CSV validation, username and department checks, case-insensitive duplicate rejection |
 | [Invoke-LabEmployeeProvisioning.ps1](Invoke-LabEmployeeProvisioning.ps1) | **Only with -Apply** | Preflight AD domain, OUs, groups and accounts; plan changes; create disabled new users; ensure correct group membership |
 | [Verify-Lab.ps1](Verify-Lab.ps1) | No | Check directory, group, cleanup, DHCP, DNS and SMB state. Throws if any comparison fails or a section cannot run |
+| [Test-LabRoster.ps1](Test-LabRoster.ps1) | No | Compare the complete 30-account directory roster to the 28 archived CSV records plus separately documented amorgan/sjohnson; supports offline synthetic CSV tests or a live read-only DC01 query |
 | [Export-SecurityEvents.ps1](Export-SecurityEvents.ps1) | No AD changes; optional local CSV write | Query selected Security event IDs, handle an empty time window |
 | [Analyze-AuthenticationEvents.ps1](Analyze-AuthenticationEvents.ps1) | No | Read 4771 and 4740 from DC01 or synthetic CSV. Highlight repeated bad passwords; correlate nearby lockout by account/time |
 
@@ -18,6 +19,7 @@ Run in Windows PowerShell 5.1+ or PowerShell 7 from the repository root (PowerSh
 ~~~powershell
 .\tests\Test-EmployeeCsv.ps1
 .\tests\Test-HistoricalCsv.ps1
+.\tests\Test-RosterReconciliation.ps1
 .\tests\Test-AuthAnalyzer.ps1
 .\tests\Test-RepoStructure.ps1
 ~~~
@@ -51,6 +53,8 @@ Safety properties: checks DNS root is exactly corp.example.test; checks the corr
 # Optional local CSV written only after reviewing contents:
 .\scripts\Export-SecurityEvents.ps1 -HoursBack 24 -OutputPath 'C:\Temp\CORP-EventExport.csv'
 ~~~
+
+For full username-by-username reconciliation, run ` .\\scripts\\Test-LabRoster.ps1 -Live ` (without spaces around the command) on DC01. This only reads CORP Active Directory and the archived CSV. Offline mode accepts a fictional `Username,Department` CSV with `-RosterPath`; the CI test builds a synthetic roster and verifies that missing, extra, duplicate, wrong-department, and wrong-header inputs fail. **No live roster results have been captured yet.**
 
 The verification helper returns a failure if a section errors or results disagree with the expected baseline. It does not test a client user's real SMB access, USB writes, DNS timeout packet traces or GPO event delivery.
 

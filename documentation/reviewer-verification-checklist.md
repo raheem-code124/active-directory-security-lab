@@ -32,6 +32,7 @@ This document separates **historical evidence (observed)** from **new tools (unv
 - [x] Archive the original fictional 28-row CSV alongside the historical PowerShell source.
 - [x] Add offline assertions for the archived CSV's row count, per-department counts, usernames, and documented file sizes; this does not compare against the live domain.
 - [ ] Compare both archived file hashes against DC01; export the complete 30-user roster and confirm the two separately created accounts (`sjohnson`, `amorgan`) are the only records outside the CSV.
+- [ ] Run [Test-LabRoster.ps1](../scripts/Test-LabRoster.ps1) in `-Live` read-only mode on DC01 and retain actual output; offline synthetic test coverage alone cannot complete this item.
 - [ ] Publish a dated file containing **actual** test commands, input, output, exceptions, and fixes. Never generate fictitious terminal results.
 
 **Current status (2026-11-15 UTC):** The latest successful [GitHub Actions run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43676055263) includes the archived script and CSV in the checkout and passes the synthetic tests and integrity check. These are offline checks only. **All DC01/CLIENT01 live execution checks above remain pending.**
