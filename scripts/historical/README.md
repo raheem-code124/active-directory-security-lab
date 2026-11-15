@@ -8,7 +8,7 @@
 - **Received:** The lab author uploaded `Create-Employees-v3.ps1.txt`, containing PowerShell source. Its **exact uploaded bytes** were committed under the original `.ps1` extension, without changing the commands or line endings.
 - **Evidence comparison:** The file contents are consistent with the Notepad captures of the original and the length matches the **2,599-byte** file listed on DC01. An independent hash was **not** generated on DC01, so this is not cryptographic proof that the source matches the VM byte-for-byte.
 - **SHA-256 of uploaded file:** `645e351d5ace73f0ffd6ec938777f15be75d8ccdd6e757df80c70d1d1e8c2726`.
-- **Inputs:** The script reads the local `C:\ADLab\Scripts\employees.csv` with **28** expected records. That CSV is not included here.
+- **Inputs:** The script reads the local `C:\ADLab\Scripts\employees.csv` with **28** expected records. That [28-record CSV](employees.csv) is now archived alongside the script, preserving its 778-byte CRLF contents.
 - **Outcome distinction:** The lab ultimately contained **30** employee accounts; this source file alone does not explain the other two users.
 
 ## Safety and technical caveats
