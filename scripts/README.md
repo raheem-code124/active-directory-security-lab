@@ -24,7 +24,11 @@ Run in Windows PowerShell 5.1+ or PowerShell 7 from the repository root (PowerSh
 .\tests\Test-RepoStructure.ps1
 ~~~
 
-**Checks covered by the successful CI run:** all local Markdown links resolve, all 108 historical images exist, one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. The offline scenarios **passed on GitHub-hosted PowerShell** in [this CI run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); they do not verify any live Windows Server or AD operation. If a test fails, correct the source and record the failure.
+**Previously verified offline checks:** all local Markdown links resolve, all 108 historical images exist, one synthetic authentication finding that correlates with an artificial lockout, correct mapping of four demo employees to groups, and rejection of a duplicate username. New simulated AD provisioning safety tests have been added to CI; they do **not** confirm live deployment. Earlier offline scenarios **passed on GitHub-hosted PowerShell** in [this CI run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); they do not verify any live Windows Server or AD operation. If a test fails, correct the source and record the failure.
+
+### Mock provisioning safety suite
+
+The new [Test-ProvisioningSafety.ps1](../tests/Test-ProvisioningSafety.ps1) checks plan-only and WhatIf mode, wrong-domain/OU/group safety stops, disabled creation, partial group-assignment failures, and missing-group reruns. It imports a temporary fake ActiveDirectory module and checks the module path before execution. No DC01 connection or real user changes are made. **A passing CI run is required before these new cases can be called verified.**
 
 ## Safe onboarding workflow on DC01
 
