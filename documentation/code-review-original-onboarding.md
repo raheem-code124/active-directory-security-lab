@@ -46,7 +46,7 @@ The GUID-based password string is not a hardcoded secret. `ConvertTo-SecureStrin
 
 ## Historical evidence versus future work
 
-**Observed:** The CSV existed with 28 records; the source contains the checks shown; the initial automation had errors, later group counts were verified; the final directory had 30 users. See [screenshots 19a–22](evidence-index.md) and [88](../screenshots/88-final-active-directory-security-verification.png).
+**Observed:** The [archived CSV](../scripts/historical/employees.csv) contains 28 fictional employee records; the source contains the checks shown; the initial automation had errors, later group counts were verified; the final directory had 30 users. See [screenshots 19a–22](evidence-index.md) and [88](../screenshots/88-final-active-directory-security-verification.png).
 
 **Not established:** That the additional two employees came from a particular script; that the original run handled every account without errors; that the generated passwords reached users; or that the new reference provisioning code ran against the original VM.
 
