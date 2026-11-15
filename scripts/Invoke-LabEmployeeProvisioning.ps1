@@ -3,7 +3,7 @@
   Example rerunnable, department-aware AD provisioning for the isolated CORP lab.
 .DESCRIPTION
   NEW reconstruction written AFTER the original hands-on lab. The historical
-  Create-Employees-v3.ps1 still needs to be exported from the VM if available.
+  The historical Create-Employees-v3.ps1 is archived separately, unchanged.
   Default behavior is READ-ONLY planning; -Apply authorizes AD modifications.
   New accounts are DISABLED without passwords. Set passwords and enable accounts
   separately under your lab's approved procedure. No credentials are stored.
