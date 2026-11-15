@@ -13,3 +13,8 @@ if ($f.User -ne 'sample.user' -or $f.SourceIp -ne '192.0.2.44' -or
     throw "Unexpected correlation: $($f | Out-String)"
 }
 Write-Host 'PASS: 3 synthetic 4771 failures correlate with synthetic 4740 lockout.' -ForegroundColor Green
+
+$negativeFixture = Join-Path $PSScriptRoot 'auth-events-negative-synthetic.csv'
+$falseFindings = @(& $script -InputCsv $negativeFixture -Threshold 3 -WindowMinutes 10)
+if ($falseFindings.Count -ne 0) { throw "False positive: expected zero findings; got $($falseFindings.Count)" }
+Write-Host 'PASS: split-source failures, other Kerberos codes and isolated lockout do not trigger.' -ForegroundColor Green

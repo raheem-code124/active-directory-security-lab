@@ -1,0 +1,40 @@
+name: Offline PowerShell source and synthetic tests
+on:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/offline-powershell-tests.yml'
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/offline-powershell-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Parse PowerShell sources and test synthetic scenarios
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $files = @(Get-ChildItem -Path './scripts','./tests' -Include '*.ps1','*.psm1' -File -Recurse)
+          foreach ($file in $files) {
+            $tokens = $null
+            $parseErrors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$parseErrors)
+            if ($parseErrors.Count -gt 0) {
+              Write-Error ("PowerShell parser errors in {0}: {1}" -f $file.Name, ($parseErrors | Out-String))
+              exit 1
+            }
+          }
+          Write-Host ("Parsed {0} PowerShell sources." -f $files.Count)
+          ./tests/Test-EmployeeCsv.ps1
+          ./tests/Test-AuthAnalyzer.ps1
