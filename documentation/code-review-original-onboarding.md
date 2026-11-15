@@ -4,7 +4,7 @@
 
 ## Evidence and provenance
 
-The supplied archived `Create-Employees-v3.ps1` contains **79 lines**, **2,599 bytes**, and CRLF line endings. Its size agrees with the DC01 screenshot of `C:\ADLab\Scripts`, and its visible commands agree with Notepad captures of the original script. The original user-upload filename had the extra `.txt` extension, which was removed **without changing file bytes** for this repository. The original on-VM file hash has not been captured, so source identity is strongly supported by size/visible content but not cryptographically established.
+The supplied archived `Create-Employees-v3.ps1` contains **79 lines**, **2,599 bytes**, and CRLF line endings. Its size agrees with the DC01 screenshot of `C:\ADLab\Scripts`, and its visible commands agree with Notepad captures of the original script. The original user-upload filename had the extra `.txt` extension, which was removed **without changing file bytes** for this repository. SHA-256 values for the original script and CSV were later captured on DC01 in [screenshot 0097](../screenshots/0097-original-files-sha256-verification.png). An independent comparison against the archived files confirmed **both hashes match**. This establishes file-byte identity at capture time, not authorship or which earlier runs used this version.
 
 **No live execution was performed for this code review.** The observed 30-account final state is supported by [screenshot 88](../screenshots/0088-final-active-directory-security-verification.png), while the submitted source's CSV validation expects **28** records. No assumption is made about which process created the other two accounts.
 
@@ -50,4 +50,4 @@ The GUID-based password string is not a hardcoded secret. `ConvertTo-SecureStrin
 
 **Not established:** That the additional two employees came from a particular script; that the original run handled every account without errors; that the generated passwords reached users; or that the new reference provisioning code ran against the original VM.
 
-**Next meaningful test:** On a **snapshot/clone of the lab**, run [the new plan-only provisioning example](../scripts/Invoke-LabEmployeeProvisioning.ps1) using the sanitized dataset. Record how reruns handle existing accounts and failures. Retain the historical file unchanged for auditability.
+**Follow-up completed:** On a separate, disconnected clone, the newer [plan-first provisioning example](../scripts/Invoke-LabEmployeeProvisioning.ps1) passed plan-only, WhatIf, four disabled user creations with correct groups, and a plan-only rerun showing `ALREADY_CORRECT`. See [clone evidence](14-isolated-provisioning-validation.md). A live partial-failure recovery and second write-mode rerun remain untested; those scenarios are only mocked offline. The historical script was not rerun.

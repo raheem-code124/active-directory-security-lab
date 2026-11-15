@@ -10,7 +10,16 @@ Revisit the **original** `corp.example.test` domain to check the archived onboar
 
 PowerShell located `Create-Employees-v3.ps1` (2,599 bytes) and `employees.csv` (778 bytes) under `C:\ADLab\Scripts`. SHA-256 values for both files were captured on DC01. The corresponding archived copies are [the historical script](../scripts/historical/Create-Employees-v3.ps1) and [28-row historical CSV](../scripts/historical/employees.csv).
 
-Evidence: [Source file locations](../screenshots/0096-original-ad-files-verification.png) · [On-VM SHA-256 hashes](../screenshots/0097-original-files-sha256-verification.png). A **cross-comparison** of the on-VM digest to the repository blob has not independently been recorded.
+Evidence: [Source file locations](../screenshots/0096-original-ad-files-verification.png) · [On-VM SHA-256 hashes](../screenshots/0097-original-files-sha256-verification.png).
+
+**Independent SHA-256 comparison (November 15, 2026):** The exact GitHub archive file bytes were hashed and compared to the DC01 screenshot values; **both matched**.
+
+| Historical file | SHA-256 matching both DC01 and the repository |
+|---|---|
+| `Create-Employees-v3.ps1` (2,599 bytes) | `645e351d5ace73f0ffd6ec938777f15be75d8ccdd6e757df80c70d1d1e8c2726` |
+| `employees.csv` (778 bytes) | `88e3c2c2ddf135bf67d38eaec27b7048d5975e68d3d191c911f1621e39799fad` |
+
+The [offline integrity test](../tests/Test-HistoricalCsv.ps1) verifies these hashes in CI. Matching file hashes establish identity **at the captured VM check**, not who authored the source or whether these bytes ran during every original onboarding attempt.
 
 ## Read-only domain verification
 

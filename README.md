@@ -6,6 +6,8 @@ Built an isolated fictional corporate network in VirtualBox with a Windows Serve
 
 > **Training lab, not production.** All accounts, support tickets, and security incidents are simulated. No real organization or customer is involved. The original lab remained at **30** users; a **disconnected clone** reached **34** after four disabled demo accounts were created.
 
+**90-second review (GitHub access required):** [Original 30-user roster and 21 checks](documentation/11-live-roster-and-integrity-verification.md) · [Four-department access matrix](documentation/13-department-access-control-follow-up.md) · [Clone-only provisioning proof](documentation/14-isolated-provisioning-validation.md) · [Automated test runs](https://github.com/raheem-code124/active-directory-security-lab/actions).
+
 ![Isolated VirtualBox architecture](diagrams/architecture.svg)
 
 ## Results backed by actual tests
@@ -57,7 +59,7 @@ The original lab places DHCP and SMB shares on the domain controller to fit the 
 
 ## Source-code provenance and safe use
 
-The original [`Create-Employees-v3.ps1`](scripts/historical/Create-Employees-v3.ps1) and historical [28-row `employees.csv`](scripts/historical/employees.csv) are archived separately from later reference implementations. Two separately created users, `amorgan` and `sjohnson`, complete the original 30-account roster; a **live read-only reconciliation** verified it.
+The original [`Create-Employees-v3.ps1`](scripts/historical/Create-Employees-v3.ps1) and historical [28-row `employees.csv`](scripts/historical/employees.csv) are archived separately from later reference implementations. **Both archived files have SHA-256 hashes matching the values captured on DC01 in [screenshot 0097](screenshots/0097-original-files-sha256-verification.png)**; the offline integrity test now enforces those exact hashes. Two separately created users, `amorgan` and `sjohnson`, complete the original 30-account roster; a **live read-only reconciliation** verified it.
 
 The newer [`Invoke-LabEmployeeProvisioning.ps1`](scripts/Invoke-LabEmployeeProvisioning.ps1) uses a strict [CSV validator](scripts/EmployeeCsv.Validation.psm1), plans changes **without `-Apply`**, previews changes with `-Apply -WhatIf`, and creates **disabled, passwordless** accounts only when write-mode is explicitly approved. Its real AD happy path was tested on the **isolated clone only**. Mock failure-path tests in [`Test-ProvisioningSafety.ps1`](tests/Test-ProvisioningSafety.ps1) run offline; they do not establish production suitability or all real AD failure scenarios.
 
