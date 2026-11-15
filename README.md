@@ -1,16 +1,16 @@
-# Enterprise Active Directory Security & Administration Lab
+# Active Directory Administration & Security Lab
 
 **Windows Server 2025 · Active Directory · PowerShell · GPO · SMB/NTFS · DNS/DHCP · Windows Security event investigation**
 
-Built an isolated fictional corporate network in VirtualBox with a Windows Server domain controller, Windows 11 domain client, 30 original employee accounts, departmental access controls, network services, workstation policies and a controlled authentication incident. Later investigations added read-only account reconciliation, deeper DNS traces, four-department user-permission tests, and a **separate isolated clone** for testing safer employee-provisioning automation.
+Built an isolated Windows Server and Windows 11 network in VirtualBox. Configured a 30-user Active Directory domain with DNS, DHCP, departmental file shares, Group Policy, and security auditing. Follow-up work included account reconciliation, DNS troubleshooting, employee access tests, and PowerShell provisioning on a separate, disconnected domain-controller clone.
 
 > **Training lab, not production.** All accounts, support tickets, and security incidents are simulated. No real organization or customer is involved. The original lab remained at **30** users; a **disconnected clone** reached **34** after four disabled demo accounts were created.
 
-**90-second review (GitHub access required):** [Original 30-user roster and 21 checks](documentation/11-live-roster-and-integrity-verification.md) · [Four-department access matrix](documentation/13-department-access-control-follow-up.md) · [Clone-only provisioning proof](documentation/14-isolated-provisioning-validation.md) · [Automated test runs](https://github.com/raheem-code124/active-directory-security-lab/actions).
+![VirtualBox lab architecture](diagrams/architecture.svg)
 
-![Isolated VirtualBox architecture](diagrams/architecture.svg)
+## Key technical results and verification
 
-## Results backed by actual tests
+The main test results are documented in [Active Directory account and configuration checks](documentation/11-live-roster-and-integrity-verification.md), [departmental file-access tests](documentation/13-department-access-control-follow-up.md), [PowerShell provisioning on an isolated clone](documentation/14-isolated-provisioning-validation.md), and [automated PowerShell tests](https://github.com/raheem-code124/active-directory-security-lab/actions).
 
 | Area | Observed result | Evidence |
 |---|---|---|
@@ -53,9 +53,9 @@ The original lab places DHCP and SMB shares on the domain controller to fit the 
 | DHCP and DNS | [Original repair](documentation/07-dhcp-and-dns-troubleshooting.md) · [Packet/suffix investigation](documentation/12-dns-follow-up-investigation.md) |
 | Security operations | [Audit controls](documentation/08-security-auditing-and-event-validation.md) · [Kerberos / lockout](documentation/09-authentication-and-account-lockout-incident.md) |
 | New PowerShell provisioning | [Isolated clone runtime proof](documentation/14-isolated-provisioning-validation.md) · [Scripts guide](scripts/README.md) |
-| Verification | [Control matrix and limits](documentation/10-verification-and-limitations.md) · [Reviewer checklist](documentation/reviewer-verification-checklist.md) |
+| Verification | [Control matrix and limits](documentation/10-verification-and-limitations.md) · [Verification checklist](documentation/verification-checklist.md) |
 
-**Browse [all 174 screenshots](documentation/evidence-index.md)** in four-digit order. The original milestone numbers and letter suffixes were kept. The unprovided step `0117` was not manufactured.
+Browse the [174 screenshots](documentation/evidence-index.md), numbered with four-digit prefixes. The original milestone numbers and letter suffixes are preserved; there is no screenshot for step `0117`.
 
 ## Source-code provenance and safe use
 
@@ -63,16 +63,14 @@ The original [`Create-Employees-v3.ps1`](scripts/historical/Create-Employees-v3.
 
 The newer [`Invoke-LabEmployeeProvisioning.ps1`](scripts/Invoke-LabEmployeeProvisioning.ps1) uses a strict [CSV validator](scripts/EmployeeCsv.Validation.psm1), plans changes **without `-Apply`**, previews changes with `-Apply -WhatIf`, and creates **disabled, passwordless** accounts only when write-mode is explicitly approved. Its real AD happy path was tested on the **isolated clone only**. Mock failure-path tests in [`Test-ProvisioningSafety.ps1`](tests/Test-ProvisioningSafety.ps1) run offline; they do not establish production suitability or all real AD failure scenarios.
 
-The newer [`Verify-Lab.ps1`](scripts/Verify-Lab.ps1) and [`Test-LabRoster.ps1`](scripts/Test-LabRoster.ps1) produced the captured live DC01 read-only results. [`Analyze-AuthenticationEvents.ps1`](scripts/Analyze-AuthenticationEvents.ps1) has synthetic tests but is not represented as a deployed monitoring system. Previous [GitHub Actions tests](https://github.com/raheem-code124/active-directory-security-lab/actions) cover synthetic/structural checks, not a live domain.
+The newer [`Verify-Lab.ps1`](scripts/Verify-Lab.ps1) and [`Test-LabRoster.ps1`](scripts/Test-LabRoster.ps1) produced the captured live DC01 read-only results. [`Analyze-AuthenticationEvents.ps1`](scripts/Analyze-AuthenticationEvents.ps1) has synthetic tests but is not represented as a deployed monitoring system. [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions) runs the offline and repository-integrity tests. Those tests do not replace live Active Directory testing.
 
 ## Known limits and lessons
 
 - **DNS:** PTR/server-name lookup was repaired, while some ordinary `nslookup` timeouts persisted. Later suffix-debug and packet-capture evidence refined hypotheses but did **not** conclusively prove the cause or a lasting fix.
-- **USB:** An applied GPO and registry value are **not proof** that a physical USB write was blocked; that behavioral test was skipped due to available hardware.
+- **USB:** The applied GPO and registry setting were verified, but a write to removable storage was not tested.
 - **Access matrix:** Four representative users were tested, not all 30; directory listing covered all 16 user/share combinations while unauthorized write tests targeted one other share per user.
 - **Inactivity:** The 600-second setting and lock screen were captured, but independent elapsed-time measurement was not recorded.
 - **Infrastructure:** No redundant DC, restore exercise, SIEM, EDR, production file server, or deployed alerting pipeline was tested.
 - **Clone:** The four additional demonstration accounts are **only on the isolated VM copy**, which must never be connected to the original internal domain network with the duplicate DC identity.
-- **Privacy:** Repository visibility remains **private** pending a manual inspection of each screenshot and archived code for exposed secrets; successful link checks cannot replace that review.
 
-The project is documented as an evidence-backed training exercise. Claims distinguish actual command results from mock tests, planned procedures and unresolved findings.

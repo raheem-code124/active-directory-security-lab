@@ -2,7 +2,7 @@
 
 [Project overview](../README.md) · [Documentation hub](README.md) · [All screenshots](evidence-index.md)
 
-**Assessment date: November 15, 2026.** The project has two distinct directory states: the **original CORP lab (30 accounts)** and an **isolated clone (34 accounts only after adding four disabled test accounts)**. Do not combine these counts.
+**Verification date: November 15, 2026.** The project has two distinct directory states: the **original CORP lab (30 accounts)** and an **isolated clone (34 accounts only after adding four disabled test accounts)**. Do not combine these counts.
 
 ## Observed control outcomes
 
@@ -28,7 +28,7 @@
 | Controlled provisioning Apply | Four disabled demo accounts created on disconnected clone; user count 30→34 | [Apply](../screenshots/0132h-isolated-clone-provisioning-execution.png) |
 | Group/disabled and rerun verification | Four new accounts have `Disabled=True` and correct group memberships; plan-only rerun shows four `ALREADY_CORRECT` | [Final validation](../screenshots/0132i-provisioning-final-verification.png) |
 
-## Findings that must not be overstated
+## Scope and limitations
 
 1. **Training scale.** The baseline is one DC01/one CLIENT01. No second production DC, replication, true failover, backup/restore, production clients or real enterprise incident was deployed.
 2. **Client DNS timeouts.** The PTR fix, suffix-expanded queries, packet export, lack of outbound default route and successful local A responses narrow the investigation but do **not** conclusively identify every timeout's cause or prove full remediation.
@@ -38,8 +38,6 @@
 6. **Historical source integrity.** The archived 2,599-byte PowerShell script and 778-byte CSV have SHA-256 hashes matching the values captured in DC01 screenshot 0097. This establishes file identity at capture time, not proof of authorship or successful historical execution.
 7. **Provisioning safety paths.** The real AD clone test covers plan, WhatIf, successful disabled creates, group placement and plan-only rerun; negative error/failure paths were mocked offline but **not reproduced end-to-end on a real DC**.
 8. **Monitoring limitations.** Security event interpretation was manual. The new authentication analyzer has synthetic CI tests; no deployed SIEM, EDR, alerting pipeline or real-log analyzer output is claimed.
-9. **Privacy.** The repository remains **private** until every screenshot and archived artifact receives a manual content review for credentials or identifying data. Link integrity alone is insufficient.
-
 ## Provenance
 
 The historical [`Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) and [28-row original CSV](../scripts/historical/employees.csv) are archived unchanged as supplied. The newer [plan-first provisioning implementation](../scripts/Invoke-LabEmployeeProvisioning.ps1) is a distinct post-lab artifact. The original 30-user roster was verified live; the four **additional** accounts were created only on a disconnected, duplicate DC01 identity test VM attached to `CORP-LAB-TEST`. The clone must never be reattached to the original `CORP-LAB` network.

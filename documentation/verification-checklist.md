@@ -1,8 +1,8 @@
-# Reviewer checklist — evidence and reproducibility
+# Verification checklist
 
 [Main overview](../README.md) · [174 screenshot index](evidence-index.md) · [Verification matrix](10-verification-and-limitations.md)
 
-Do not confuse historical work, follow-up live execution, or offline synthetic tests. A file existing in GitHub is **not** proof the code ran.
+This checklist separates the original lab work, later tests in a live lab, and tests that run offline. The corresponding reports show which commands were executed.
 
 ## Completed live tests with screenshot evidence
 
@@ -32,7 +32,7 @@ See [follow-up reports 11–14](README.md#follow-up-evidence-november-2026).
 - [x] Historical original script separated from later safer reconstruction.
 - [x] Screenshot links and repository inventory addressed by `tests/Test-RepoStructure.ps1`.
 
-The previous [successful CI run](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43677960000) pertains to the earlier commit. Review [current workflow status](https://github.com/raheem-code124/active-directory-security-lab/actions) after the screenshot renaming commit.
+See [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions) for the current offline test runs. These tests do not connect to a live domain controller.
 
 ## Not completed
 
@@ -43,14 +43,11 @@ The previous [successful CI run](https://github.com/raheem-code124/active-direct
 - [ ] Live AD negative/error-path and partial-failure reruns on the clone (the mock suite is not equivalent).
 - [ ] Run the authentication analyzer on the actual retained Security log and review false positives.
 - [x] Independently verified the exact two SHA-256 values from screenshot 0097 against archived script and CSV bytes; both match. CI now checks them.
-- [ ] Manual privacy review of **every** screenshot (passwords, tokens, personal info, unrelated windows).
+## Evidence and maintenance checks
 
-## Before making public
+- [x] Automated checks cover local Markdown links, screenshot naming, screenshot-index coverage, and historical file hashes.
+- [ ] Visually inspect each screenshot for passwords, personal information, tokens, or unrelated windows before sharing it publicly.
+- [ ] Spot-check screenshot captions and linked output after future documentation changes.
+- [ ] Review new code and logs for sensitive values before committing.
 
-- [ ] Verify current GitHub Actions jobs and local Markdown links.
-- [ ] Click a sample of image links for each period; confirm screenshot numbers and captions point to the intended output.
-- [ ] Open every image for privacy checks. Never upload VM disks, ISOs or unredacted secrets.
-- [ ] Keep the clone disconnected from `CORP-LAB`. Do not attempt to use a cloned same-identity DC as a production redundancy mechanism.
-- [ ] Only after review, decide whether to make the repository public.
-
-The repository's final evaluation should be based on **demonstrated, properly scoped outcomes**, not inflated screenshot totals.
+**Lab safety:** Keep the cloned DC01 on `CORP-LAB-TEST`, separate from the original `CORP-LAB` network. The clone has the same domain-controller identity and must not be used as another DC in the original network.
