@@ -1,109 +1,47 @@
-# Phase 9 closeout — Final verification, limitations, and next steps
+# Final verification matrix and limitations
 
-[← Phase 9](09-authentication-and-account-lockout-incident.md) · [Documentation index](README.md) · [Main README](../README.md)
+[Project overview](../README.md) · [Documentation hub](README.md) · [All screenshots](evidence-index.md)
 
-## Final integrity check — November 14, 2026
+**Assessment date: November 15, 2026.** The project has two distinct directory states: the **original CORP lab (30 accounts)** and an **isolated clone (34 accounts only after adding four disabled test accounts)**. Do not combine these counts.
 
-After the authentication and lockout experiments, the domain controller was checked again in administrator PowerShell.
+## Observed control outcomes
 
-```powershell
-(Get-ADUser -Filter * -SearchBase "OU=Company,DC=corp,DC=example,DC=test").Count
-
-"SG_IT_Users","SG_HR_Users","SG_Finance_Users","SG_Operations_Users" |
-  ForEach-Object {
-    [PSCustomObject]@{
-      Group   = $_
-      Members = (Get-ADGroupMember -Identity $_).Count
-    }
-  } | Format-Table
-
-auditpol /get /category:"Account Management"
-auditpol /get /subcategory:"Kerberos Authentication Service"
-```
-
-### Actual result
-
-| Control / metric | Verified outcome |
-|---|---|
-| Users under Company OU | **30** |
-| IT security group | **8** members |
-| HR security group | **7** members |
-| Finance security group | **8** members |
-| Operations security group | **7** members |
-| Security Group Management auditing | Success and Failure |
-| User Account Management auditing | Success and Failure |
-| Kerberos Authentication Service auditing | Success and Failure |
-| Temporary `audit.test` | Deleted |
-| Temporary `SG_Audit_Test` | Deleted |
-| Temporary `lockout.test` | Deleted |
-| Temporary `PSO-Lockout-Test` | Deleted |
-
-**Primary proof:** [Screenshot 88 — final AD/security verification](../screenshots/0088-final-active-directory-security-verification.png). Test-object removals are documented separately in [75](../screenshots/0075-ad-user-deletion-audit-event.png), [77](../screenshots/0077-security-group-deletion-audit-event.png), and [87](../screenshots/0087-lockout-test-environment-cleanup.png).
-
-## Control test matrix
-
-| Test | Outcome | Evidence |
+| Control or workflow | Verified result | Evidence |
 |---|---|---|
-| AD DS and DNS services running | Pass | [10b](../screenshots/0010b-active-directory-services.png) |
-| Domain join and employee sign-in | Pass | [34](../screenshots/0034-client01-domain-join-success.png), [35](../screenshots/0035-domain-employee-login-verification.png) |
-| 600-sec lock setting and observed lock screen (elapsed time not measured independently) | Configured + observed | [43](../screenshots/0043-workstation-gpo-application-verification.png), [44](../screenshots/0044-workstation-auto-lock-test.png) |
-| Firewall profiles enabled/default rules | Pass | [47b](../screenshots/0047b-workstation-firewall-verification.png) |
-| Removable disk deny-write *policy applied* | Pass | [50b](../screenshots/0050b-usb-write-restriction-registry-verified.png) |
-| Physical USB write attempt blocked | Not tested | — |
-| IT allowed, Finance denied (as Alex) | Pass | [56](../screenshots/0056-department-access-control-test.png) |
-| Finance file write allowed, IT write denied (as Sarah) | Pass | [58](../screenshots/0058-department-file-write-access-test.png) |
-| DHCP lease/DNS option delivered | Pass | [63](../screenshots/0063-client-dhcp-address-assignment.png) |
-| Reverse PTR for DC01 fixed | Pass | [68](../screenshots/0068-dns-repair-verification.png) |
-| Unqualified ordinary `nslookup` fully timeout-free | **Not established** | [68–70](07-dhcp-and-dns-troubleshooting.md#re-test-after-the-change) |
-| Account lifecycle events recorded | Pass | [74](../screenshots/0074b-security-event-4720-details.png), [75](../screenshots/0075-ad-user-deletion-audit-event.png) |
-| Group membership/deletion events recorded | Pass | [76](../screenshots/0076-security-group-membership-audit-event.png), [77](../screenshots/0077-security-group-deletion-audit-event.png) |
-| Failed Kerberos preauthentication 4771 | Pass | [80a](../screenshots/0080a-kerberos-failed-authentication-event.png) |
-| Account lockout 4740, unlock 4767 | Pass | [85](../screenshots/0085-account-lockout-event-4740-investigation.png), [86](../screenshots/0086-account-unlock-and-security-event-verification.png) |
-| User/group/audit final state | Pass | [88](../screenshots/0088-final-active-directory-security-verification.png) |
+| Original AD account baseline | 30 fictional employee accounts; department group counts IT 8, HR 7, Finance 8, Operations 7 | [User count](../screenshots/0092-active-directory-30-user-verification.png) · [Groups](../screenshots/0093-active-directory-security-group-verification.png) |
+| Read-only DC01 verification | 21 completed comparisons, 0 mismatches, 0 sections errored; limited to tool's listed checks | [Checks](../screenshots/0101-live-active-directory-verification.png) · [Saved output](../screenshots/0102-live-verification-output-saved.png) |
+| Historical roster reconciliation | 28 archived CSV records + `amorgan` (IT) and `sjohnson` (Finance) = 30 matched live identities | [Live reconciliation](../screenshots/0105-live-account-reconciliation.png) · [Transcript](../screenshots/0106-account-reconciliation-evidence-saved.png) |
+| CLIENT01 domain join/login | Domain join and employee domain sign-in demonstrated | [Join](../screenshots/0034-client01-domain-join-success.png) · [Sign-in](../screenshots/0035-domain-employee-login-verification.png) |
+| Workstation inactivity | 600-second lock setting configured and lock screen captured; time interval not measured independently | [Policy state](../screenshots/0043-workstation-gpo-application-verification.png) · [Lock screen](../screenshots/0044-workstation-auto-lock-test.png) |
+| Windows firewall | GPO applied; Domain, Private, Public enabled with inbound Block/outbound Allow defaults | [GPO](../screenshots/0047a-workstation-gpo-verification.png) · [Profiles](../screenshots/0047b-workstation-firewall-verification.png) |
+| Removable-storage policy | GPO applied on CLIENT01 and `Deny_Write=0x1` read from registry | [GPO applied](../screenshots/0131a-usb-restriction-gpo-applied.png) · [Registry](../screenshots/0131b-usb-write-restriction-registry-verified.png) |
+| Actual USB write block | **Not tested**, no physical or virtual removable-media write attempted | [Limitations](05-workstation-group-policy-security.md) |
+| DHCP | Scope `192.168.50.100–200` active; CLIENT01 lease `192.168.50.100` and DC01 DNS supplied | [Scope](../screenshots/0061-dhcp-address-scope-created.png) · [Lease](../screenshots/0063-client-dhcp-address-assignment.png) |
+| DNS A/PTR | Local name to IP and server IP to PTR resolved; intermittent `nslookup` warnings still under investigation | [PTR repair](../screenshots/0068-dns-repair-verification.png) · [A/AAAA](../screenshots/0109-dns-a-aaaa-query-isolation.png) |
+| DNS follow-up | Suffix-added `NXDOMAIN` question; 148 packets formatted, 0 drops; capture exported, not conclusively decoded | [Debug trace](../screenshots/0110b-dns-suffix-debug-part1.png) · [PCAPNG](../screenshots/0116-dns-packet-capture-saved.png) |
+| SMB/NTFS design | Four department-specific ACLs; dept SMB Change and NTFS Modify | [Share ACLs](../screenshots/0124-dc01-smb-share-acl-verification.png) · [NTFS ACLs](../screenshots/0125-dc01-ntfs-folder-permissions.png) |
+| User-token SMB directory checks | 16 total across four accounts and four shares: 4 authorized allowed, 12 unauthorized denied | [IT](../screenshots/0127a-it-employee-share-access-test.png) · [HR](../screenshots/0128d-hr-employee-share-access-test.png) · [Finance](../screenshots/0129a-finance-employee-share-access-test.png) · [Operations](../screenshots/0130a-operations-employee-share-access-test.png) |
+| User-token SMB file operations | Four authorized create/read passes; four cross-department denied writes and test-file cleanup | [IT cleanup](../screenshots/0127d-it-test-file-cleanup.png) · [HR cleanup](../screenshots/0128f-hr-unauthorized-write-and-cleanup.png) · [Finance cleanup](../screenshots/0129c-finance-unauthorized-write-denied-and-cleanup.png) · [Operations cleanup](../screenshots/0130c-operations-unauthorized-write-and-cleanup.png) |
+| Simulated help-desk ticket | HR user `mpatel` password reset, login restored and HR effective access confirmed | [Reset](../screenshots/0128b-hr-password-reset-confirmation.png) · [Login](../screenshots/0128c-hr-password-reset-login-verification.png) |
+| User/group lifecycle and authentication auditing | Controlled Security Events 4720, 4726, 4728, 4730, 4771, 4740, 4767 observed | [Creation](../screenshots/0074b-security-event-4720-details.png) · [Kerberos](../screenshots/0080a-kerberos-failed-authentication-event.png) · [Lockout](../screenshots/0085-account-lockout-event-4740-investigation.png) · [Unlock](../screenshots/0086-account-unlock-and-security-event-verification.png) |
+| Provisioning plan and WhatIf | Four planned disabled creations; no change at 30 clone users | [Plan](../screenshots/0132f-provisioning-read-only-plan-test.png) · [WhatIf](../screenshots/0132g-provisioning-whatif-safety-test.png) |
+| Controlled provisioning Apply | Four disabled demo accounts created on disconnected clone; user count 30→34 | [Apply](../screenshots/0132h-isolated-clone-provisioning-execution.png) |
+| Group/disabled and rerun verification | Four new accounts have `Disabled=True` and correct group memberships; plan-only rerun shows four `ALREADY_CORRECT` | [Final validation](../screenshots/0132i-provisioning-final-verification.png) |
 
-## Confirmed project limitations
+## Findings that must not be overstated
 
-1. **Small scope:** One DC and one domain-joined Windows client. No replication or failover testing.
-2. **Simulated employees:** All 30 users belong to a fictional lab organization.
-3. **No actual enterprise environment:** All network services ran on an isolated VirtualBox network.
-4. **No SIEM/EDR:** Windows Security logs were queried locally; automatic alerting or endpoint detection wasn't deployed.
-5. **USB test limitation:** Registry and GPO verified, but no physical/virtual USB write attempt recorded.
-6. **DNS issue still open:** The A and PTR records worked, but some ordinary `nslookup` commands showed timeouts.
-7. **Not every employee tested:** Actual SMB positive/negative tests used Alex Morgan and Sarah Johnson; no 30-user sign-in matrix.
-8. **Original source and CSV archived; final reconciliation incomplete:** Both [Create-Employees-v3.ps1](../scripts/historical/Create-Employees-v3.ps1) and [employees.csv](../scripts/historical/employees.csv) are committed (2,599 and 778 bytes). Earlier screenshots show separate Finance and IT account creation consistent with 28 CSV records plus 2 existing users; a final 30-username comparison and independent DC01 file hashes remain outstanding. The new provisioning code is separately labeled and has not reproduced the historical job.
-9. **Evaluation software:** Windows Server and Windows 11 Enterprise were evaluation systems.
-10. **No external pentest or malware:** Authentication and group-change incidents were controlled lab events.
+1. **Training scale.** The baseline is one DC01/one CLIENT01. No second production DC, replication, true failover, backup/restore, production clients or real enterprise incident was deployed.
+2. **Client DNS timeouts.** The PTR fix, suffix-expanded queries, packet export, lack of outbound default route and successful local A responses narrow the investigation but do **not** conclusively identify every timeout's cause or prove full remediation.
+3. **USB.** Group Policy/registry configuration was verified, not an actual failed write to removable media.
+4. **Access-testing sample.** Four representative domain users exercised all 16 share directory combinations. No full 30-account effective-entitlement test was completed. Cross-department write denial tested one other share per user.
+5. **GPO idle behavior.** The configured 600-second inactivity value and captured locked workstation are not a measured 600-second timing test.
+6. **Original source hashes.** On-VM historical script and CSV hashes were captured, but the exact source-to-archived-blob digest comparison was not independently demonstrated.
+7. **Provisioning safety paths.** The real AD clone test covers plan, WhatIf, successful disabled creates, group placement and plan-only rerun; negative error/failure paths were mocked offline but **not reproduced end-to-end on a real DC**.
+8. **Monitoring limitations.** Security event interpretation was manual. The new authentication analyzer has synthetic CI tests; no deployed SIEM, EDR, alerting pipeline or real-log analyzer output is claimed.
+9. **Privacy.** The repository remains **private** until every screenshot and archived artifact receives a manual content review for credentials or identifying data. Link integrity alone is insufficient.
 
-## Future improvements (not yet implemented)
+## Provenance
 
-- Enable more targeted audit subcategories and an appropriate central collection/alerting pipeline.
-- Execute, test, and refine the newly published local 4771/4740 correlation helper against actual DC01 logs. It is not a deployed continuous alerting system.
-- Capture DNS traffic to isolate the intermittent timeout behavior.
-- Test a removable media write denial with a dedicated virtual USB disk.
-- Compare the archived 28-row CSV against the complete live 30-user roster and capture independent DC01 file hashes; test the new provisioning example in an isolated clone before claiming repeatability.
-- Add a second member workstation and second DC to explore scale and replication.
-- Set a dedicated file server and compare access with effective-rights reporting.
-- Document recoverability using a controlled DC backup/restore lab.
+The historical [`Create-Employees-v3.ps1`](../scripts/historical/Create-Employees-v3.ps1) and [28-row original CSV](../scripts/historical/employees.csv) are archived unchanged as supplied. The newer [plan-first provisioning implementation](../scripts/Invoke-LabEmployeeProvisioning.ps1) is a distinct post-lab artifact. The original 30-user roster was verified live; the four **additional** accounts were created only on a disconnected, duplicate DC01 identity test VM attached to `CORP-LAB-TEST`. The clone must never be reattached to the original `CORP-LAB` network.
 
-## Resume / interview talking points (grounded)
-
-> Built an isolated two-VM Active Directory lab with 30 fictional domain users, role-based file shares, three workstation security GPOs, DHCP/DNS services, and Windows security auditing. Investigated failed Kerberos authentication and an account lockout through Events 4771/4740, traced the source to CLIENT01, unlocked the account, and verified final system state.
-
-A strong interview answer should discuss **why** group-based access, DNS, GPO scope, and audit evidence were chosen; it should also openly mention the unresolved DNS behavior and USB test limitation instead of overstating project scope.
-
-[Review every evidence file](evidence-index.md) · [Read the runbook](operational-runbook.md).
-
-
-## Post-lab source review status (new work)
-
-After the historical screenshots, new read-only checks, a plan-first disabled-user provisioning example, an authentication-correlation helper, and synthetic offline test fixtures were added to the repository. **Their presence does not prove they ran against DC01.** The separate archived historical source and 28-row CSV were supplied later; independent hashes from DC01 and a complete live roster comparison remain outstanding.
-
-| Post-lab artifact | Source review availability | Actual execution |
-|---|---|---|
-| [Provisioning example and CSV validator](../scripts/README.md) | Readable source | **Pending Windows/AD test** |
-| [Synthetic validation tests](../tests/) | Source and artificial CSV inputs | **Passed in [GitHub Actions](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297); does not include AD** |
-| [Updated Verify-Lab.ps1](../scripts/Verify-Lab.ps1) | Fails on mismatch or incomplete checks | **Pending DC01 run** |
-| [Test-LabRoster.ps1](../scripts/Test-LabRoster.ps1) | New offline/live account-by-account reconciliation; includes synthetic negative test cases | **Pending DC01 run; offline tests require CI verification** |
-| [Authentication analyzer](../scripts/Analyze-AuthenticationEvents.ps1) | Correlation logic passed positive/negative synthetic test in [CI](https://github.com/raheem-code124/active-directory-security-lab/actions/runs/43669522297) | **Real-log/DC01 test pending** |
-
-Use [reviewer verification checklist](reviewer-verification-checklist.md) to record the next genuine tests and remaining unverified claims.
+For full context read [live roster verification](11-live-roster-and-integrity-verification.md), [DNS follow-up](12-dns-follow-up-investigation.md), [department access](13-department-access-control-follow-up.md), and [clone provisioning](14-isolated-provisioning-validation.md).
