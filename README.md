@@ -43,19 +43,35 @@ The original lab places DHCP and SMB shares on the domain controller to fit the 
 
 ## Technical documentation
 
-| Focus | Investigation / report |
-|---|---|
-| Domain setup and original onboarding | [Server foundation](documentation/01-environment-and-domain-controller.md) · [AD structure](documentation/02-active-directory-structure-and-automation.md) · [Bulk onboarding](documentation/04-bulk-provisioning-and-validation.md) |
-| Original domain and live verification | [30-user reconciliation and 21 checks](documentation/11-live-roster-and-integrity-verification.md) |
-| Domain workstation and GPO | [CLIENT01 domain join](documentation/03-client-domain-join.md) · [Workstation security policies](documentation/05-workstation-group-policy-security.md) |
-| SMB/NTFS and user permissions | [Access-control design](documentation/06-department-file-shares-and-access-control.md) · [Four-user access matrix](documentation/13-department-access-control-follow-up.md) |
-| Support ticket | [AD-001: fictional HR account password reset](documentation/support-tickets/AD-001-hr-password-reset.md) |
-| DHCP and DNS | [Original repair](documentation/07-dhcp-and-dns-troubleshooting.md) · [Packet/suffix investigation](documentation/12-dns-follow-up-investigation.md) |
-| Security operations | [Audit controls](documentation/08-security-auditing-and-event-validation.md) · [Kerberos / lockout](documentation/09-authentication-and-account-lockout-incident.md) |
-| New PowerShell provisioning | [Isolated clone runtime proof](documentation/14-isolated-provisioning-validation.md) · [Scripts guide](scripts/README.md) |
-| Verification | [Control matrix and limits](documentation/10-verification-and-limitations.md) · [Verification checklist](documentation/verification-checklist.md) |
+The reports follow the lab from initial setup through security testing, with later investigations and automation validation documented separately.
 
-Browse the [174 screenshots](documentation/evidence-index.md), numbered with four-digit prefixes. The original milestone numbers and letter suffixes are preserved; there is no screenshot for step `0117`.
+**Lab implementation — phases 01–10**
+
+| Phase | Focus | Technical report |
+|---|---|---|
+| 01 | Server and domain controller setup | [Environment and DC01 configuration](documentation/01-environment-and-domain-controller.md) |
+| 02 | Active Directory structure and groups | [Organizational units and automation](documentation/02-active-directory-structure-and-automation.md) |
+| 03 | Windows 11 domain join | [CLIENT01 deployment and validation](documentation/03-client-domain-join.md) |
+| 04 | Employee account provisioning | [Bulk provisioning and verification](documentation/04-bulk-provisioning-and-validation.md) |
+| 05 | Workstation Group Policy | [Security baseline, firewall, and USB restriction](documentation/05-workstation-group-policy-security.md) |
+| 06 | SMB shares and NTFS permissions | [Departmental file access controls](documentation/06-department-file-shares-and-access-control.md) |
+| 07 | DHCP and DNS troubleshooting | [Network services and corrective actions](documentation/07-dhcp-and-dns-troubleshooting.md) |
+| 08 | Windows security auditing | [Account and group event validation](documentation/08-security-auditing-and-event-validation.md) |
+| 09 | Authentication and account lockouts | [Security incident investigation](documentation/09-authentication-and-account-lockout-incident.md) |
+| 10 | Final configuration checks | [Verification results and limitations](documentation/10-verification-and-limitations.md) |
+
+**Follow-up testing — phases 11–14**
+
+| Phase | Focus | Technical report |
+|---|---|---|
+| 11 | Account reconciliation and configuration | [30-user roster and 21 live checks](documentation/11-live-roster-and-integrity-verification.md) |
+| 12 | DNS query investigation | [Suffix testing and packet capture](documentation/12-dns-follow-up-investigation.md) |
+| 13 | Effective departmental permissions | [Four-user SMB access matrix](documentation/13-department-access-control-follow-up.md) |
+| 14 | Isolated provisioning validation | [Clone-only PowerShell provisioning tests](documentation/14-isolated-provisioning-validation.md) |
+
+**Additional records:** [HR password-reset ticket AD-001](documentation/support-tickets/AD-001-hr-password-reset.md) · [PowerShell scripts and usage](scripts/README.md) · [Verification checklist](documentation/verification-checklist.md) · [Documentation index](documentation/README.md).
+
+Browse the [174 screenshots](documentation/evidence-index.md), numbered with four-digit prefixes. Original step numbers and letter suffixes are preserved; no screenshot was supplied for step `0117`.
 
 ## Source-code provenance and safe use
 
