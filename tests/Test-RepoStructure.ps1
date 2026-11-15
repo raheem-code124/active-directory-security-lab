@@ -1,5 +1,5 @@
-# Offline repository integrity test: Markdown local links, screenshot inventory and SVG.
-# Does not require AD, network access or any domain credentials.
+# Offline repository integrity test: Markdown local links, 174 numbered screenshots, evidence index, SVG.
+# Does not require AD access, network calls or domain credentials.
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
@@ -7,6 +7,7 @@ $docs = @(Get-ChildItem -LiteralPath $root -Filter '*.md' -Recurse -File)
 $errorsFound = [System.Collections.Generic.List[string]]::new()
 $checked = 0
 $pattern = '!?\[[^\]]*\]\(([^)]+)\)'
+
 foreach ($doc in $docs) {
     $content = [System.IO.File]::ReadAllText($doc.FullName)
     foreach ($match in [regex]::Matches($content, $pattern)) {
@@ -21,10 +22,12 @@ foreach ($doc in $docs) {
         }
     }
 }
+
 $images = @(Get-ChildItem -LiteralPath (Join-Path $root 'screenshots') -Filter '*.png' -File)
 if ($images.Count -ne 174) {
     $errorsFound.Add("Screenshot inventory contains $($images.Count) images; expected 174.")
 }
+
 $indexPath = Join-Path $root 'documentation/evidence-index.md'
 if (-not (Test-Path -LiteralPath $indexPath -PathType Leaf)) {
     $errorsFound.Add('Missing screenshot evidence index.')
@@ -32,16 +35,7 @@ if (-not (Test-Path -LiteralPath $indexPath -PathType Leaf)) {
 else {
     $index = [System.IO.File]::ReadAllText($indexPath)
     foreach ($img in $images) {
-        if ($img.Name -cnotmatch '^\d{4}[a-z]?-[^/]+\.png
-    $errorsFound.Add('Missing architecture SVG.')
-}
-if ($errorsFound.Count -gt 0) {
-    foreach ($problem in $errorsFound) { Write-Error $problem -ErrorAction Continue }
-    throw "Repository integrity FAILED with $($errorsFound.Count) issue(s)."
-}
-Write-Host ("PASS: {0} Markdown documents, {1} local links, {2} screenshots and architecture SVG." -f
-    $docs.Count, $checked, $images.Count) -ForegroundColor Green
-) {
+        if ($img.Name -cnotmatch '^\d{4}[a-z]?-[^/]+\.png$') {
             $errorsFound.Add("Screenshot filename must use four-digit numbering: $($img.Name)")
         }
         if (-not $index.Contains("../screenshots/$($img.Name)")) {
@@ -49,6 +43,7 @@ Write-Host ("PASS: {0} Markdown documents, {1} local links, {2} screenshots and 
         }
     }
 }
+
 if (-not (Test-Path -LiteralPath (Join-Path $root 'diagrams/architecture.svg') -PathType Leaf)) {
     $errorsFound.Add('Missing architecture SVG.')
 }
@@ -56,5 +51,5 @@ if ($errorsFound.Count -gt 0) {
     foreach ($problem in $errorsFound) { Write-Error $problem -ErrorAction Continue }
     throw "Repository integrity FAILED with $($errorsFound.Count) issue(s)."
 }
-Write-Host ("PASS: {0} Markdown documents, {1} local links, {2} screenshots and architecture SVG." -f
+Write-Host ("PASS: {0} Markdown documents, {1} local links, {2} indexed screenshots and architecture SVG." -f
     $docs.Count, $checked, $images.Count) -ForegroundColor Green
